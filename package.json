@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
+    "remixd": "^0.1.8-alpha.6",
     "vue": "^2.6.10",
     "vue-material": "^1.0.0-beta-11"
   },
