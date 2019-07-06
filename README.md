@@ -45,9 +45,9 @@ truffle migrate --network rinkeby
 This repo also contains a series of useful documents, including:
 
 1) [Technical Architecture](./Documentation/TechnicalArchitecture.md)
-2) [Pitch deck](./Documentation/TechnicalArchitecture.md)
-3) [Business Plan](./Documentation/TechnicalArchitecture.md)
-4) [Crypto Economics & auction design](./Documentation/TechnicalArchitecture.md)
+2) [Pitch deck]([./Documentation/TechnicalArchitecture.md](https://docs.google.com/presentation/d/121boHtItNj7PwzCdGhnDnEfL1r_Td9rAW86ny1Dp914/edit?usp=sharing))
+3) [Business Plan](https://docs.google.com/document/d/1iGCbeWvZtk4chdc_CnT9JuZWNwgtNJcFvyyo_UosyZA/edit?usp=sharing)
+4) [Crypto Economics & auction design](https://docs.google.com/document/d/1vxKsFlcHTdUq5sstn3GrEQvWzB29eCa6mRR1Rm6oWps/edit?usp=sharing)
 
 <img src="./src/assets/unicorn_running.gif">
 
