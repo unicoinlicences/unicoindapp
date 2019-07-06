@@ -31,7 +31,7 @@
             class="text-center"
             alt="step logo"
             style="height:85px;"
-            src="../assets/005-rising.png"
+            src="../assets/003-search.png"
           />
           <p
             class="text-center"
@@ -42,7 +42,7 @@
             class="text-center"
             alt="step logo"
             style="height:85px;"
-            src="../assets/010-profits.png"
+            src="../assets/001-statistics.png"
           />
           <p
             class="text-center"
@@ -59,7 +59,7 @@
             class="text-center"
             alt="step logo"
             style="height:85px;"
-            src="../assets/004-wallet.png"
+            src="../assets/002-wallet.png"
           />
           <p
             class="text-center"
@@ -70,7 +70,7 @@
             class="text-center"
             alt="step logo"
             style="height:85px;"
-            src="../assets/008-ethereum.png"
+            src="../assets/005-test-tube.png"
           />
           <p
             class="text-center"
