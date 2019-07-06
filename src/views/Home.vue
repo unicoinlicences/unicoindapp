@@ -23,7 +23,7 @@
     </div>
     <div class="md-layout md-gutter" style="padding-top:25px">
       <div class="md-layout-item text-center">
-        <img class="text-center" alt="step logo" style="height:85px;" src="../assets/012-login.png" />
+        <img class="text-center" alt="step logo" style="height:85px;" src="../assets/005-rising.png" />
         <p
           class="text-center"
         >Researchers have a platform to share their work for free download for non-commercial purposes, as well as the ability to licence it to entities who want to implement their work commercially.</p>
@@ -33,7 +33,7 @@
           class="text-center"
           alt="step logo"
           style="height:85px;"
-          src="../assets/007-arithmetic.png"
+          src="../assets/010-profits.png"
         />
         <p
           class="text-center"
@@ -44,7 +44,7 @@
           class="text-center"
           alt="step logo"
           style="height:85px;"
-          src="../assets/008-ethereum.png"
+          src="../assets/004-wallet.png"
         />
         <p
           class="text-center"
@@ -55,7 +55,7 @@
           class="text-center"
           alt="step logo"
           style="height:85px;"
-          src="../assets/005-rising.png"
+          src="../assets/008-ethereum.png"
         />
         <p
           class="text-center"

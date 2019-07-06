@@ -89,14 +89,14 @@
         <md-list-item>
           <md-icon>code</md-icon>
           <span class="md-list-item-text">
-            <a href="https://github.com/constantiam/snap" target="__blank">Github</a>
+            <a href="https://github.com/unicoinlicences/unicoindapp" target="__blank">Github</a>
           </span>
         </md-list-item>
 
         <md-list-item>
           <md-icon>chat</md-icon>
           <span class="md-list-item-text">
-            <a href="https://github.com/constantiam/snap" target="__blank">Documentation</a>
+            <a href="https://github.com/unicoinlicences/unicoindapp/Documentation" target="__blank">Documentation</a>
           </span>
         </md-list-item>
       </md-list>
@@ -189,7 +189,7 @@ export default {
   (
     primary: #646b71,
     // The primary color of your brand
-      accent: #798288 // The secondary color of your brand
+      accent: #9bd1f2 // The secondary color of your brand
   )
 );
 
