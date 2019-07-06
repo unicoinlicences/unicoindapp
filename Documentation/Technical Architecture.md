@@ -7,7 +7,7 @@ This document outlines the technical design details of the UniCoin research mark
 Unicoin consists of four main components that build out the full technology stack.
 1) Ethereum Smart contracts for fund processing and issuing of NFT licences.
 2) IPFS for account management, chat and file storage
-3) Orchid API to provide OffChain Account verification for publishers & companies
+3) ORCID API to provide OffChain Account verification for publishers & companies
 4) Dapp front end and landing page for publishers and companies
 
 These four components come together to build out the full application. The diagram below outlines this design.
@@ -63,21 +63,21 @@ mapping(address => uint256[]) public publicationOwners;
 
 ### Non-Fungable token licences
 
-Each licence is represented through the use of a non-fungible token (NFT). This makes each licence cryptographically unique. the NFT associates key information about that licences with the owner. For example, the price purchase, date and unique licence fingerprint. Using NFT's enables us to leverage existing standards such as Zepplin solidity which decreases the surface area of vulnerabilities within our application. Additionally NTFs enable transferability and interoperability with other platforms.
+Each licence is represented through the use of a non-fungible token (NFT). This makes each licence cryptographically unique. the NFT associates key information about that licences with the owner. For example, the price purchase, date and unique licence fingerprint. Using NFT's enables us to leverage existing standards such as Zeppelin Solidity which decreases the surface area of vulnerabilities within our application. Additionally NTFs enable transferability and interoperability with other platforms.
 
-Note that when a licence NFT is created it is associated with exactly one seller and one buyer. The seller gives explicit consent for the buyer to use their Intellectual property in a commercial context. Of the company transfers this NFT to another wallet it does not mean that they've transferred the rights of the licence as it was created with permissions for one specific company to use. 
+Note that when a licence NFT is created it is associated with exactly one seller and one buyer. The seller gives explicit consent for the buyer to use their Intellectual property in a commercial context. If the company transfers this NFT to another wallet it does not mean that they've transferred the rights of the licence as it was created with permissions for one specific company to use. 
 
 ### Smart contract upgradability
 
-Upgradability in smart contract systems is very important when considering the rapid iterative nature of the development process. To this end our architecture leverages ZeplinOS to provide upgradability. This makes the process of rolling out updates far easier than needing to roll our own upgradability system using eternal storage and proxy contracts.
+Upgradability in smart contract systems is very important when considering the rapid iterative nature of the development process. To this end our architecture leverages ZeppelinOS to provide upgradability. This makes the process of rolling out updates far easier than needing to roll our own upgradability system using eternal storage and proxy contracts.
 
 ## User profiles management and authentication
 
-Every user within the system requires to register to preform a KYC process. This is delegated to existing academic publications such as [OrchID](<https://members.orcid.org/api/oauth/get-oauthauthorize>) and [arxiv](https://arxiv.org/). Upon registration and validation of profile legitimacy claim a [3box](https://3box.io/) account is created which is stored within [OrbitDB](https://github.com/orbitdb/orbit-db) on [IPFS](https://ipfs.io/).
+Every user within the system requires to register to preform a KYC process. This is delegated to existing academic publications such as [ORCID](<https://members.orcid.org/api/oauth/get-oauthauthorize>) and [arXiv](https://arxiv.org/). Upon registration and validation of profile legitimacy claim a [3box](https://3box.io/) account is created which is stored within [OrbitDB](https://github.com/orbitdb/orbit-db) on [IPFS](https://ipfs.io/).
 
-OrchID has an auth0 based login system which we can leverage to attest the validity of researchers profiles. This process involves getting the researcher to login to their OrchID account and then attest ownership of an Ethereum wallet address. Once they’ve done this we link the two via 3box. 3box is a system for creating user profiles which are stored within OrbitDB (a no-sql like data store that is hosted on IPFS). When a publisher creates a new listing for research this will be associated with their Ethereum wallet, which in tern is associated with their 3box account and finally their OrchID. This process provides the platform with the ability to vet all publishers to ensure that they are indeed the creators of the content.
+ORCID has an auth0 based login system which we can leverage to attest the validity of researchers profiles. This process involves getting the researcher to login to their ORCID account and then attest ownership of an Ethereum wallet address. Once they’ve done this we link the two via 3box. 3box is a system for creating user profiles which are stored within OrbitDB (a NoSQL-like data store that is hosted on IPFS). When a publisher creates a new listing for research this will be associated with their Ethereum wallet, which in tern is associated with their 3box account and finally their ORCID. This process provides the platform with the ability to vet all publishers to ensure that they are indeed the creators of the content.
 
-This account validation process occurs through an API which authenticates OrchID claims and interns makes a change within the smart contract to validate the user.
+This account validation process occurs through an API which authenticates ORCID claims and interns makes a change within the smart contract to validate the user.
 
 ## IPFS storage for academic papers
 
