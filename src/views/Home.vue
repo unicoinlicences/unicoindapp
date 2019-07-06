@@ -4,7 +4,7 @@
       <div class="md-layout-item" style="padding-top:100px; padding-left:150px">
         <span class="md-display-3">Unlock the value in academic research</span>
         <p style="padding-top:20px">
-          <br />Research marketplace to empower academics to benefit from commercially viable work. Companies can buy direct access to ideas they want to implement.
+          <br />Research marketplace to empower academics to benefit from commercially viable work. Companies can buy direct access to ideas they want to implement. Research is always free for open-source and other research projects.
           <br />
           <br />
           <md-button class="md-raised md-primary" @click="goToBegin" style="margin-top:25px">Begin</md-button>
