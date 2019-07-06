@@ -96,7 +96,7 @@
         <md-list-item>
           <md-icon>chat</md-icon>
           <span class="md-list-item-text">
-            <a href="https://github.com/unicoinlicences/unicoindapp/Documentation" target="__blank">Documentation</a>
+            <a href="https://github.com/unicoinlicences/unicoindapp/tree/master/Documentation" target="__blank">Documentation</a>
           </span>
         </md-list-item>
       </md-list>
