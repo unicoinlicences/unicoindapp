@@ -5,9 +5,9 @@
         <div class="md-layout-item">
           <md-content style="padding: 20px;">
             <md-card-header>
-              <div class="md-title">Add a new publication to the marketplace</div>
+              <div class="md-title">Change your user profile</div>
             </md-card-header>
-            <p>Add a new publication to the UniCoin marketplace. This onboarding flow will guide you though adding your publication to the marketplace. </p>
+            <p>profile detz</p>
           </md-content>
         </div>
       </div>

@@ -26,8 +26,6 @@
     </md-app-toolbar>
 
     <md-app-drawer :md-active.sync="menuVisible">
-      <!-- <md-toolbar class="md-transparent" md-elevation="0">Navigation</md-toolbar> -->
-
       <md-list>
         <md-list-item>
           <md-icon>home</md-icon>
@@ -35,11 +33,17 @@
             <router-link to="/">Home</router-link>
           </span>
         </md-list-item>
+        <md-list-item>
+          <md-icon>account_box</md-icon>
+          <span class="md-list-item-text">
+            <router-link to="/Profile">Profile</router-link>
+          </span>
+        </md-list-item>
 
         <md-list-item>
-          <md-icon>create</md-icon>
+          <md-icon>person_add</md-icon>
           <span class="md-list-item-text">
-            <router-link to="/BrowsePublications">List Publication</router-link>
+            <router-link to="/CreateProfile">Create New User</router-link>
           </span>
         </md-list-item>
 
@@ -50,12 +54,22 @@
           </span>
         </md-list-item>
 
+        <md-divider></md-divider>
+        <md-list-item>
+          <md-icon>create</md-icon>
+          <span class="md-list-item-text">
+            <router-link to="/ListPublication">List New Publication</router-link>
+          </span>
+        </md-list-item>
+
         <md-list-item>
           <md-icon>format_list_bulleted</md-icon>
           <span class="md-list-item-text">
             <router-link to="/ManagePublications">Manage Publications</router-link>
           </span>
         </md-list-item>
+
+        <md-divider></md-divider>
 
         <md-list-item>
           <md-icon>attach_money</md-icon>
@@ -70,6 +84,7 @@
             <router-link to="/MyLicenses">My Licenses</router-link>
           </span>
         </md-list-item>
+        <md-divider></md-divider>
 
         <md-list-item>
           <md-icon>code</md-icon>
