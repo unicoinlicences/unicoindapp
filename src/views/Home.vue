@@ -26,7 +26,7 @@
         <img class="text-center" alt="step logo" style="height:85px;" src="../assets/005-rising.png" />
         <p
           class="text-center"
-        >Researchers have a platform to share their work for free download for non-commercial purposes, as well as the ability to licence it to entities who want to implement their work commercially.</p>
+        >Researchers can share their work for free download for non-commercial purposes, and can licence it to companies who want to implement their work commercially.</p>
       </div>
       <div class="md-layout-item">
         <img
