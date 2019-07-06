@@ -12,7 +12,7 @@ Unicoin consists of four main components that build out the full technology stac
 
 These four components come together to build out the full application. The diagram below outlines this design.
 
-<img src="./images/HighLevelDesign.jpg">
+<img src="./Images/HighLevelDesign.jpg">
 
 ## Smart contract design
 
