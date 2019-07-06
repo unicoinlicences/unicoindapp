@@ -17,6 +17,7 @@ contract UnicoinRegistry {
         uint256 owner_Id;
     }
     Bid[] public bids;
+    mapping(uint256 => uint256) public bidOwners;
 
     struct Publication {
         uint256 publication_Id;
