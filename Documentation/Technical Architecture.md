@@ -12,6 +12,8 @@ Unicoin consists of four main components that build out the full technology stac
 
 These four components come together to build out the full application. The diagram below outlines this design.
 
+<img src="./images/HighLevelDesign.jpg">
+
 ## Smart contract design
 
 The smart contracts implement price discovery logic for bid & offer creation and acceptance. They are also responsible for dealing with creation of NFT based licences. All smart contracts are written in Solidity and tested using Javascript tests with the Truffle testing framework.
