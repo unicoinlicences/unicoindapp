@@ -5,9 +5,9 @@
         <div class="md-layout-item">
           <md-content style="padding: 20px;">
             <md-card-header>
-              <div class="md-title">Manage your sell contracts</div>
+              <div class="md-title">List your publication on the market place</div>
             </md-card-header>
-            <p>View all your deployed sell contracts. Change their sell prices, deposit(or withdraw) Ether from them and change other settings ⚙️.</p>
+            <p>Add your publication!</p>
           </md-content>
         </div>
       </div>

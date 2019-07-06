@@ -39,14 +39,35 @@
         <md-list-item>
           <md-icon>create</md-icon>
           <span class="md-list-item-text">
-            <router-link to="/create">Create Sell Contract</router-link>
+            <router-link to="/BrowsePublications">List Publication</router-link>
           </span>
         </md-list-item>
 
         <md-list-item>
-          <md-icon>inbox</md-icon>
+          <md-icon>search</md-icon>
           <span class="md-list-item-text">
-            <router-link to="/manage">Manage Sell Contracts</router-link>
+            <router-link to="/BrowsePublications">Browse Publications</router-link>
+          </span>
+        </md-list-item>
+
+        <md-list-item>
+          <md-icon>format_list_bulleted</md-icon>
+          <span class="md-list-item-text">
+            <router-link to="/ManagePublications">Manage Publications</router-link>
+          </span>
+        </md-list-item>
+
+        <md-list-item>
+          <md-icon>attach_money</md-icon>
+          <span class="md-list-item-text">
+            <router-link to="/MyBids">My Bids</router-link>
+          </span>
+        </md-list-item>
+
+        <md-list-item>
+          <md-icon>vpn_key</md-icon>
+          <span class="md-list-item-text">
+            <router-link to="/MyLicenses">My Licenses</router-link>
           </span>
         </md-list-item>
 
@@ -60,7 +81,7 @@
         <md-list-item>
           <md-icon>chat</md-icon>
           <span class="md-list-item-text">
-            <a href="https://github.com/constantiam/snap" target="__blank">Telegram</a>
+            <a href="https://github.com/constantiam/snap" target="__blank">Documentation</a>
           </span>
         </md-list-item>
       </md-list>
