@@ -4,7 +4,8 @@
       <div class="md-layout-item" style="padding-top:100px; padding-left:150px">
         <span class="md-display-3">Unlock the value in academic research</span>
         <p style="padding-top:20px">
-          <br />Research marketplace to empower academics to benefit from commercially viable work. Companies can buy direct access to ideas they want to implement.
+          <br />Introducing a new research marketplace to empower academics to benefit from commercially viable work. 
+          <br />Connecting researchers and buyers since 2019. 
           <br />
           <br />
           <md-button class="md-raised md-primary" @click="goToBegin" style="margin-top:25px">Begin</md-button>
@@ -25,7 +26,7 @@
         <img class="text-center" alt="step logo" style="height:85px;" src="../assets/012-login.png" />
         <p
           class="text-center"
-        >Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum ullam totam laborum voluptate eos in, quam iure fugiat iusto non voluptatem, dolor officiis molestiae, modi placeat assumenda eum magni. Suscipit.</p>
+        >Researchers have a platform to share their work for free download for non-commercial purposes, as well as the ability to licence it to entities who want to implement their work commercially.</p>
       </div>
       <div class="md-layout-item">
         <img
@@ -36,7 +37,7 @@
         />
         <p
           class="text-center"
-        >Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum ullam totam laborum voluptate eos in, quam iure fugiat iusto non voluptatem, dolor officiis molestiae, modi placeat assumenda eum magni. Suscipit.</p>
+        >Researchers have the flexibility to choose how and when to licence their work – putting the power of their IP truly in their hands.</p>
       </div>
       <div class="md-layout-item">
         <img
@@ -47,7 +48,7 @@
         />
         <p
           class="text-center"
-        >Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum ullam totam laborum voluptate eos in, quam iure fugiat iusto non voluptatem, dolor officiis molestiae, modi placeat assumenda eum magni. Suscipit.</p>
+        >Institutions wanting to fund research or purchase rights to intellectual property now have one easily accessible marketplace.</p>
       </div>
       <div class="md-layout-item">
         <img
@@ -58,7 +59,7 @@
         />
         <p
           class="text-center"
-        >Sell your Ether into Dai or cDai automatically over your chosen sell range. Start earning interest on your realized profits immediately.</p>
+        >Institutions can access world-class research and only licence it if it totally suits their intended use-case. The open research movement prevails, while ensuring research is justly acknowledged. </p>
       </div>
     </div>
   </div>
