@@ -102,7 +102,7 @@
       </md-list>
     </md-app-drawer>
 
-    <md-app-content style="background-color: #F5F9F9">
+    <md-app-content style="background-color: #F5F9F9; padding-left:0px; padding-right:0px">
       <router-view />
     </md-app-content>
   </md-app>
@@ -203,7 +203,6 @@ body {
 #app {
   /* text-align: center; */
   color: #454a50;
-  // margin-top: 10px;
 }
 
 #app {

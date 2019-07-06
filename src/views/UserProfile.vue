@@ -9,6 +9,12 @@
             </md-card-header>
             <p>profile detz</p>
           </md-content>
+          <img
+          class="text-center"
+          alt="step logo"
+          style="height:250px;"
+          src="../assets/unicorn_dabbing.png"
+        />
         </div>
       </div>
     </div>

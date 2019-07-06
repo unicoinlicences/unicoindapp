@@ -1,6 +1,6 @@
 <template>
   <div v-if="ethAddress" class="md-layout">
-    <jazzicon :address="ethAddress" :diameter="25" />
+    <jazzicon v-if="icon" :address="ethAddress" :diameter="25" />
     <a
       class="eth-address md-subheading"
       :href="buildLink"
@@ -8,12 +8,7 @@
       style="color: white;"
       v-if="light==true"
     >{{ dotDotDot }}</a>
-    <a
-      class="eth-address"
-      :href="buildLink"
-      target="_blank"
-      v-if="light==false"
-    >{{ dotDotDot }}</a>
+    <a class="eth-address" :href="buildLink" target="_blank" v-if="light==false">{{ dotDotDot }}</a>
   </div>
 </template>
 
@@ -30,6 +25,10 @@ export default {
     },
     light: {
       type: Boolean
+    },
+    icon: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
