@@ -6,7 +6,7 @@
         <span class="md-display-3">Unlock the value in academic research</span>
         <p style="padding-top:20px">
           <br />Introducing a new research marketplace to empower academics to benefit from commercially viable work.
-          <br />Connecting researchers and buyers since 2019.
+          <br />Connecting researchers and Companies since 2019.
           <br />
           <br />
           <md-button class="md-raised md-primary" @click style="margin-top:25px">Begin</md-button>
@@ -63,7 +63,7 @@
           />
           <p
             class="text-center"
-          >Institutions wanting to fund research or purchase rights to intellectual property now have one easily accessible marketplace.</p>
+          >Companies wanting to fund research or purchase rights to intellectual property now have one easily accessible marketplace.</p>
         </div>
         <div class="md-layout-item md-small-size-100">
           <img
@@ -74,7 +74,7 @@
           />
           <p
             class="text-center"
-          >Institutions can access world-class research and only licence it if it totally suits their intended use-case. The open research movement prevails, while ensuring research is justly acknowledged.</p>
+          >Companies can access world-class research and only licence it if it totally suits their intended use-case. The open research movement prevails, while ensuring research is justly acknowledged.</p>
         </div>
         <div class="md-layout-item md-size-20 md-medium-hide" />
       </div>
