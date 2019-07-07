@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container">
+  <div class="page-container" style="padding-left:20px; padding-right:20px">
     <div class="md-layout">
       <div class="md-layout">
         <div class="md-layout-item">
@@ -7,12 +7,12 @@
             <md-card-header>
               <div class="md-title">Create a new user account</div>
             </md-card-header>
-            <p>onboard we gooo!</p>
+            <p>Create a new lecturer profile</p>
           </md-content>
         </div>
       </div>
     </div>
-    <form novalidate class="md-layout" @submit.prevent="validateUser">
+    <form novalidate class="md-layout" @submit.prevent="validateUser" style="padding-top:20px">
       <md-content class="md-layout-item md-size-50 md-small-size-100">
         <md-card-header>
           <div class="md-title">Users</div>
