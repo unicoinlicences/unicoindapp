@@ -11,7 +11,7 @@ This repo also contains a series of useful documents, including:
 2) [Pitch deck]([./Documentation/TechnicalArchitecture.md](https://docs.google.com/presentation/d/121boHtItNj7PwzCdGhnDnEfL1r_Td9rAW86ny1Dp914/edit?usp=sharing))
 3) [Business Plan](https://docs.google.com/document/d/1iGCbeWvZtk4chdc_CnT9JuZWNwgtNJcFvyyo_UosyZA/edit?usp=sharing)
 4) [Crypto Economics & auction design](https://docs.google.com/document/d/1vxKsFlcHTdUq5sstn3GrEQvWzB29eCa6mRR1Rm6oWps/edit?usp=sharing)
-5) [User story maps](./Documentation/UserStoryMap.pdf)
+5) [User story maps](https://app.cardboardit.com/maps/guests/e25edd87044ecad844f3397589800b193c2d41c9492854e0d9d80f7212d20c8d)
 
 This monorepo contains all code for the UniCoin ecosystem. 
 ## Front End
