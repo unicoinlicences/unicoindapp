@@ -45,6 +45,10 @@ truffle compile
 truffle compile
 ```
 
+### test contracts
+```
+truffle test
+
 ### deploy contracts to rinkeby
 ```
 truffle migrate --network rinkeby
