@@ -189,7 +189,7 @@ export default {
   (
     primary: #828EC6,
     // The primary color of your brand
-      accent: #9bd1f2 // The secondary color of your brand
+      accent: #DD688C // The secondary color of your brand
   )
 );
 

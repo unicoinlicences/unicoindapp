@@ -75,17 +75,85 @@
               </md-card-header>
               <p>Attribute a percentage of your total income from your research to your paper contributors</p>
             </md-content>
+            {{coAuthor}}
             <br />
             <div class="md-layout md-gutter">
               <div class="md-layout-item">
                 <md-content style="padding: 20px;">
                   <md-card-header>
-                    <div class="md-title">Upload your paper</div>
-                  </md-card-header>Add your Paper in PDF format. 🗂
-                  <md-field>
-                    <label>Paper PDF</label>
-                    <md-file v-model="pdf" />
-                  </md-field>
+                    <div class="md-title">Add contributors</div>
+                  </md-card-header>Add contributors that were influential in helping develop your research. You can choose what percentage allocation they will receive from the total funding pool.
+                  <div class="md-layout">
+                    <div class="md-layout-item">
+                      <div v-for="(contributor, index) in coAuthor">
+                        <div class="md-layout">
+                          <div
+                            class="md-layout-item md-size-5"
+                            style="padding-top:30px"
+                          >{{index+1}})</div>
+                          <div class="md-layout-item md-size-40">
+                            <md-autocomplete
+                              v-model="contributor.name"
+                              :md-options="authorList"
+                              @input="changeContribution(index, contributor.name)"
+                            >
+                              <label>Contributors names</label>
+                            </md-autocomplete>¸
+                          </div>
+                          <div class="md-layout-item md-size-15" style="padding-top:20px">
+                            <clickable-address
+                              :light="false"
+                              :icon="true"
+                              :eth-address="authorsAddresses[authorList.indexOf(contributor.name)] || ''"
+                            />
+                          </div>
+                          <div class="md-layout-item">
+                            <vue-slider
+                              v-model="contributor.weighting"
+                              :min="0"
+                              :max="100"
+                              :interval="0.1"
+                              :adsorb="true"
+                              :tooltip="'always'"
+                              :process-style="{ backgroundColor: '#798288' }"
+                              :tooltip-style="{ backgroundColor: '#646B71', borderColor: '#646B71' }"
+                              style="padding-top:30px"
+                              :disabled="authorsAddresses[authorList.indexOf(contributor.name)] == null"
+                              @change="slideContribution(index)"
+                            />
+                          </div>
+                          <div class="md-layout-item md-size-10">
+                            <md-button
+                              class="md-icon-button md-icon-button md-accent md-raised"
+                              style="margin-top:10px"
+                              @click="removeContributor(index)"
+                            >
+                              <md-icon>remove</md-icon>
+                            </md-button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <br />
+                  <md-empty-state
+                    md-icon="devices_other"
+                    md-label="Add your first contributor"
+                    md-description="Add all the people that helped make your research a reality."
+                    v-if="coAuthor.length==0"
+                  >
+                    <md-button
+                      class="md-primary md-raised"
+                      @click="addContributor"
+                    >Add first contributor</md-button>
+                  </md-empty-state>
+                  <md-button
+                    @click="addContributor"
+                    class="md-icon-button md-icon-button md-primary md-raised"
+                    v-if="coAuthor.length>0"
+                  >
+                    <md-icon>add</md-icon>
+                  </md-button>
                 </md-content>
               </div>
             </div>
@@ -165,11 +233,7 @@
             </div>
           </div>
         </div>
-        <md-button
-          class="md-raised md-primary"
-          @click="deploy"
-          style="margin-top: 20px;"
-        >Finish🚀</md-button>
+        <md-button class="md-raised md-primary" @click="deploy" style="margin-top: 20px;">Finish🚀</md-button>
         <md-button
           class="md-raised"
           @click="setDone('fourth', 'third')"
@@ -181,10 +245,11 @@
 </template>
 
 <script>
-// @ is an alias to /src
+import ClickableAddress from "@/components/widgets/ClickableAddress";
 
 export default {
   name: "manage",
+  components: { ClickableAddress },
   data: () => ({
     active: "first",
     first: false,
@@ -194,7 +259,48 @@ export default {
     pdf: null,
     title: "",
     abstract: "",
-    keywords: []
+    keywords: [],
+    coAuthor: [
+      // {
+      //   name: "Sabine Bertram",
+      //   address:
+      //     "0x9a7b53a5f6b24b71b182f1fc8e4ca6db0e63b6c63c7ab4b72c08f02329bdf9ea",
+      //   weighting: 0
+      // }
+    ],
+    authorList: [
+      "Sabine Bertram",
+      "Daniel Opolot",
+      "Suraj Shekhar",
+      "Jesper Riedler",
+      "Christine Makanza",
+      "Pawel Fiedor",
+      "Hylton Hollander"
+    ],
+    authorsAddresses: [
+      "0xF303A862b6f9C24adba90f2CF6964BB3D77e04A7",
+      "0x4eA36D76Fc2eF6C58b087AEC5Cbf10832626de75",
+      "0xc8dFcEc53AB1102A38E8f96BE8EBA37FC5340c99",
+      "0xAa1CC5543C558524C3Db21D219fCEE58af054f2C",
+      "0xb3c5485526f7dbe5b8067de2c59c819937782066",
+      "0x580a29FA60B86AaFF102743dE5Cba60Bb5f9de75",
+      "0xB3c5485526F7Dbe5b8067DE2C59c819937782066"
+    ],
+    selectedAuthor: "",
+    yourAllocation: 100,
+    SplitWithOthers: 0,
+    colors: [
+      "#A8A2F5",
+      "#E66C82",
+      "#F8D771",
+      "#9BECBE",
+      "#4371E0",
+      "#CC83E9",
+      "#F77D6A",
+      "#D5F871",
+      "#67E6ED",
+      "#7B66F7"
+    ]
   }),
   methods: {
     setDone(id, index) {
@@ -206,8 +312,30 @@ export default {
         this.active = index;
       }
     },
-    deploy(){
-      console.log("LAUNCH")
+    deploy() {
+      console.log("LAUNCH");
+    },
+    addContributor() {
+      this.coAuthor.push({ name: "", address: "", weighting: 0 });
+    },
+    removeContributor(index) {
+      this.coAuthor.splice(index, 1);
+    },
+    changeContribution(index, name) {
+      this.coAuthor[index].address = this.authorsAddresses[
+        this.authorList.indexOf(name)
+      ];
+    },
+    slideContribution(index) {
+      console.log("SLIDE");
+    }
+  },
+  computed: {
+    pieValues() {
+      return {
+        values: [19, 26, 55],
+        labels: ["Residential", "Non-Residential", "Utility"]
+      };
     }
   }
 };
