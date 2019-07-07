@@ -75,7 +75,6 @@
               </md-card-header>
               <p>Attribute a percentage of your total income from your research to your paper contributors</p>
             </md-content>
-            {{coAuthor}}
             <br />
             <div class="md-layout md-gutter">
               <div class="md-layout-item">
@@ -91,7 +90,7 @@
                             class="md-layout-item md-size-5"
                             style="padding-top:30px"
                           >{{index+1}})</div>
-                          <div class="md-layout-item md-size-40">
+                          <div class="md-layout-item md-size-30">
                             <md-autocomplete
                               v-model="contributor.name"
                               :md-options="authorList"
@@ -100,7 +99,7 @@
                               <label>Contributors names</label>
                             </md-autocomplete>¸
                           </div>
-                          <div class="md-layout-item md-size-15" style="padding-top:20px">
+                          <div class="md-layout-item md-size-25" style="padding-top:20px">
                             <clickable-address
                               :light="false"
                               :icon="true"
@@ -110,10 +109,12 @@
                           <div class="md-layout-item">
                             <vue-slider
                               v-model="contributor.weighting"
+                              v-bind="sliderOptions"
                               :min="0"
                               :max="100"
                               :interval="0.1"
                               :adsorb="true"
+                              :dotOptions="{max: contributor.weighting + remainingAllocation}"
                               :tooltip="'always'"
                               :process-style="{ backgroundColor: '#798288' }"
                               :tooltip-style="{ backgroundColor: '#646B71', borderColor: '#646B71' }"
@@ -154,6 +155,17 @@
                   >
                     <md-icon>add</md-icon>
                   </md-button>
+                </md-content>
+              </div>
+              <div class="md-layout-item md-size-40">
+                <md-content>
+                  <vue-plotly
+                    v-if="pieData && coAuthor.length > 0"
+                    :data="pieData"
+                    :layout="pieLayout"
+                    :options="pieOptions"
+                  />
+                  <p style="padding:20px">Your Allocation: {{remainingAllocation.toFixed(1)}}%</p>
                 </md-content>
               </div>
             </div>
@@ -246,10 +258,12 @@
 
 <script>
 import ClickableAddress from "@/components/widgets/ClickableAddress";
+import VuePlotly from "@statnett/vue-plotly";
+import { constants } from "fs";
 
 export default {
   name: "manage",
-  components: { ClickableAddress },
+  components: { ClickableAddress, VuePlotly },
   data: () => ({
     active: "first",
     first: false,
@@ -287,7 +301,6 @@ export default {
       "0xB3c5485526F7Dbe5b8067DE2C59c819937782066"
     ],
     selectedAuthor: "",
-    yourAllocation: 100,
     SplitWithOthers: 0,
     colors: [
       "#A8A2F5",
@@ -300,7 +313,17 @@ export default {
       "#D5F871",
       "#67E6ED",
       "#7B66F7"
-    ]
+    ],
+    pieOptions: { responsive: false, showLink: false, displayModeBar: false, sort:false },
+    pieLayout: {
+      margin: {
+        l: 55,
+        r: 55,
+        b: 55,
+        t: 55,
+        pad: 20
+      }
+    }
   }),
   methods: {
     setDone(id, index) {
@@ -331,11 +354,42 @@ export default {
     }
   },
   computed: {
-    pieValues() {
+    sliderOptions() {
       return {
-        values: [19, 26, 55],
-        labels: ["Residential", "Non-Residential", "Utility"]
+        process: ([pos, i]) => [
+          [0, pos],
+          [pos, pos + this.remainingAllocation, { backgroundColor: "#999" }]
+        ]
       };
+    },
+    remainingAllocation() {
+      if (this.coAuthor.length == 0) {
+        return 100;
+      } else {
+        let weightings = this.coAuthor.map(v => v.weighting);
+        console.log(weightings);
+        console.log(weightings.reduce((sum, value) => sum + value, 0));
+        return this.coAuthor
+          .map(v => v.weighting)
+          .reduce((sum, value) => sum - value, 100);
+      }
+    },
+    pieData() {
+      return [
+        {
+          values: [
+            this.remainingAllocation,
+            ...this.coAuthor.map(v => v.weighting)
+          ],
+          labels: ["Dr Frankenstein", ...this.coAuthor.map(v => v.name)],
+          hole: 0.7,
+          type: "pie",
+          sort: "false",
+          marker: {
+            colors: this.colors
+          }
+        }
+      ];
     }
   }
 };
