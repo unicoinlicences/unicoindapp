@@ -236,10 +236,19 @@
             <br />
             <div class="md-layout md-gutter">
               <div class="md-layout-item">
-                <md-content style="padding: 20px;">
+                <md-content style="padding: 20px;" v-if="deployed==false">
                   <md-card-header>
                     <div class="md-title">XXX</div>
-                  </md-card-header>XX
+                  </md-card-header>
+                  XX{{deployed}}
+                </md-content>
+                <md-content style="padding: 20px;" v-if="deployed==true">
+                  <img
+                    class="text-center"
+                    alt="step logo"
+                    style="height:400px;"
+                    src="../assets/unicorn_dabbing.png"
+                  />
                 </md-content>
               </div>
             </div>
@@ -314,7 +323,12 @@ export default {
       "#67E6ED",
       "#7B66F7"
     ],
-    pieOptions: { responsive: false, showLink: false, displayModeBar: false, sort:false },
+    pieOptions: {
+      responsive: false,
+      showLink: false,
+      displayModeBar: false,
+      sort: false
+    },
     pieLayout: {
       margin: {
         l: 55,
@@ -323,7 +337,8 @@ export default {
         t: 55,
         pad: 20
       }
-    }
+    },
+    deployed: false
   }),
   methods: {
     setDone(id, index) {
@@ -337,6 +352,7 @@ export default {
     },
     deploy() {
       console.log("LAUNCH");
+      this.deployed = true;
     },
     addContributor() {
       this.coAuthor.push({ name: "", address: "", weighting: 0 });
