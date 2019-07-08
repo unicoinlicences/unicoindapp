@@ -411,7 +411,7 @@ export default {
     },
     deploy() {
       console.log("LAUNCH");
-      this.deployed = true;
+      this.deployed = !this.deployed;
     },
     addContributor() {
       this.coAuthor.push({ name: "", address: "", weighting: 0 });

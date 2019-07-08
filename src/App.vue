@@ -96,7 +96,10 @@
         <md-list-item>
           <md-icon>chat</md-icon>
           <span class="md-list-item-text">
-            <a href="https://github.com/unicoinlicences/unicoindapp/tree/master/Documentation" target="__blank">Documentation</a>
+            <a
+              href="https://github.com/unicoinlicences/unicoindapp/tree/master/Documentation"
+              target="__blank"
+            >Documentation</a>
           </span>
         </md-list-item>
       </md-list>
@@ -104,6 +107,13 @@
 
     <md-app-content style="background-color: #F5F9F9; padding-left:0px; padding-right:0px">
       <router-view />
+      <div style="padding-top:20px;padding-left:20px; padding-right:20px">
+        <span class="md-subheading">Terms Of Service</span>
+        <span class="md-caption" style="float: right;">
+          {{currentNetwork}}
+          <clickable-address :light="false" :icon="false" :eth-address="account" />
+        </span>
+      </div>
     </md-app-content>
   </md-app>
 </template>
@@ -187,9 +197,9 @@ export default {
 @include md-register-theme(
   "default",
   (
-    primary: #828EC6,
+    primary: #828ec6,
     // The primary color of your brand
-      accent: #DD688C // The secondary color of your brand
+      accent: #dd688c // The secondary color of your brand
   )
 );
 

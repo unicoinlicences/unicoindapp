@@ -17,7 +17,7 @@
         <img
           class="text-center"
           alt="step logo"
-          style="height:500px;"
+          style="width:100%;"
           src="../assets/unicorn_running.gif"
         />
       </div>
@@ -79,13 +79,6 @@
         <div class="md-layout-item md-size-20 md-medium-hide" />
       </div>
     </md-content>
-    <div style="padding-top:20px;padding-left:20px; padding-right:20px">
-      <span class="md-subheading">Terms Of Service</span>
-      <span class="md-caption" style="float: right;">
-        {{currentNetwork}}
-        <clickable-address :light="false" :icon="false" :eth-address="account" />
-      </span>
-    </div>
   </div>
 </template>
 
