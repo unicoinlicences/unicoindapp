@@ -26,7 +26,7 @@
                     <label>Paper PDF</label>
                     <md-file v-model="pdf" />
                   </md-field>
-                <img
+                  <img
                     v-if="pdf != null"
                     class="text-center"
                     alt="step logo"
@@ -253,24 +253,62 @@
               <p>You can choose to either list your research on an auction where buyers will submit bids and you can choose to accept or sell it at a fixed price per licence.</p>
             </md-content>
             <br />
-            <div class="md-layout md-gutter">
+            <div class="md-layout md-gutter" v-if="deployed==false">
               <div class="md-layout-item">
-                <md-content style="padding: 20px;" v-if="deployed==false">
+                <md-content style="padding: 20px;">
                   <md-card-header>
-                    <div class="md-title">XXX</div>
+                    <div class="md-title">Publication summary</div>
                   </md-card-header>
-                  XX{{deployed}}
-                </md-content>
-                <md-content style="padding: 20px;" v-if="deployed==true">
-                  <img
-                    class="text-center"
-                    alt="step logo"
-                    style="height:400px;"
-                    src="../assets/unicorn_dabbing.png"
-                  />
+                  <md-table v-if="pieData!=null">
+                    <md-table-row>
+                      <md-table-cell>Paper title</md-table-cell>
+                      <md-table-cell>{{title}}</md-table-cell>
+                    </md-table-row>
+                    <md-table-row>
+                      <md-table-cell>Paper keywords</md-table-cell>
+                      <md-table-cell>
+                        <div v-for="keyword in keywords">{{keyword}}</div>
+                      </md-table-cell>
+                    </md-table-row>
+                    <md-table-row>
+                      <md-table-cell>Paper contributors</md-table-cell>
+                      <md-table-cell>
+                        <div v-for="contrubtor in contributorsSummary">{{contrubtor}}</div>
+                      </md-table-cell>
+                    </md-table-row>
+                    <md-table-row>
+                      <md-table-cell>Your allocation</md-table-cell>
+                      <md-table-cell>{{remainingAllocation.toFixed(1)}}%</md-table-cell>
+                    </md-table-row>
+                    <md-table-row>
+                      <md-table-cell>Sale type</md-table-cell>
+                      <md-table-cell>{{marketType}}</md-table-cell>
+                    </md-table-row>
+                    <md-table-row v-if="marketType=='fixedPrice'">
+                      <md-table-cell>Fixed price per licence</md-table-cell>
+                      <md-table-cell>{{pricePerLicence}}</md-table-cell>
+                    </md-table-row>
+                  </md-table>
                 </md-content>
               </div>
+              <div class="md-layout-item md-size-30">
+                <img
+                  v-if="pdf != null"
+                  class="text-center"
+                  alt="step logo"
+                  style="height:300px;"
+                  src="../assets/samplePaper.png"
+                />
+              </div>
             </div>
+            <md-content style="padding: 20px;" v-if="deployed==true">
+              <img
+                class="text-center"
+                alt="step logo"
+                style="height:400px;"
+                src="../assets/unicorn_dabbing.png"
+              />
+            </md-content>
           </div>
         </div>
         <md-button class="md-raised md-primary" @click="deploy" style="margin-top: 20px;">Finish🚀</md-button>
@@ -427,6 +465,9 @@ export default {
           }
         }
       ];
+    },
+    contributorsSummary() {
+      return this.coAuthor.map((v, i) => `${v.name}: ${v.weighting}%`);
     }
   }
 };
