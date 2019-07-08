@@ -78,9 +78,9 @@
           <div class="md-layout-item">
             <md-content style="padding: 20px;">
               <md-card-header>
-                <div class="md-title">Specify paper contributors</div>
+                <div class="md-title">Specify paper contributors🎓</div>
               </md-card-header>
-              <p>Attribute a percentage of your total income from your research to your paper contributors</p>
+              <p>Attribute a percentage of your total income from your research to your paper contributors. They will automatically recive a proportion of all licencing fees you receive. The allocation is completely up to you.</p>
             </md-content>
             <br />
             <div class="md-layout md-gutter">
@@ -199,7 +199,7 @@
           <div class="md-layout-item">
             <md-content style="padding: 20px;">
               <md-card-header>
-                <div class="md-title">Choose how you want to sell licences to your research</div>
+                <div class="md-title">Choose how you want to sell licences to your research📄</div>
               </md-card-header>
               <p>You can choose to either list your research on an auction where buyers will submit bids and you can choose to accept or sell it at a fixed price per licence.</p>
             </md-content>
@@ -248,7 +248,7 @@
           <div class="md-layout-item">
             <md-content style="padding: 20px;">
               <md-card-header>
-                <div class="md-title">Review your publication information</div>
+                <div class="md-title">Review your publication information🔍</div>
               </md-card-header>
               <p>You can choose to either list your research on an auction where buyers will submit bids and you can choose to accept or sell it at a fixed price per licence.</p>
             </md-content>
