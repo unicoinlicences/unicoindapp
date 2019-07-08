@@ -26,6 +26,13 @@
                     <label>Paper PDF</label>
                     <md-file v-model="pdf" />
                   </md-field>
+                <img
+                    v-if="pdf != null"
+                    class="text-center"
+                    alt="step logo"
+                    style="height:200px;"
+                    src="../assets/samplePaper.png"
+                  />
                 </md-content>
               </div>
               <div class="md-layout-item">
@@ -201,8 +208,20 @@
               <div class="md-layout-item">
                 <md-content style="padding: 20px;">
                   <md-card-header>
-                    <div class="md-title">XXX</div>
-                  </md-card-header>XX
+                    <div class="md-title">Research market type</div>
+                  </md-card-header>
+                  <md-radio v-model="marketType" value="auction">Auction</md-radio>
+                  <md-radio v-model="marketType" value="fixedPrice">Fixed Price</md-radio>
+                  <p
+                    v-if="marketType=='auction'"
+                  >Your publication will be listed as an auction. All buyers will submit a bid to you that you can review before selling a licence. Use this setting if you want to be able to price discriminate against buyers.</p>
+                  <div v-if="marketType=='fixedPrice'">
+                    <p>Your publication will be listed at a fixed price. Buyers can purchase license immediately with no restriction. Use this setting if you feel happy with setting one fixed price for all licences.</p>
+                    <md-field>
+                      <label>Price per licence (USD)</label>
+                      <md-input v-model="pricePerLicence" type="number"></md-input>
+                    </md-field>
+                  </div>
                 </md-content>
               </div>
             </div>
@@ -229,7 +248,7 @@
           <div class="md-layout-item">
             <md-content style="padding: 20px;">
               <md-card-header>
-                <div class="md-title">Choose how you want to sell licences to your research</div>
+                <div class="md-title">Review your publication information</div>
               </md-card-header>
               <p>You can choose to either list your research on an auction where buyers will submit bids and you can choose to accept or sell it at a fixed price per licence.</p>
             </md-content>
@@ -338,7 +357,9 @@ export default {
         pad: 20
       }
     },
-    deployed: false
+    deployed: false,
+    marketType: "auction",
+    pricePerLicence: 100
   }),
   methods: {
     setDone(id, index) {
