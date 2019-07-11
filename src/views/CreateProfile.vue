@@ -12,6 +12,9 @@
         </div>
       </div>
     </div>
+    <a
+      href="https://orcid.org/oauth/authorize?client_id=APP-0JZDFYT5L60YYAWM&response_type=token&scope=openid&redirect_uri=http://localhost:8080/CreateProfile"
+    >Login With ORCID</a><br>
     <form novalidate class="md-layout" @submit.prevent="validateUser" style="padding-top:20px">
       <md-content class="md-layout-item md-size-50 md-small-size-100">
         <md-card-header>
@@ -123,6 +126,11 @@ import {
   maxLength
 } from "vuelidate/lib/validators";
 
+import router from "@/router";
+
+var jwt = require('jsonwebtoken');
+
+
 export default {
   name: "FormValidation",
   mixins: [validationMixin],
@@ -161,7 +169,25 @@ export default {
       }
     }
   },
+  mounted() {
+    console.log(this.$route.hash);
+    console.log("PAAA")
+    
+    let token = this.getFragmentParameterByName("id_token", this.$route.hash)
+    let decoded = jwt.decode(token);
+    console.log("decoded")
+    console.log(decoded)
+  },
+
   methods: {
+    getFragmentParameterByName(name, route) {
+      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+      var regex = new RegExp("[\\#&]" + name + "=([^&#]*)"),
+        results = regex.exec(route);
+      return results === null
+        ? ""
+        : decodeURIComponent(results[1].replace(/\+/g, " "));
+    },
     getValidationClass(fieldName) {
       const field = this.$v.form[fieldName];
 
