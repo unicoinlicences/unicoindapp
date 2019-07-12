@@ -35,7 +35,16 @@ contract("Unicoin Registry", (accounts) => {
     const randomAddress = accounts[4]
 
     const exampleUserProfileURI = "QmeWUs9YdymQVpsme3MLQdWFW5GjdM4XDFYMi3YJvUFiaq"
-    const examplePProfileURI = "QmPF7eAtGoaEgSAt9XCP2DuWfc8sbtQfraffDsx3svu4Ph"
+    const examplePublicationURI = "QmPF7eAtGoaEgSAt9XCP2DuWfc8sbtQfraffDsx3svu4Ph"
+
+    const validPublication = {
+        publication_uri: examplePublicationURI,
+        isAuction: false,
+        isRunning: true,
+        sellPrice: 100,
+        contributors: [1, 2, 3],
+        contributorsWeighting: [20, 30, 20]
+    }
 
 
     before(async function () {
@@ -56,43 +65,61 @@ contract("Unicoin Registry", (accounts) => {
 
         //Checks that the balance of the fund is correct
         assert.equal(balance.toNumber(), 100, "Balance not set");
-    });
-
-    beforeEach(async function () {
         registry = await UnicoinRegistry.new({
             from: registryOwner
         });
+
+    });
+
+    beforeEach(async function () {
+
     })
+    context("Register User", function () {
+        it("Can register a new user", async () => {
+            await registry.registerUser(exampleUserProfileURI, {
+                from: publisher
+            })
 
-    it("Can register a new user", async () => {
-        await registry.registerUser(exampleUserProfileURI, {
-            from: publisher
-        })
-        
-        let userNumber = (await registry.userAddresses(publisher)).toNumber()
-        assert(userNumber, 1, "Initial user number not set correctly")
+            let userNumber = (await registry.userAddresses(publisher)).toNumber()
+            assert(userNumber, 1, "Initial user number not set correctly")
 
-        let addedUser = await registry.users(userNumber)
-        assert(addedUser.owned_address, publisher, "Publisher address not set")
-        assert(addedUser.profile_uri, exampleUserProfileURI, "Profile URI not set")
-    });
-    it("Reverts if invalid user added", async () => {
-        //should fail if no user name added
-        await assertRevert(registry.registerUser("", {
-            from: publisher
-        }), EVMRevert)
+            let addedUser = await registry.users(userNumber)
+            assert(addedUser.owned_address, publisher, "Publisher address not set")
+            assert(addedUser.profile_uri, exampleUserProfileURI, "Profile URI not set")
+        });
+        it("Reverts if invalid user added", async () => {
+            //should fail if no user name added
+            await assertRevert(registry.registerUser("", {
+                from: publisher
+            }), EVMRevert)
 
-        //next, check user cant register twice. first add a valid user
-        await registry.registerUser(exampleUserProfileURI, {
-            from: publisher
-        })
+            //then check reverts if same user tries to register
+            await assertRevert(registry.registerUser(exampleUserProfileURI, {
+                from: publisher
+            }), EVMRevert)
+        });
+    })
+    context("Create Publication", function () {
+        it("Can correctly add new publication", async () => {
+            await registry.createPublication(validPublication.publication_uri,
+                validPublication.isAuction,
+                validPublication.isRunning,
+                validPublication.sellPrice,
+                validPublication.contributors,
+                validPublication.contributorsWeighting, {
+                    from: publisher
+                })
+            let publication = await registry.publications(0)
 
-        //then check reverts if same user tries to register
-        await assertRevert(registry.registerUser(exampleUserProfileURI, {
-            from: publisher
-        }), EVMRevert)
-    });
-    it("Fund created correctly", async () => {
-        assert(true, true)
-    });
+            assert(publication.author_Id.toNumber(), 1, "Author Id not set")
+            assert(publication.publication_uri, examplePublicationURI, "Publication URI not set")
+            assert(publication.isAuction == validPublication.isAuction, "isAuction not set")
+            assert(publication.isRunning == validPublication.isRunning, "isRunning not set")
+            assert(publication.sell_price.toNumber(), validPublication.sellPrice, "sellPrice not set")
+        });
+
+        it("Reverts if bad user input", async () => {
+            assert(true, true)
+        });
+    })
 })

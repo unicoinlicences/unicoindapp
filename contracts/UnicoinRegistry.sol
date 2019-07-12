@@ -28,7 +28,7 @@ contract UnicoinRegistry {
 
     struct Publication {
         uint256 author_Id;
-        string publication_url;
+        string publication_uri;
         // The array below will contain all bids received for that work.
         uint256[] publication_bids;
         // If the researcher has chosen the auction pricing structure, the below is TRUE.
@@ -52,7 +52,7 @@ contract UnicoinRegistry {
 
     // This function registers a user on the platform.
     function registerUser(string memory _profile_uri) public {
-        require(bytes(_profile_uri).length > 0, "Profile URL should not be empty.");
+        require(bytes(_profile_uri).length > 0, "Profile URI should not be empty.");
         // If the user's address is in position 0 of the userAddresses array, they are unregistered.
         require(userAddresses[msg.sender]==0,"User already registered.");
         uint256 id = users.push(User(msg.sender,_profile_uri));
@@ -61,8 +61,8 @@ contract UnicoinRegistry {
 
     // This function creates a publication on the system, with blank arrays for publication bids and owners,
     // since no one has bidded for or bought a licence yet.
-    function createPublication(string memory _publication_url, bool _isAuction, bool _isRunning, uint256 _sell_price, uint256[] memory _contributors, uint256[] memory _contributors_weightings) public {
-        require(bytes(_publication_url).length > 0, "Publication URL should not be empty.");
+    function createPublication(string memory _publication_uri, bool _isAuction, bool _isRunning, uint256 _sell_price, uint256[] memory _contributors, uint256[] memory _contributors_weightings) public {
+        require(bytes(_publication_uri).length > 0, "Publication URI should not be empty.");
         require(userAddresses[msg.sender] != 0, "User address is not registered.");
         // The researcher only specifies the flat rate if they have chosen not to auction the work.
         if(_isAuction) {
@@ -73,7 +73,7 @@ contract UnicoinRegistry {
         }
         uint256 _author_Id = userAddresses[msg.sender];
         uint256[] memory _publication_bids;
-        Publication memory _publication = Publication(_author_Id, _publication_url, _publication_bids, _isAuction, _isRunning, _sell_price, _contributors, _contributors_weightings);
+        Publication memory _publication = Publication(_author_Id, _publication_uri, _publication_bids, _isAuction, _isRunning, _sell_price, _contributors, _contributors_weightings);
         uint256 _id = publications.push(_publication);
         publicationOwners[_author_Id].push(_id - 1);
     }
