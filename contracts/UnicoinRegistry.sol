@@ -23,8 +23,8 @@ contract UnicoinRegistry {
     }
     Bid[] public bids;
 
-    // The mapping below maps all bidders' addresses to their userID
-    mapping(uint256 => uint256) public bidOwners;
+    // The mapping below maps all bidders' IDs to their userID
+    mapping(uint256 => uint256[]) public bidOwners;
 
     struct Publication {
         uint256 author_Id;
@@ -37,11 +37,13 @@ contract UnicoinRegistry {
         bool isRunning;
         // If both of the booleans above are FALSE, the price below is the flat sale price of the work.
         uint256 sell_price;
+        uint256[] contributors;
+        uint256[] contributors_weightings;
     }
     Publication[] public publications;
     
-    // The mapping below will map the addresses of all the successful bidders' addresses to their userID
-    mapping(address => uint256[]) public publicationOwners;
+    // The mapping below will map the addresses of all the successful bidders' addresses to the ID of their owned publications
+    mapping(uint256 => uint256[]) public publicationOwners;
     
     // The constructer below reserves user 0 for all unregistered users.
     constructor() public {
@@ -51,15 +53,15 @@ contract UnicoinRegistry {
     // This function registers a user on the platform.
     function registerUser(string memory _profile_url) public {
         require(bytes(_profile_url).length > 0, "Profile URL should not be empty.");
-        // If the user's address is in position 0 of the userAddresses array, they are unregistered. 
+        // If the user's address is in position 0 of the userAddresses array, they are unregistered.
         require(userAddresses[msg.sender]==0,"User already registered.");
         uint256 id = users.push(User(msg.sender,_profile_url));
-        userAddresses[msg.sender] = id - 1; 
+        userAddresses[msg.sender] = id - 1;
     }
 
-    // This function creates a publication on the system, with blank arrays for publication bids and owners, 
+    // This function creates a publication on the system, with blank arrays for publication bids and owners,
     // since no one has bidded for or bought a licence yet.
-    function createPublication(string memory _publication_url, bool _isAuction, bool _isRunning, uint256 _sell_price) public {
+    function createPublication(string memory _publication_url, bool _isAuction, bool _isRunning, uint256 _sell_price, uint256[] memory _contributors, uint256[] memory _contributors_weightings) public {
         require(bytes(_publication_url).length > 0, "Publication URL should not be empty.");
         require(userAddresses[msg.sender] != 0, "User address is not registered.");
         // The researcher only specifies the flat rate if they have chosen not to auction the work.
@@ -71,12 +73,11 @@ contract UnicoinRegistry {
         }
         uint256 _author_Id = userAddresses[msg.sender];
         uint256[] memory _publication_bids;
-        Publication memory _publication = Publication(_author_Id, _publication_url, _publication_bids, _isAuction, _isRunning, _sell_price);
+        Publication memory _publication = Publication(_author_Id, _publication_url, _publication_bids, _isAuction, _isRunning, _sell_price, _contributors, _contributors_weightings);
         uint256 _id = publications.push(_publication);
-        publicationOwners[msg.sender].push(_id - 1);
+        publicationOwners[_author_Id].push(_id - 1);
     }
-    
-    // makeBid function hasn't been fully tested
+
     // This function creates a new bid for a particular publication.
     function makeBid(uint256 _offer, uint256 _publication_Id) public {
         require(publications[_publication_Id].author_Id != 0, "Publication not enlisted.");
@@ -87,6 +88,7 @@ contract UnicoinRegistry {
             // By default the bid will have a status of Pending until it is accepted or rejected by the author
             uint256 _id = bids.push(Bid(_offer, bidStatus.Pending, _publication_Id, userAddresses[msg.sender]));
             publications[_publication_Id].publication_bids.push(_id - 1);
+            bidOwners[userAddresses[msg.sender]].push(_id - 1);
         }
         // If the author has specified a flat rate, the buyer doesn't submit a bid but just sends the funds.
         if(!publications[_publication_Id].isAuction) {
@@ -95,6 +97,7 @@ contract UnicoinRegistry {
             // This 'bid' has a status of sale because the author does not need to evaluate and accept/reject these bids.
             uint256 _id = bids.push(Bid(_offer, bidStatus.Sale, _publication_Id, userAddresses[msg.sender]));
             publications[_publication_Id].publication_bids.push(_id - 1);
+            bidOwners[userAddresses[msg.sender]].push(_id - 1);
         }
     }
         
@@ -143,4 +146,25 @@ contract UnicoinRegistry {
         publications[_publication_Id].isRunning = !publications[_publication_Id].isRunning;
     }
 
+    function getPublications(address _address) public view returns(uint256[] memory) {
+        uint256 _author_Id = userAddresses[_address];
+        return publicationOwners[_author_Id];
+    }
+
+    function getBids(address _address) public view returns(uint256[] memory) {
+        uint256 _userAddress = userAddresses[_address];
+        return bidOwners[_userAddress];
+    }
+
+    function getPublications(uint256 _user_Id) public view returns(uint256[] memory) {
+        return publicationOwners[_user_Id];
+    }
+
+    function getBids(uint256 _user_Id) public view returns(uint256[] memory) {
+        return bidOwners[_user_Id];
+    }
+
+    function getPublicationBids(uint256 _publication_Id) public view returns(uint256[] memory) {
+        return publications[_publication_Id].publication_bids;
+    }
 }
