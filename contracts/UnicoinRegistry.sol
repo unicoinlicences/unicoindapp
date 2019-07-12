@@ -1,11 +1,11 @@
 pragma solidity^0.5.0;
-import "github.com/OpenZeppelin/zeppelin-solidity/contracts/ownership/Ownable.sol";
+import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 contract UnicoinRegistry {
     // Creates a struct for users of the plaform.
     struct User {
         address owned_address;
-        string profile_url;
+        string profile_uri;
     }
     User[] public users;
 
@@ -51,11 +51,11 @@ contract UnicoinRegistry {
     }
 
     // This function registers a user on the platform.
-    function registerUser(string memory _profile_url) public {
-        require(bytes(_profile_url).length > 0, "Profile URL should not be empty.");
+    function registerUser(string memory _profile_uri) public {
+        require(bytes(_profile_uri).length > 0, "Profile URL should not be empty.");
         // If the user's address is in position 0 of the userAddresses array, they are unregistered.
         require(userAddresses[msg.sender]==0,"User already registered.");
-        uint256 id = users.push(User(msg.sender,_profile_url));
+        uint256 id = users.push(User(msg.sender,_profile_uri));
         userAddresses[msg.sender] = id - 1;
     }
 
