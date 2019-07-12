@@ -48,6 +48,7 @@ truffle compile
 ### test contracts
 ```
 truffle test
+```
 
 ### deploy contracts to rinkeby
 ```
