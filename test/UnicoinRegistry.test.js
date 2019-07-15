@@ -119,7 +119,25 @@ contract("Unicoin Registry", (accounts) => {
         });
 
         it("Reverts if bad user input", async () => {
-            assert(true, true)
+            // should revert if sale method is auction but a price is specified
+            await assertRevert(registry.createPublication(validPublication.publication_uri,
+                true, validPublication.isRunning, validPublication.sellPrice, validPublication.contributors, validPublication.contributorsWeighting, {
+                from: publisher
+                }), EVMRevert)
+
+            // should revert if sale method is flat price but no price specified
+            await assertRevert(registry.createPublication(validPublication.publication_uri,
+                validPublication.isAuction, validPublication.isRunning, 0, validPublication.contributors, validPublication.contributorsWeighting, {
+                from: publisher
+                }), EVMRevert)
+
+            // should revert if the url is blank
+            await assertRevert(registry.createPublication("",
+                validPublication.isAuction, validPublication.isRunning, validPublication.sellPrice, validPublication.contributors, validPublication.contributorsWeighting, {
+                from: publisher
+                }), EVMRevert)
+            
+            // should revert if user is unregistered
         });
     })
 })
