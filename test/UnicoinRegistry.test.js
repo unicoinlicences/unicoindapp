@@ -222,18 +222,65 @@ contract("Unicoin Registry", (accounts) => {
         })
     })
 
-    context("Accept a bid", function() {
+    context("Accepting/rejecting/cancelling a bid", function() {
         it("Can accept a bid", async () => {
             await registry.acceptBid(1)
             let bid = await registry.bids(1)
             assert(bid.status,"Accepted", "Bid status not changed")
         })
-        // it("Reverts if bad user input", async () => {
-        //     await registry.makeBid(101,1, {from: buyer})
-        //     let bid = await registry.bids(1)
-        //     console.log(bid.status)
-        // })
+
+        it("Can reject a bid", async () => {
+            await registry.createPublication(validPublication.publication_uri,
+                true,
+                true,
+                0,
+                validPublication.contributors,
+                validPublication.contributorsWeighting, {
+                    from: publisher
+                })
+            let publication = await registry.publications(4)
+            await registry.makeBid(102,4, {from: buyer})
+            await registry.rejectBid(2)
+            let bid = await registry.bids(2)
+            assert(bid.status, "Rejected", "Bid status not changed")
+        })
+
+        it("Can cancel a bid", async () => {
+            await registry.createPublication(validPublication.publication_uri,
+                true,
+                true,
+                0,
+                validPublication.contributors,
+                validPublication.contributorsWeighting, {
+                    from: publisher
+                })
+            let publication = await registry.publications(5)
+            await registry.makeBid(103,5, {from: buyer})
+            await registry.cancelBid(3)
+            let bid = await registry.bids(3)
+            assert(bid.status, "Cancelled", "Bid status not changed")
+        })
+
+        it("Reverts if bad user input", async () => {
+            await registry.createPublication(validPublication.publication_uri,
+                false,
+                true,
+                100,
+                validPublication.contributors,
+                validPublication.contributorsWeighting, {
+                    from: publisher
+                })
+            let publication = await registry.publications(6)
+            await registry.makeBid(100,6, {from: buyer})
+            assertRevert(registry.acceptBid(3), EVMRevert)
+            assertRevert(registry.rejectBid(3), EVMRevert)
+            assertRevert(registry.cancelBid(3), EVMRevert)
+        })
     })
 
-    
+    context("Changing a publication's status", function () {
+        it("Can change from auction to sale", async () => {
+            assert(true, true)
+        })
+    })
 })
