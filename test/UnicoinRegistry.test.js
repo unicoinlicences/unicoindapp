@@ -143,9 +143,73 @@ contract("Unicoin Registry", (accounts) => {
                 from: randomAddress
                 }), EVMRevert)
             
+<<<<<<< HEAD
+=======
         });
     })
 
+    context("Make a bid", function () {
+        it("Can correctly create a bid", async () => {
+            // register the buyer
+            await registry.registerUser(exampleUserProfileURI, {
+                from: buyer
+            })
+
+            // register the publication
+            await registry.createPublication(validPublication.publication_uri,
+                true,
+                validPublication.isRunning,
+                0,
+                validPublication.contributors,
+                validPublication.contributorsWeighting, {
+                    from: publisher
+                })
+            let publication = await registry.publications(0)
+
+            // make the bid
+            await registry.makeBid(100, 0, {from: buyer})
+            let bid = await registry.bids(0)
+
+            assert(bid.offer.toNumber(),100, "Bid price incorrect")
+            assert(bid.status, "Pending", "Bid status incorrect")
+            assert(bid.publication_Id, 0, "Publication ID incorrect")
+            assert(bid.owner_Id, 1, "Buyer ID incorrect")
+
+>>>>>>> master
+        });
+
+        it("Can correctly make a sale", async () => {
+           
+            await registry.createPublication(validPublication.publication_uri,
+                validPublication.isAuction,
+                validPublication.isRunning,
+                validPublication.sellPrice,
+                validPublication.contributors,
+                validPublication.contributorsWeighting, {
+                    from: publisher
+                })
+            let publication = await registry.publications(1)
+            
+            await registry.makeBid(101,1, {from: buyer})
+            let bid = await registry.bids(1)
+            
+            // should now assert that status is sale
+            assert(bid.offer.toNumber(),101, "Bid price incorrect")
+            assert(bid.status, "Sale", "Bid status incorrect")
+            assert(bid.publication_Id, 1, "Publication ID incorrect")
+            assert(bid.owner_Id, 1, "Buyer ID incorrect")
+        })
+
+        it("Reverts if bad user input", async () => {
+            // if bids with a non-running auction
+            // if sends incorrect funds to flat-rate publication
+            // if bidder is unregistered
+            // if publication 
+            assert(true,true)
+        })
+    })
+
+<<<<<<< HEAD
     context("Make a bid", function () {
         it("Can correctly create a bid", async () => {
             // register the buyer
@@ -223,5 +287,7 @@ contract("Unicoin Registry", (accounts) => {
         })
     })
 
+=======
+>>>>>>> master
     
 })
