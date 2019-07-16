@@ -199,10 +199,27 @@ contract("Unicoin Registry", (accounts) => {
 
         it("Reverts if bad user input", async () => {
             // if bids with a non-running auction
+            await registry.createPublication(validPublication.publication_uri,
+                validPublication.isAuction,
+                false,
+                validPublication.sellPrice,
+                validPublication.contributors,
+                validPublication.contributorsWeighting, {
+                    from: publisher
+                })
+            let publication = await registry.publications(3)
+            
+            await assertRevert(registry.makeBid(101,3), {from: buyer}, EVMRevert)
+
             // if sends incorrect funds to flat-rate publication
+            await assertRevert(registry.makeBid(101,0, {from: buyer}), EVMRevert)
+
             // if bidder is unregistered
-            // if publication 
-            assert(true,true)
+            await assertRevert(registry.makeBid(100,0, {from: randomAddress}), EVMRevert)
+
+            // if publication isn't listed
+            // need to do this - see line 83 of UnicoinRegistry.sol
+            
         })
     })
 
