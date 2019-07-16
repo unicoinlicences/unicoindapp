@@ -1,7 +1,9 @@
 pragma solidity^0.5.0;
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
+import "openzeppelin-solidity/contracts/token/ERC721/ERC721.sol";
 
-contract UnicoinRegistry {
+contract UnicoinRegistry is ERC721 {
     // Creates a struct for users of the plaform.
     struct User {
         address owned_address;
@@ -19,7 +21,7 @@ contract UnicoinRegistry {
         uint256 offer;
         bidStatus status;
         uint256 publication_Id;
-        uint256 owner_Id;
+        uint256 owner_Id; //owner of the bid
     }
     Bid[] public bids;
 
@@ -45,8 +47,18 @@ contract UnicoinRegistry {
     // The mapping below will map the addresses of all the successful bidders' addresses to the ID of their owned publications
     mapping(uint256 => uint256[]) public publicationOwners;
     
+    struct LicenceDesign {
+        uint256 buyer_Id;
+        uint256 Publication_Id;
+        uint256 bid_Id;
+    }
+
+    LicenceDesign[] public licences;
+    mapping(uint256 => uint256) public licenceOwners;
+    mapping(uint256 => uint256[]) public publicationLicences;
+
     // The constructer below reserves user 0 for all unregistered users.
-    constructor() public {
+    constructor() public ERC721(){
         users.push(User(address(0),""));
     }
 
@@ -107,6 +119,12 @@ contract UnicoinRegistry {
         require(publications[_publication_Id].isAuction, "Publication not an auction.");
         require(publications[_publication_Id].isRunning, "Auction is not running.");
         bids[_id].status = bidStatus.Accepted;
+        
+        //buyer_id, publication id, bid_id
+        uint256 _licence_Id = licences.push(LicenceDesign(bids[_id].owner_Id, _publication_Id, _id));
+        licenceOwners[bids[_id].owner_Id] = _licence_Id;
+        publicationLicences[_publication_Id].push(_licence_Id);
+        _mint(users[bids[_id].owner_Id].owned_address, _licence_Id);
     }
 
     // This function allows the auctioneer to reject the bids
