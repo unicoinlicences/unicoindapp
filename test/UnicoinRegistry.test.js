@@ -209,7 +209,6 @@ contract("Unicoin Registry", (accounts) => {
         })
     })
 
-<<<<<<< HEAD
     context("Make a bid", function () {
         it("Can correctly create a bid", async () => {
             // register the buyer
@@ -287,7 +286,5 @@ contract("Unicoin Registry", (accounts) => {
         })
     })
 
-=======
->>>>>>> master
     
 })
