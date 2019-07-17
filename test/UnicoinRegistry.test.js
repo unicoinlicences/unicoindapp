@@ -296,19 +296,19 @@ contract("Unicoin Registry", (accounts) => {
             await registry.makeBid(100, 6, {
                 from: buyer
             })
-            assertRevert(registry.acceptBid(3, {
+            await assertRevert(registry.acceptBid(4, {
                 from: publisher
             }), EVMRevert)
-            assertRevert(registry.rejectBid(3, {
+            await assertRevert(registry.rejectBid(4, {
                 from: publisher
             }), EVMRevert)
-            assertRevert(registry.cancelBid(3, {
+            await assertRevert(registry.cancelBid(4, {
                 from: publisher
             }), EVMRevert)
         })
     })
     context("Changing a publications status", function () {
-        it("Can reject a bid", async () => {
+        it("Can change from auction to sale", async () => {
             await registry.createPublication(validPublication.publication_uri,
                 true,
                 true,
@@ -317,8 +317,74 @@ contract("Unicoin Registry", (accounts) => {
                 validPublication.contributorsWeighting, {
                     from: publisher
                 })
-            assert(true,true)
+            await registry.changeToSale(7, 107, {
+                from: publisher
+                })
+            let publication = await registry.publications(7)
+            assert(publication.isAuction == false,"Auction status not changed")
+            assert(publication.sell_price.toNumber() == 107, "Price not changed")     
+        })
+
+        it("Reverts if unauthorized user modifies auction", async () => {
+            await assertRevert(registry.changeToAuction(7, {
+                from: buyer
+            }), EVMRevert)
+        })
+
+        it("Can change from sale to auction", async () => {
+            await registry.changeToAuction(7, {
+                from: publisher
+                })
+            let publication = await registry.publications(7)
+            assert(publication.isAuction == true, "Auction status not changed")
+            assert(publication.sell_price.toNumber() == 0, "Price not removed")
+        })
+
+        it("Reverts if unauthorized user modifies sale", async () => {
+            await assertRevert(registry.changeToSale(7, 107, {
+                from: buyer
+            }), EVMRevert)
+        })
+
+        it("Correctly changes sell price", async () => {
+            await registry.changeToSale(7, 109, {
+                from: publisher
+                })
+            await registry.changeSellPrice(7, 110, {
+                from: publisher
+                })
+            let publication = await registry.publications(7)
+            assert(publication.sell_price.toNumber(),110,"Price not changed")
+        })
+
+        it("Reverts if unauthorized user modifies sell price", async () => {
+            await assertRevert(registry.changeSellPrice(7, 109, {
+                from: buyer
+            }), EVMRevert)
+        })
+
+        it("Changes running status", async () => {
+            await registry.changeRunningStatus(7, {
+                from: publisher
+                })
+            let publication = await registry.publications(7)
+            assert(publication.isRunning == false, "Status not changed")
+        })
+
+        it("Reverts if unauthorized user changes status", async () => {
+            await assertRevert(registry.changeRunningStatus(7, {
+                from: buyer
+            }), EVMRevert)
         })
     })
-    
+
+    // context("Changing a publications status", function () {
+    //     it("Gets publications correctly", async () => {
+    //         await getPublications(registry.getPublications(0x448, {
+
+    //         }))
+    //         assert(true, true)
+    //     })
+    // })
+
 })
