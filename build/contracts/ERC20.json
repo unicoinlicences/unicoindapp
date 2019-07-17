@@ -10822,7 +10822,11 @@
   },
   "networks": {},
   "schemaVersion": "3.0.11",
+<<<<<<< Updated upstream
   "updatedAt": "2019-07-17T13:29:03.421Z",
+=======
+  "updatedAt": "2019-07-17T11:24:42.808Z",
+>>>>>>> Stashed changes
   "devdoc": {
     "details": "Implementation of the basic standard token.\r https://eips.ethereum.org/EIPS/eip-20\r Originally based on code by FirstBlood:\r https://github.com/Firstbloodio/token/blob/master/smart_contract/FirstBloodToken.sol\r  * This implementation emits additional Approval events, allowing applications to reconstruct the allowance status for\r all accounts just by listening to said events. Note that this isn't required by the specification, and other\r compliant implementations may not do it.\r",
     "methods": {

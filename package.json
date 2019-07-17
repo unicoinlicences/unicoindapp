@@ -22,6 +22,7 @@
     "openzeppelin-solidity": "^2.3.0",
     "plotly.js": "^1.48.3",
     "register-service-worker": "^1.6.2",
+    "truffle": "^5.0.27",
     "truffle-contract": "^4.0.21",
     "typeface-space-mono": "^0.0.71",
     "vue": "^2.6.10",
