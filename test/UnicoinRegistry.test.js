@@ -188,6 +188,9 @@ contract("Unicoin Registry", (accounts) => {
                 })
             let publication = await registry.publications(1)
 
+            // Successfully mint a token
+            let nftTokenBalance = await registry.balanceOf(buyer)
+
             await registry.makeBid(101, 1, {
                 from: buyer
             })
@@ -198,6 +201,8 @@ contract("Unicoin Registry", (accounts) => {
             assert(bid.status, "Sale", "Bid status incorrect")
             assert(bid.publication_Id, 1, "Publication ID incorrect")
             assert(bid.owner_Id, 1, "Buyer ID incorrect")
+            let nftTokenBalance2 = await registry.balanceOf(buyer)
+            assert(nftTokenBalance2, nftTokenBalance + 1, "NFT balance not correct")
         })
 
         it("Reverts if bad user input", async () => {
@@ -234,13 +239,14 @@ contract("Unicoin Registry", (accounts) => {
 
     context("Accepting/rejecting/cancelling a bid", function () {
         it("Can accept a bid", async () => {
+            let nftTokenBalance = await registry.balanceOf(buyer)
             await registry.acceptBid(1, {
                 from: publisher
             })
             let bid = await registry.bids(1)
             assert(bid.status, "Accepted", "Bid status not changed")
-            let nftTokenBalance = await registry.balanceOf(buyer)
-            assert(nftTokenBalance.toNumber(), 1, "Token balance not set correctly")
+            let nftTokenBalance2 = await registry.balanceOf(buyer)
+            assert(nftTokenBalance2, nftTokenBalance + 1, "Token balance not set correctly")
         })
 
         it("Can reject a bid", async () => {
@@ -378,13 +384,11 @@ contract("Unicoin Registry", (accounts) => {
         })
     })
 
-    // context("Changing a publications status", function () {
-    //     it("Gets publications correctly", async () => {
-    //         await getPublications(registry.getPublications(0x448, {
-
-    //         }))
-    //         assert(true, true)
-    //     })
-    // })
+    context("Changing a publications status", function () {
+        it("Gets publications correctly", async () => {
+            let publicationArray = await registry.getPublications(publisher)
+            assert(publicationArray.length, 7, "Length not correct")
+        })
+    })
 
 })

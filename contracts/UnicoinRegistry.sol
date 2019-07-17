@@ -107,9 +107,15 @@ contract UnicoinRegistry is ERC721 {
             // The funds sent should match the sale price specified by the author.
             require(_offer == publications[_publication_Id].sell_price, "Incorrect funds sent.");
             // This 'bid' has a status of sale because the author does not need to evaluate and accept/reject these bids.
-            uint256 _id = bids.push(Bid(_offer, bidStatus.Sale, _publication_Id, userAddresses[msg.sender]));
-            publications[_publication_Id].publication_bids.push(_id - 1);
-            bidOwners[userAddresses[msg.sender]].push(_id - 1);
+            uint256 _id = bids.push(Bid(_offer, bidStatus.Sale, _publication_Id, userAddresses[msg.sender])) - 1;
+            publications[_publication_Id].publication_bids.push(_id);
+            bidOwners[userAddresses[msg.sender]].push(_id);
+
+            //parameters of licence design: buyer_id, publication id, bid_id
+            uint256 _licence_Id = licences.push(LicenceDesign(bids[_id].owner_Id, _publication_Id, _id));
+            licenceOwners[bids[_id].owner_Id] = _licence_Id;
+            publicationLicences[_publication_Id].push(_licence_Id);
+            _mint(users[bids[_id].owner_Id].owned_address, _licence_Id);
         }
     }
         
