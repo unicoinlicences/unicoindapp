@@ -116,6 +116,7 @@ contract UnicoinRegistry is ERC721 {
     // This function allows the auctioneer to accept the bids
     function acceptBid(uint256 _id) public {
         uint256 _publication_Id = bids[_id].publication_Id;
+        require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");
         require(publications[_publication_Id].isAuction, "Publication not an auction.");
         require(publications[_publication_Id].isRunning, "Auction is not running.");
         bids[_id].status = bidStatus.Accepted;
@@ -130,6 +131,7 @@ contract UnicoinRegistry is ERC721 {
     // This function allows the auctioneer to reject the bids
     function rejectBid(uint256 _id) public {
         uint256 _publication_Id = bids[_id].publication_Id;
+        require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");
         require(publications[_publication_Id].isAuction, "Publication not an auction.");
         require(publications[_publication_Id].isRunning, "Auction not running.");
         bids[_id].status = bidStatus.Rejected;
@@ -138,29 +140,34 @@ contract UnicoinRegistry is ERC721 {
     // This function allows the auctioneer to cancel the bids
     function cancelBid(uint256 _id) public {
         uint256 _publication_Id = bids[_id].publication_Id;
+        require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");
         require(publications[_publication_Id].isAuction, "Publication not an auction.");
         require(publications[_publication_Id].isRunning, "Auction not running.");
         bids[_id].status = bidStatus.Cancelled;
     }
     
     function changeToSale(uint256 _publication_Id, uint256 _sell_price) public {
+        require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");
         require(publications[_publication_Id].isAuction, "Publication is not an auction");
         publications[_publication_Id].sell_price = _sell_price;
         publications[_publication_Id].isAuction = false;
     }
    
     function changeToAuction(uint256 _publication_Id) public {
+        require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");
         require(!publications[_publication_Id].isAuction, "Publication is already on auction");
         publications[_publication_Id].sell_price = 0;
         publications[_publication_Id].isAuction = true;
     }
 
     function changeSellPrice(uint256 _publication_Id, uint256 _sell_price) public {
+        require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");
         require(!publications[_publication_Id].isAuction, "Publication is on auction.");
         publications[_publication_Id].sell_price = _sell_price;
     }
 
     function changeRunningStatus(uint256 _publication_Id) public {
+        require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");
         publications[_publication_Id].isRunning = !publications[_publication_Id].isRunning;
     }
 

@@ -234,7 +234,9 @@ contract("Unicoin Registry", (accounts) => {
 
     context("Accepting/rejecting/cancelling a bid", function () {
         it("Can accept a bid", async () => {
-            await registry.acceptBid(1)
+            await registry.acceptBid(1, {
+                from: publisher
+            })
             let bid = await registry.bids(1)
             assert(bid.status, "Accepted", "Bid status not changed")
             let nftTokenBalance = await registry.balanceOf(buyer)
@@ -254,7 +256,9 @@ contract("Unicoin Registry", (accounts) => {
             await registry.makeBid(102, 4, {
                 from: buyer
             })
-            await registry.rejectBid(2)
+            await registry.rejectBid(2, {
+                from: publisher
+            })
             let bid = await registry.bids(2)
             assert(bid.status, "Rejected", "Bid status not changed")
         })
@@ -272,7 +276,9 @@ contract("Unicoin Registry", (accounts) => {
             await registry.makeBid(103, 5, {
                 from: buyer
             })
-            await registry.cancelBid(3)
+            await registry.cancelBid(3, {
+                from: publisher
+            })
             let bid = await registry.bids(3)
             assert(bid.status, "Cancelled", "Bid status not changed")
         })
@@ -290,9 +296,15 @@ contract("Unicoin Registry", (accounts) => {
             await registry.makeBid(100, 6, {
                 from: buyer
             })
-            assertRevert(registry.acceptBid(3), EVMRevert)
-            assertRevert(registry.rejectBid(3), EVMRevert)
-            assertRevert(registry.cancelBid(3), EVMRevert)
+            assertRevert(registry.acceptBid(3, {
+                from: publisher
+            }), EVMRevert)
+            assertRevert(registry.rejectBid(3, {
+                from: publisher
+            }), EVMRevert)
+            assertRevert(registry.cancelBid(3, {
+                from: publisher
+            }), EVMRevert)
         })
     })
 
