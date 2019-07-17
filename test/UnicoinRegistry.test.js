@@ -307,10 +307,18 @@ contract("Unicoin Registry", (accounts) => {
             }), EVMRevert)
         })
     })
-
-    context("Changing a publication's status", function () {
-        it("Can change from auction to sale", async () => {
-            assert(true, true)
+    context("Changing a publications status", function () {
+        it("Can reject a bid", async () => {
+            await registry.createPublication(validPublication.publication_uri,
+                true,
+                true,
+                0,
+                validPublication.contributors,
+                validPublication.contributorsWeighting, {
+                    from: publisher
+                })
+            assert(true,true)
         })
     })
+    
 })
