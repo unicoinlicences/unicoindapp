@@ -57,9 +57,12 @@ contract UnicoinRegistry is ERC721 {
     mapping(uint256 => uint256) public licenceOwners;
     mapping(uint256 => uint256[]) public publicationLicences;
 
+    ERC20 daiContract;
     // The constructer below reserves user 0 for all unregistered users.
-    constructor() public ERC721(){
+    constructor(address _daiContractAddress) public ERC721(){
         users.push(User(address(0),""));
+
+        daiContract = ERC20(_daiContractAddress);
     }
 
     // This function registers a user on the platform.
@@ -110,6 +113,11 @@ contract UnicoinRegistry is ERC721 {
             uint256 _id = bids.push(Bid(_offer, bidStatus.Sale, _publication_Id, userAddresses[msg.sender])) - 1;
             publications[_publication_Id].publication_bids.push(_id);
             bidOwners[userAddresses[msg.sender]].push(_id);
+
+            // Transfer Dai from buyer to seller
+            require(daiContract.allowance(msg.sender, address(this)) >= _offer, "Insufficient fund allowance");
+            address publisherAddress = users[publications[_publication_Id].author_Id].owned_address;
+            daiContract.transferFrom(msg.sender, publisherAddress, _offer);
 
             //parameters of licence design: buyer_id, publication id, bid_id
             uint256 _licence_Id = licences.push(LicenceDesign(bids[_id].owner_Id, _publication_Id, _id));
@@ -187,15 +195,16 @@ contract UnicoinRegistry is ERC721 {
         return bidOwners[_userAddress];
     }
 
-    function getPublications(uint256 _user_Id) public view returns(uint256[] memory) {
-        return publicationOwners[_user_Id];
-    }
+    // function getPublications(uint256 _user_Id) public view returns(uint256[] memory) {
+    //     return publicationOwners[_user_Id];
+    // }
 
-    function getBids(uint256 _user_Id) public view returns(uint256[] memory) {
-        return bidOwners[_user_Id];
-    }
+    // function getBids(uint256 _user_Id) public view returns(uint256[] memory) {
+    //     return bidOwners[_user_Id];
+    // }
 
     function getPublicationBids(uint256 _publication_Id) public view returns(uint256[] memory) {
         return publications[_publication_Id].publication_bids;
     }
+    
 }
