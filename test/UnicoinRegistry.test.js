@@ -1,4 +1,4 @@
-//tests helpers
+// Tests helpers
 const {
     EVMRevert
 } = require('./helpers/EVMRevert');
@@ -17,13 +17,13 @@ const latestTime = require("./helpers/latestTime");
 const _ = require("lodash");
 const BigNumber = web3.BigNumber;
 
-//libraries
+// Libraries
 require("chai")
     .use(require("chai-as-promised"))
     .use(require("chai-bignumber")(BigNumber))
     .should();
 
-//contracts
+// Contracts
 const UnicoinRegistry = artifacts.require("./UnicoinRegistry.sol");
 const Erc20 = artifacts.require("./ERC20.sol");
 
@@ -46,27 +46,24 @@ contract("Unicoin Registry", (accounts) => {
         contributorsWeighting: [20, 30, 20]
     }
 
+    // Initialize publication and bid counts
     let noPublications = 0;
     let noBids = 0;
 
-
     before(async function () {
-        //deploy an instance of the registry
-
-
-        //Creates ERC20s to use in testing
+        // Deploy an instance of the registry
+        // Creates ERC20s to use in testing
         daiContract = await Erc20.new({
             from: tokenOwner
         });
 
-        //Mints tokens in a modified ERC20 for the fund
+        // Mints tokens in a modified ERC20 for the fund
         await daiContract.mint(buyer, 100, {
             from: tokenOwner
         });
 
         let balance = await daiContract.balanceOf(buyer);
-
-        //Checks that the balance of the fund is correct
+        // Checks that the balance of the fund is correct
         assert.equal(balance.toNumber(), 100, "Balance not set");
         registry = await UnicoinRegistry.new(daiContract.address, {
             from: registryOwner
@@ -77,6 +74,7 @@ contract("Unicoin Registry", (accounts) => {
     beforeEach(async function () {
 
     })
+    // Tests correct registration of users
     context("Register User", function () {
         it("Can register a new user", async () => {
             await registry.registerUser(exampleUserProfileURI, {
@@ -91,17 +89,19 @@ contract("Unicoin Registry", (accounts) => {
             assert(addedUser.profile_uri, exampleUserProfileURI, "Profile URI not set")
         });
         it("Reverts if invalid user added", async () => {
-            //should fail if no user name added
+            // Should fail if no user name added
             await assertRevert(registry.registerUser("", {
                 from: publisher
             }), EVMRevert)
 
-            //then check reverts if same user tries to register
+            // Then check reverts if same user tries to register
             await assertRevert(registry.registerUser(exampleUserProfileURI, {
                 from: publisher
             }), EVMRevert)
         });
     })
+
+    //Tests correct creation of publications
     context("Create Publication", function () {
         it("Can correctly add new publication", async () => {
             await registry.createPublication(validPublication.publication_uri,
@@ -123,25 +123,25 @@ contract("Unicoin Registry", (accounts) => {
         });
 
         it("Reverts if bad user input", async () => {
-            // should revert if sale method is auction but a price is specified
+            // Should revert if sale method is auction but a price is specified
             await assertRevert(registry.createPublication(validPublication.publication_uri,
                 true, validPublication.isRunning, validPublication.sellPrice, validPublication.contributors, validPublication.contributorsWeighting, {
                     from: publisher
                 }), EVMRevert)
 
-            // should revert if sale method is flat price but no price specified
+            // Should revert if sale method is flat price but no price specified
             await assertRevert(registry.createPublication(validPublication.publication_uri,
                 validPublication.isAuction, validPublication.isRunning, 0, validPublication.contributors, validPublication.contributorsWeighting, {
                     from: publisher
                 }), EVMRevert)
 
-            // should revert if the uri is blank
+            // Should revert if the uri is blank
             await assertRevert(registry.createPublication("",
                 validPublication.isAuction, validPublication.isRunning, validPublication.sellPrice, validPublication.contributors, validPublication.contributorsWeighting, {
                     from: publisher
                 }), EVMRevert)
 
-            // should revert if user is unregistered
+            // Should revert if user is unregistered
             await assertRevert(registry.createPublication("",
                 validPublication.isAuction, validPublication.isRunning, validPublication.sellPrice, validPublication.contributors, validPublication.contributorsWeighting, {
                     from: randomAddress
@@ -149,14 +149,15 @@ contract("Unicoin Registry", (accounts) => {
         });
     })
 
+    // Tests for correct bid allocation
     context("Make a bid", function () {
         it("Can correctly create a bid", async () => {
-            // register the buyer
+            // Register the buyer
             await registry.registerUser(exampleUserProfileURI, {
                 from: buyer
             })
 
-            // register the publication: publication 2 (index 1)
+            // Register the publication: publication 2 (index 1)
             await registry.createPublication(validPublication.publication_uri,
                 true,
                 validPublication.isRunning,
@@ -168,7 +169,7 @@ contract("Unicoin Registry", (accounts) => {
             noPublications += 1;
             let publication = await registry.publications(noPublications - 1)
 
-            // make the bid
+            // Make the bid
             await registry.makeBid(100, noPublications - 1, {
                 from: buyer
             })
@@ -221,7 +222,7 @@ contract("Unicoin Registry", (accounts) => {
         })
 
         it("Reverts if bad user input", async () => {
-            // if bids with a non-running auction
+            // If bids with a non-running auction
             await registry.createPublication(validPublication.publication_uri,
                 validPublication.isAuction,
                 false,
@@ -237,12 +238,12 @@ contract("Unicoin Registry", (accounts) => {
                 from: buyer
             }), EVMRevert)
 
-            // if sends incorrect funds to flat-rate publication
+            // If sends incorrect funds to flat-rate publication
             await assertRevert(registry.makeBid(101, 0, {
                 from: buyer
             }), EVMRevert)
 
-            // if bidder is unregistered
+            // If bidder is unregistered
             await assertRevert(registry.makeBid(100, 1, {
                 from: randomAddress
             }), EVMRevert)
@@ -253,8 +254,10 @@ contract("Unicoin Registry", (accounts) => {
         })
     })
 
+    // Tests for correct implementation of bid acceptance/rejections or cancellation
     context("Accepting/rejecting/cancelling a bid", function () {
         it("Can accept a bid", async () => {
+            // Allocation of token to buyer, if token balance is not adjusted then rejects
             let nftTokenBalance = await registry.balanceOf(buyer)
             await registry.acceptBid(0, {
                 from: publisher
@@ -274,6 +277,7 @@ contract("Unicoin Registry", (accounts) => {
                 validPublication.contributorsWeighting, {
                     from: publisher
                 })
+            // Rejects bid if status is not changed
             noPublications += 1;
             let publication = await registry.publications(noPublications - 1)
             await registry.makeBid(102, noPublications - 1, {
@@ -296,6 +300,7 @@ contract("Unicoin Registry", (accounts) => {
                 validPublication.contributorsWeighting, {
                     from: publisher
                 })
+            // Tests if user successfully cancels their bid status
             noPublications += 1;
             let publication = await registry.publications(noPublications - 1)
             await registry.makeBid(103, noPublications - 1, {
@@ -335,6 +340,8 @@ contract("Unicoin Registry", (accounts) => {
             // }), EVMRevert)
         })
     })
+
+    // Tests if publication status is correctly changed
     context("Changing a publications status", function () {
         it("Can change from auction to sale", async () => {
             await registry.createPublication(validPublication.publication_uri,
@@ -346,6 +353,7 @@ contract("Unicoin Registry", (accounts) => {
                     from: publisher
                 })
             noPublications += 1;
+            // Should not go through if status is not changed and a flat price is not allocated
             await registry.changeToSale(noPublications - 1, 107, {
                 from: publisher
                 })
@@ -353,13 +361,15 @@ contract("Unicoin Registry", (accounts) => {
             assert(publication.isAuction == false,"Auction status not changed")
             assert(publication.sell_price.toNumber() == 107, "Price not changed")     
         })
-
+        
+        // The correct user should change status
         it("Reverts if unauthorized user modifies auction", async () => {
             await assertRevert(registry.changeToAuction(noPublications - 1, {
                 from: buyer
             }), EVMRevert)
         })
 
+        // Should not allow a price different from 0 if auction is enabled
         it("Can change from sale to auction", async () => {
             await registry.changeToAuction(noPublications - 1, {
                 from: publisher
@@ -369,12 +379,14 @@ contract("Unicoin Registry", (accounts) => {
             assert(publication.sell_price.toNumber() == 0, "Price not removed")
         })
 
+        // Only authorized user can change this functionality
         it("Reverts if unauthorized user modifies sale", async () => {
             await assertRevert(registry.changeToSale(noPublications - 1, 107, {
                 from: buyer
             }), EVMRevert)
         })
 
+        // Sell price should be changed and only the user can do so
         it("Correctly changes sell price", async () => {
             await registry.changeToSale(noPublications - 1, 109, {
                 from: publisher
@@ -392,6 +404,7 @@ contract("Unicoin Registry", (accounts) => {
             }), EVMRevert)
         })
 
+        // Running status should be changed and only by the user
         it("Changes running status", async () => {
             await registry.changeRunningStatus(noPublications - 1, {
                 from: publisher
@@ -407,10 +420,11 @@ contract("Unicoin Registry", (accounts) => {
         })
     })
 
+    // Get the correct number of publication arrays, number of bids, bids to the publication  and total number of publications
     context("'Getter' functions work correctly", function () {
         it("Gets publications correctly", async () => {
             let publicationArray = await registry.getPublications(publisher)
-
+            //Ensure that number of publications is equal to total number of publications
             assert(publicationArray.length == noPublications, "Number of publications not correct")
         })
 
@@ -430,7 +444,16 @@ contract("Unicoin Registry", (accounts) => {
             assert(bid.status,"Pending", "Bid status not correct")
             assert(bid.publication_Id, 1, "Publication ID not correct")
             assert(bid.owner_Id, 3, "Bid owner ID not correct")
+
         })
+        it("Gets number of publications", async () => {
+            let publicationLength = await registry.getPublicationLength()
+            //Ensure that number of publications is equal to total number of publications
+            assert(publicationLength.length == 1, "Number of publications not correct")
+        })
+
+
+
     })
 
 })
