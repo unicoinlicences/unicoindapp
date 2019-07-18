@@ -407,11 +407,29 @@ contract("Unicoin Registry", (accounts) => {
         })
     })
 
-    context("Changing a publications status", function () {
+    context("'Getter' functions work correctly", function () {
         it("Gets publications correctly", async () => {
             let publicationArray = await registry.getPublications(publisher)
 
-            assert(publicationArray.length, 7, "Length not correct")
+            assert(publicationArray.length == noPublications, "Number of publications not correct")
+        })
+
+        it("Gets bids correctly", async () => {
+            let bidArray = await registry.getBids(buyer)
+            
+            assert(bidArray.length == noBids, "Number of bids not correct")
+        })
+
+        it("Gets publication's bids correctly", async () => {
+            let publicationBidArray = await registry.getPublicationBids(1)
+
+            let bid_Id = publicationBidArray[0].toNumber()
+
+            bid = await registry.bids(bid_Id)
+            assert(bid.offer.toNumber(), 100, "Bid price not correct")
+            assert(bid.status,"Pending", "Bid status not correct")
+            assert(bid.publication_Id, 1, "Publication ID not correct")
+            assert(bid.owner_Id, 3, "Bid owner ID not correct")
         })
     })
 
