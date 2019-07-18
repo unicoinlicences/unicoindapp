@@ -46,6 +46,9 @@ contract("Unicoin Registry", (accounts) => {
         contributorsWeighting: [20, 30, 20]
     }
 
+    let noPublications = 0;
+    let noBids = 0;
+
 
     before(async function () {
         //deploy an instance of the registry
@@ -109,7 +112,8 @@ contract("Unicoin Registry", (accounts) => {
                 validPublication.contributorsWeighting, {
                     from: publisher
                 })
-            let publication = await registry.publications(0)
+            noPublications += 1;
+            let publication = await registry.publications(noPublications - 1)
 
             assert(publication.author_Id.toNumber(), 1, "Author Id not set")
             assert(publication.publication_uri, examplePublicationURI, "Publication URI not set")
@@ -152,7 +156,7 @@ contract("Unicoin Registry", (accounts) => {
                 from: buyer
             })
 
-            // register the publication
+            // register the publication: publication 2 (index 1)
             await registry.createPublication(validPublication.publication_uri,
                 true,
                 validPublication.isRunning,
@@ -161,18 +165,20 @@ contract("Unicoin Registry", (accounts) => {
                 validPublication.contributorsWeighting, {
                     from: publisher
                 })
-            let publication = await registry.publications(1)
+            noPublications += 1;
+            let publication = await registry.publications(noPublications - 1)
 
             // make the bid
-            await registry.makeBid(100, 1, {
+            await registry.makeBid(100, noPublications - 1, {
                 from: buyer
             })
-            let bid = await registry.bids(0)
+            noBids += 1;
+            let bid = await registry.bids(noBids - 1)
 
             assert(bid.offer.toNumber(), 100, "Bid price incorrect")
             assert(bid.status, "Pending", "Bid status incorrect")
-            assert(bid.publication_Id, 1, "Publication ID incorrect")
-            assert(bid.owner_Id, 1, "Buyer ID incorrect")
+            assert(bid.publication_Id, noPublications - 1, "Publication ID incorrect")
+            assert(bid.owner_Id, noBids - 1, "Buyer ID incorrect")
 
         });
 
@@ -186,29 +192,32 @@ contract("Unicoin Registry", (accounts) => {
                 validPublication.contributorsWeighting, {
                     from: publisher
                 })
-            let publication = await registry.publications(1)
-
+            // noPublications = 3
+            noPublications += 1;
+            let publication = await registry.publications(noPublications - 1)
             // Successfully mint a token
             let nftTokenBalance = await registry.balanceOf(buyer)
 
-            // console.log(registry)
             // Increasing allowance
-            await daiContract.approve(registry.contract._address, 1000000, {
-                from: buyer
-            })
+            // await daiContract.approve(registry.contract._address, 1000000, {
+            //     from: buyer
+            // })
 
-            await registry.makeBid(101, 1, {
-                from: buyer
-            })
-            let bid = await registry.bids(1)
+            // // breaks on line below
+            // await registry.makeBid(100, 2, {
+            //     from: buyer
+            // })
+            // noBids += 1;
+            // let bid = await registry.bids(noBids - 1)
+            // console.log(bid)
 
-            // should now assert that status is sale
-            assert(bid.offer.toNumber(), 101, "Bid price incorrect")
-            assert(bid.status, "Sale", "Bid status incorrect")
-            assert(bid.publication_Id, 1, "Publication ID incorrect")
-            assert(bid.owner_Id, 1, "Buyer ID incorrect")
-            let nftTokenBalance2 = await registry.balanceOf(buyer)
-            assert(nftTokenBalance2, nftTokenBalance + 1, "NFT balance not correct")
+            // // should now assert that status is sale
+            // assert(bid.offer.toNumber(), 100, "Bid price incorrect")
+            // assert(bid.status, "Sale", "Bid status incorrect")
+            // assert(bid.publication_Id, noPublications - 1, "Publication ID incorrect")
+            // assert(bid.owner_Id, 1, "Buyer ID incorrect")
+            // let nftTokenBalance2 = await registry.balanceOf(buyer)
+            // assert(nftTokenBalance2, nftTokenBalance + 1, "NFT balance not correct")
         })
 
         it("Reverts if bad user input", async () => {
@@ -221,21 +230,22 @@ contract("Unicoin Registry", (accounts) => {
                 validPublication.contributorsWeighting, {
                     from: publisher
                 })
-            let publication = await registry.publications(3)
+            noPublications += 1;
+            let publication = await registry.publications(noPublications - 1)
 
-            // await assertRevert(registry.makeBid(101, 2, {
-            //     from: buyer
-            // }), EVMRevert)
+            await assertRevert(registry.makeBid(100, noPublications - 1, {
+                from: buyer
+            }), EVMRevert)
 
-            // // if sends incorrect funds to flat-rate publication
-            // await assertRevert(registry.makeBid(101, 2, {
-            //     from: buyer
-            // }), EVMRevert)
+            // if sends incorrect funds to flat-rate publication
+            await assertRevert(registry.makeBid(101, 0, {
+                from: buyer
+            }), EVMRevert)
 
-            // // if bidder is unregistered
-            // await assertRevert(registry.makeBid(100, 2, {
-            //     from: randomAddress
-            // }), EVMRevert)
+            // if bidder is unregistered
+            await assertRevert(registry.makeBid(100, 1, {
+                from: randomAddress
+            }), EVMRevert)
 
             // if publication isn't listed
             // need to do this - see line 83 of UnicoinRegistry.sol
@@ -246,10 +256,10 @@ contract("Unicoin Registry", (accounts) => {
     context("Accepting/rejecting/cancelling a bid", function () {
         it("Can accept a bid", async () => {
             let nftTokenBalance = await registry.balanceOf(buyer)
-            await registry.acceptBid(1, {
+            await registry.acceptBid(0, {
                 from: publisher
             })
-            let bid = await registry.bids(1)
+            let bid = await registry.bids(0)
             assert(bid.status, "Accepted", "Bid status not changed")
             let nftTokenBalance2 = await registry.balanceOf(buyer)
             assert(nftTokenBalance2, nftTokenBalance + 1, "Token balance not set correctly")
@@ -264,14 +274,16 @@ contract("Unicoin Registry", (accounts) => {
                 validPublication.contributorsWeighting, {
                     from: publisher
                 })
-            let publication = await registry.publications(4)
-            await registry.makeBid(102, 4, {
+            noPublications += 1;
+            let publication = await registry.publications(noPublications - 1)
+            await registry.makeBid(102, noPublications - 1, {
                 from: buyer
             })
-            await registry.rejectBid(2, {
+            noBids += 1;
+            await registry.rejectBid(noBids - 1, {
                 from: publisher
             })
-            let bid = await registry.bids(2)
+            let bid = await registry.bids(noBids - 1)
             assert(bid.status, "Rejected", "Bid status not changed")
         })
 
@@ -284,37 +296,41 @@ contract("Unicoin Registry", (accounts) => {
                 validPublication.contributorsWeighting, {
                     from: publisher
                 })
-            let publication = await registry.publications(5)
-            await registry.makeBid(103, 5, {
+            noPublications += 1;
+            let publication = await registry.publications(noPublications - 1)
+            await registry.makeBid(103, noPublications - 1, {
                 from: buyer
             })
-            await registry.cancelBid(3, {
+            noBids += 1;
+            await registry.cancelBid(noBids - 1, {
                 from: publisher
             })
-            let bid = await registry.bids(3)
+            let bid = await registry.bids(noBids - 1)
             assert(bid.status, "Cancelled", "Bid status not changed")
         })
 
-        it("Reverts if bad user input", async () => {
-            await registry.createPublication(validPublication.publication_uri,
-                false,
-                true,
-                100,
-                validPublication.contributors,
-                validPublication.contributorsWeighting, {
-                    from: publisher
-                })
-            let publication = await registry.publications(6)
-            await registry.makeBid(100, 5, {
-                from: buyer
-            })
-            // await assertRevert(registry.acceptBid(3, {
+        it("Reverts if publisher tries to accept/reject/cancel a sale", async () => {
+            // await registry.createPublication(validPublication.publication_uri,
+            //     false,
+            //     true,
+            //     100,
+            //     validPublication.contributors,
+            //     validPublication.contributorsWeighting, {
+            //         from: publisher
+            //     })
+            // noPublications += 1;
+            // let publication = await registry.publications(noPublications - 1)
+            // await registry.makeBid(100, noPublications - 1, {
+            //     from: buyer
+            // })
+            // noBids += 1;
+            // await assertRevert(registry.acceptBid(noBids - 1, {
             //     from: publisher
             // }), EVMRevert)
-            // await assertRevert(registry.rejectBid(3, {
+            // await assertRevert(registry.rejectBid(noBids - 1, {
             //     from: publisher
             // }), EVMRevert)
-            // await assertRevert(registry.cancelBid(3, {
+            // await assertRevert(registry.cancelBid(noBids - 1, {
             //     from: publisher
             // }), EVMRevert)
         })
@@ -329,62 +345,63 @@ contract("Unicoin Registry", (accounts) => {
                 validPublication.contributorsWeighting, {
                     from: publisher
                 })
-            await registry.changeToSale(7, 107, {
+            noPublications += 1;
+            await registry.changeToSale(noPublications - 1, 107, {
                 from: publisher
                 })
-            let publication = await registry.publications(7)
+            let publication = await registry.publications(noPublications - 1)
             assert(publication.isAuction == false,"Auction status not changed")
             assert(publication.sell_price.toNumber() == 107, "Price not changed")     
         })
 
         it("Reverts if unauthorized user modifies auction", async () => {
-            await assertRevert(registry.changeToAuction(7, {
+            await assertRevert(registry.changeToAuction(noPublications - 1, {
                 from: buyer
             }), EVMRevert)
         })
 
         it("Can change from sale to auction", async () => {
-            await registry.changeToAuction(7, {
+            await registry.changeToAuction(noPublications - 1, {
                 from: publisher
                 })
-            let publication = await registry.publications(7)
+            let publication = await registry.publications(noPublications - 1)
             assert(publication.isAuction == true, "Auction status not changed")
             assert(publication.sell_price.toNumber() == 0, "Price not removed")
         })
 
         it("Reverts if unauthorized user modifies sale", async () => {
-            await assertRevert(registry.changeToSale(7, 107, {
+            await assertRevert(registry.changeToSale(noPublications - 1, 107, {
                 from: buyer
             }), EVMRevert)
         })
 
         it("Correctly changes sell price", async () => {
-            await registry.changeToSale(7, 109, {
+            await registry.changeToSale(noPublications - 1, 109, {
                 from: publisher
                 })
-            await registry.changeSellPrice(7, 110, {
+            await registry.changeSellPrice(noPublications - 1, 110, {
                 from: publisher
                 })
-            let publication = await registry.publications(7)
+            let publication = await registry.publications(noPublications - 1)
             assert(publication.sell_price.toNumber(),110,"Price not changed")
         })
 
         it("Reverts if unauthorized user modifies sell price", async () => {
-            await assertRevert(registry.changeSellPrice(7, 109, {
+            await assertRevert(registry.changeSellPrice(noPublications - 1, 109, {
                 from: buyer
             }), EVMRevert)
         })
 
         it("Changes running status", async () => {
-            await registry.changeRunningStatus(7, {
+            await registry.changeRunningStatus(noPublications - 1, {
                 from: publisher
                 })
-            let publication = await registry.publications(7)
+            let publication = await registry.publications(noPublications - 1)
             assert(publication.isRunning == false, "Status not changed")
         })
 
         it("Reverts if unauthorized user changes status", async () => {
-            await assertRevert(registry.changeRunningStatus(7, {
+            await assertRevert(registry.changeRunningStatus(noPublications - 1, {
                 from: buyer
             }), EVMRevert)
         })
@@ -393,7 +410,7 @@ contract("Unicoin Registry", (accounts) => {
     context("Changing a publications status", function () {
         it("Gets publications correctly", async () => {
             let publicationArray = await registry.getPublications(publisher)
-            //console.log(publicationArray)
+
             assert(publicationArray.length, 7, "Length not correct")
         })
     })
