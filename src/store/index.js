@@ -10,6 +10,11 @@ import {
 }
 from "@/utils/lookupTools";
 
+import {
+  uploadFile,
+  viewFile,
+} from "@/utils/ipfsUploader";
+
 // import getTokenInfo from "@/utils/TokenInfo.js"
 
 import * as actions from "./actions";
@@ -99,12 +104,11 @@ export default new Vuex.Store({
       console.log("IN create user CALL")
       console.log(params)
 
-      console.log(state.registry)
-      await state.registry.registerUser(params,{from: state.account})
-
-      // await fundFactory.createFund(tokenArray, weightingArray, rebalancePeriod, {
-      //   from: state.account,
-      //   value: state.web3.web3.utils.toWei(params.addedEther, "ether")
+      console.log("IPFS")
+      // await uploadFile({string: "my file"})
+      console.log(await viewFile('QmWQuFmtTkBxswQQx3fYbyvUUyRo3HnN5Aqjd6bYR5bZnb'))
+      // await state.registry.registerUser(params, {
+      //   from: state.account
       // })
     }
   }
