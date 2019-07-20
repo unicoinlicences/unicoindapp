@@ -58,36 +58,16 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('university')">
-                <label for="university">University</label>
-                <md-select
-                  name="university"
-                  id="university"
-                  v-model="form.university"
-                  md-dense
-                  :disabled="sending"
-                >
-                  <md-option></md-option>
-                  <md-option value="M">M</md-option>
-                  <md-option value="F">F</md-option>
-                </md-select>
-                <span class="md-error">The gender is required</span>
-              </md-field>
-            </div>
-
-            <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('age')">
-                <label for="age">Age</label>
+                <label for="last-name">University</label>
                 <md-input
-                  type="number"
-                  id="age"
-                  name="age"
-                  autocomplete="age"
-                  v-model="form.age"
+                  name="last-name"
+                  id="last-name"
+                  autocomplete="family-name"
+                  v-model="form.university"
                   :disabled="sending"
-                  min="18"
                 />
-                <span class="md-error" v-if="!$v.form.age.required">The age is required</span>
-                <span class="md-error" v-else-if="!$v.form.age.maxlength">Invalid age</span>
+                <span class="md-error" v-if="!$v.form.university.required">The last name is required</span>
+                <span class="md-error" v-else-if="!$v.form.university.minlength">Invalid last name</span>
               </md-field>
             </div>
           </div>
@@ -112,11 +92,16 @@
         <md-card-actions>
           <md-button type="submit" class="md-primary" :disabled="sending">Create user</md-button>
         </md-card-actions>
+        {{form.orcid}}
       </md-content>
 
       <md-snackbar :md-active.sync="userSaved">The user {{ lastUser }} was saved with success!</md-snackbar>
     </form>
     <md-button @click="createUser" class="md-raised md-accent">Create User</md-button>
+  <br>
+  <br>
+  {{form}}
+  
   </div>
 </template>
 
@@ -143,10 +128,9 @@ export default {
     form: {
       firstName: null,
       lastName: null,
-      age: null,
       email: null,
       orcid: null,
-      university: null,
+      university: null
     },
     userSaved: false,
     sending: false,
@@ -162,10 +146,6 @@ export default {
         required,
         minLength: minLength(3)
       },
-      age: {
-        required,
-        maxLength: maxLength(3)
-      },
       university: {
         required
       },
@@ -180,9 +160,15 @@ export default {
     console.log("PAAA");
 
     let token = this.getFragmentParameterByName("id_token", this.$route.hash);
-    let decoded = jwt.decode(token);
-    console.log("decoded");
-    console.log(decoded);
+
+    if (token) {
+      let decoded = jwt.decode(token);
+      console.log("decoded");
+      console.log(decoded);
+      this.form.firstName = decoded.given_name;
+      this.form.lastName = decoded.family_name;
+      this.form.orcid = decoded.sub;
+    }
   },
 
   methods: {
@@ -190,9 +176,9 @@ export default {
     createUser() {
       console.log("it worked!");
 
-      console.log(this.form.firstName)
+      console.log(this.form.firstName);
 
-      this.CREATE_USER(this.form.firstName)
+      this.CREATE_USER(this.form);
     },
 
     getFragmentParameterByName(name, route) {
@@ -216,8 +202,7 @@ export default {
       this.$v.$reset();
       this.form.firstName = null;
       this.form.lastName = null;
-      this.form.age = null;
-      this.form.gender = null;
+      this.form.university = null;
       this.form.email = null;
     },
     saveUser() {

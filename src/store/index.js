@@ -105,11 +105,11 @@ export default new Vuex.Store({
       console.log(params)
 
       console.log("IPFS")
-      await uploadFile({string: "my file"})
-      console.log(await viewFile('QmWQuFmtTkBxswQQx3fYbyvUUyRo3HnN5Aqjd6bYR5bZnb'))
-      // await state.registry.registerUser(params, {
-      //   from: state.account
-      // })
+      let ipfsHash = await uploadFile(params)
+      console.log(ipfsHash.toString())
+      await state.registry.registerUser(ipfsHash.toString(), {
+        from: state.account
+      })
     }
   }
 })
