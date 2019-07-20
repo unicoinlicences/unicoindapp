@@ -79,11 +79,6 @@
         <div class="md-layout-item md-size-20 md-medium-hide" />
       </div>
     </md-content>
-    <div class="md-layout md-gutter">
-      <div class="md-layout-item">a</div>
-      <div class="md-layout-item">b</div>
-      
-    </div>
   </div>
 </template>
 
