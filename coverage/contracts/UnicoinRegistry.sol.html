@@ -1,0 +1,797 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts\UnicoinRegistry.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> UnicoinRegistry.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/73</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/60</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/15</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/73</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">pragma solidity^0.5.0;
+&nbsp;
+/// @title UniCoin smart contract
+/// @author Chris Maree, Helda Mandlate, Luke Meiklejohn 
+&nbsp;
+/// @dev import contracts from openzeppelin related to ownable and ERC20, ERC721 tokens
+import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
+import "openzeppelin-solidity/contracts/token/ERC721/ERC721.sol";
+&nbsp;
+/// @notice contract begins here
+contract UnicoinRegistry is ERC721 {
+    /// @notice Creates a struct for users of the plaform, needs their Ethereum address and profile URL
+    struct User {
+        address owned_address;
+        string profile_uri;
+    }
+    /// @notice Creates an array of users that a registered
+    User[] public users;
+&nbsp;
+    /// @notice The mapping below maps all users' addresses to their userID
+    mapping (address =&gt; uint256) public userAddresses ;
+&nbsp;
+    /// @param Creates user defined type
+    enum bidStatus {Pending, Accepted, Rejected, Sale, Cancelled}
+&nbsp;
+    /// @notice Creates a struct for all bids, takes in the offer (amount of the bid), one of the enum parameters, publication Id and owner Id
+    struct Bid {
+        uint256 offer;
+        bidStatus status;
+        uint256 publication_Id;
+        uint256 owner_Id; /// @dev owner of the bid
+    }
+    /// @notice Creates an array of bids that have been placed
+    Bid[] public bids;
+&nbsp;
+    /// @notice The mapping below maps all bidders' IDs to their userID
+    mapping(uint256 =&gt; uint256[]) public bidOwners;
+&nbsp;
+    /// @notice Creates a struct for all publications
+    struct Publication {
+        uint256 author_Id;
+        string publication_uri;
+        /// @dev The array below will contain all bids received for that work.
+        uint256[] publication_bids;
+        /// @dev If the researcher has chosen the auction pricing structure, the below is TRUE.
+        bool isAuction;
+        /// @dev If the auction is still running, the below is TRUE, because the researcher can choose to stop the auction at any point.
+        bool isRunning;
+        /// @dev If both of the booleans above are FALSE, the price below is the flat sale price of the work.
+        uint256 sell_price;
+        /// @dev The value of the publication
+        uint256[] contributors;
+        /// @dev The co-authors/ contributors of the publication
+        uint256[] contributors_weightings;
+        /// @dev The contributor's respective weighting contributions
+    }
+    /// @notice Creates an array of publications for every published document
+    Publication[] public publications;
+    
+    /// @notice The mapping below will map the addresses of all the successful bidders' addresses to the ID of their owned publications
+    mapping(uint256 =&gt; uint256[]) public publicationOwners;
+    
+    /// @notice Creates a struct for licencing
+    struct LicenceDesign {
+        uint256 buyer_Id;
+        /// @dev Id of each publication's buyer
+        uint256 Publication_Id;
+        /// @dev Id of the publication being bought
+        uint256 bid_Id;
+        /// @dev The bid's Id for the publication
+    }
+    /// @notice Creates an array of purchased licences
+    LicenceDesign[] public licences;
+    /// @notice Mapping of licence Id to get the licence owners
+    mapping(uint256 =&gt; uint256) public licenceOwners;
+    /// @notice Mapping of licence Id to get the publication Id
+    mapping(uint256 =&gt; uint256[]) public publicationLicences;
+&nbsp;
+    /// @dev ERC20 is now daiContract
+    ERC20 daiContract;
+    /// @dev The constructor below reserves user 0 for all unregistered users
+<span class="fstat-no" title="function not covered" >    constructor(address _daiContractAddress) public ERC721</span>(){
+<span class="cstat-no" title="statement not covered" >        users.push(User(address(0),""))</span>;
+<span class="cstat-no" title="statement not covered" >        daiContract = ERC20(_daiContractAddress)</span>;
+    }
+&nbsp;
+    /// @notice This function registers a user on the platform by taking in their profile URL
+<span class="fstat-no" title="function not covered" >    function registerUser(string memory _profile_uri) publi</span>c {
+<span class="cstat-no" title="statement not covered" >        require(bytes(_profile_uri).length &gt; 0, "Profile URI should not be empty.")</span>;
+        /// @dev If the user's address is in position 0 of the userAddresses array, they are unregistered
+<span class="cstat-no" title="statement not covered" >        require(userAddresses[msg.sender]==0,"User already registered.")</span>;
+        /// @dev Create an instance of the user and add the Id to their address
+<span class="cstat-no" title="statement not covered" >        uint256 id = users.push(User(msg.sender,_profile_uri));</span>
+<span class="cstat-no" title="statement not covered" >        userAddresses[msg.sender] = id - 1</span>;
+    }
+&nbsp;
+    /// @notice This function creates a publication on the system, with blank arrays for publication bids and owners,
+    /// @notice since no one has bidded for or bought a licence yet
+<span class="fstat-no" title="function not covered" >    function createPublication(string memory _publication_uri, bool _isAuction, bool _isRunning, uint256 _sell_price, uint256[] memory _contributors, uint256[] memory _contributors_weightings) publi</span>c {
+<span class="cstat-no" title="statement not covered" >        require(bytes(_publication_uri).length &gt; 0, "Publication URI should not be empty.")</span>;
+<span class="cstat-no" title="statement not covered" >        require(userAddresses[msg.sender] != 0, "User address is not registered.")</span>;
+        /// @dev The researcher only specifies the flat rate if they have chosen not to auction the work
+<span class="cstat-no" title="statement not covered" >        if(_isAuction) {</span>
+<span class="cstat-no" title="statement not covered" >            require(_sell_price == 0, "Should not specify sell price for auction.")</span>;
+        }
+        else {
+<span class="cstat-no" title="statement not covered" >            require(_sell_price &gt; 0, "Sell price not specified.")</span>;
+        }
+        /// @dev Add instance to the respective arrays
+<span class="cstat-no" title="statement not covered" >        uint256 _author_Id = userAddresses[msg.sender];</span>
+<span class="cstat-no" title="statement not covered" >        uint256[] memory _publication_bids;</span>
+<span class="cstat-no" title="statement not covered" >        Publication memory _publication = Publication(_author_Id, _publication_uri, _publication_bids, _isAuction, _isRunning, _sell_price, _contributors, _contributors_weightings);</span>
+<span class="cstat-no" title="statement not covered" >        uint256 _id = publications.push(_publication);</span>
+<span class="cstat-no" title="statement not covered" >        publicationOwners[_author_Id].push(_id - 1)</span>;
+    }
+&nbsp;
+    /// @notice This function creates a new bid for a particular publication
+<span class="fstat-no" title="function not covered" >    function makeBid(uint256 _offer, uint256 _publication_Id) publi</span>c {
+<span class="cstat-no" title="statement not covered" >        require(publications[_publication_Id].author_Id != 0, "Publication not enlisted.")</span>;
+<span class="cstat-no" title="statement not covered" >        require(userAddresses[msg.sender] != 0, "Bidder address is not registered.")</span>;
+        /// @dev The bidder should only be able to submit a bid if the publication's pricing structure is an auction and the auction is running
+<span class="cstat-no" title="statement not covered" >        if(publications[_publication_Id].isAuction) {</span>
+<span class="cstat-no" title="statement not covered" >            require(publications[_publication_Id].isRunning, "Auction is not running.")</span>;
+            /// @dev By default the bid will have a status of Pending until it is accepted or rejected by the author
+<span class="cstat-no" title="statement not covered" >            uint256 _id = bids.push(Bid(_offer, bidStatus.Pending, _publication_Id, userAddresses[msg.sender]));</span>
+<span class="cstat-no" title="statement not covered" >            publications[_publication_Id].publication_bids.push(_id - 1)</span>;
+<span class="cstat-no" title="statement not covered" >            bidOwners[userAddresses[msg.sender]].push(_id - 1)</span>;
+        }
+        /// @dev If the author has specified a flat rate, the buyer doesn't submit a bid but just sends the funds.
+<span class="cstat-no" title="statement not covered" >        if(!publications[_publication_Id].isAuction) {</span>
+            /// @dev The funds sent should match the sale price specified by the author.
+<span class="cstat-no" title="statement not covered" >            require(_offer == publications[_publication_Id].sell_price, "Incorrect funds sent.")</span>;
+            /// @dev This 'bid' has a status of sale because the author does not need to evaluate and accept/reject these bids.
+<span class="cstat-no" title="statement not covered" >            uint256 _id = bids.push(Bid(_offer, bidStatus.Sale, _publication_Id, userAddresses[msg.sender])) - 1;</span>
+<span class="cstat-no" title="statement not covered" >            publications[_publication_Id].publication_bids.push(_id)</span>;
+<span class="cstat-no" title="statement not covered" >            bidOwners[userAddresses[msg.sender]].push(_id)</span>;
+&nbsp;
+            /// @dev Transfer Dai from buyer to seller
+<span class="cstat-no" title="statement not covered" >            require(daiContract.allowance(msg.sender, address(this)) &gt;= _offer, "Insufficient fund allowance")</span>;
+<span class="cstat-no" title="statement not covered" >            address publisherAddress = users[publications[_publication_Id].author_Id].owned_address;</span>
+<span class="cstat-no" title="statement not covered" >            daiContract.transferFrom(msg.sender, publisherAddress, _offer)</span>;
+&nbsp;
+            /// @dev parameters of licence design: buyer_id, publication id, bid_id
+<span class="cstat-no" title="statement not covered" >            uint256 _licence_Id = licences.push(LicenceDesign(bids[_id].owner_Id, _publication_Id, _id));</span>
+<span class="cstat-no" title="statement not covered" >            licenceOwners[bids[_id].owner_Id] = _licence_Id</span>;
+<span class="cstat-no" title="statement not covered" >            publicationLicences[_publication_Id].push(_licence_Id)</span>;
+<span class="cstat-no" title="statement not covered" >            _mint(users[bids[_id].owner_Id].owned_address, _licence_Id)</span>;
+        }
+    }
+        
+    /// @notice This function allows the auctioneer to accept the bids
+<span class="fstat-no" title="function not covered" >    function acceptBid(uint256 _id) publi</span>c {
+<span class="cstat-no" title="statement not covered" >        uint256 _publication_Id = bids[_id].publication_Id;</span>
+<span class="cstat-no" title="statement not covered" >        require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication")</span>;
+<span class="cstat-no" title="statement not covered" >        require(publications[_publication_Id].isAuction, "Publication not an auction.")</span>;
+<span class="cstat-no" title="statement not covered" >        require(publications[_publication_Id].isRunning, "Auction is not running.")</span>;
+<span class="cstat-no" title="statement not covered" >        bids[_id].status = bidStatus.Accepted</span>;
+        
+        /// @dev parameters of licence design: buyer_id, publication id, bid_id
+<span class="cstat-no" title="statement not covered" >        uint256 _licence_Id = licences.push(LicenceDesign(bids[_id].owner_Id, _publication_Id, _id));</span>
+<span class="cstat-no" title="statement not covered" >        licenceOwners[bids[_id].owner_Id] = _licence_Id</span>;
+<span class="cstat-no" title="statement not covered" >        publicationLicences[_publication_Id].push(_licence_Id)</span>;
+<span class="cstat-no" title="statement not covered" >        _mint(users[bids[_id].owner_Id].owned_address, _licence_Id)</span>;
+    }
+&nbsp;
+    /// @notice This function allows the auctioneer to reject the bids
+<span class="fstat-no" title="function not covered" >    function rejectBid(uint256 _id) publi</span>c {
+<span class="cstat-no" title="statement not covered" >        uint256 _publication_Id = bids[_id].publication_Id;</span>
+<span class="cstat-no" title="statement not covered" >        require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication")</span>;
+<span class="cstat-no" title="statement not covered" >        require(publications[_publication_Id].isAuction, "Publication not an auction.")</span>;
+<span class="cstat-no" title="statement not covered" >        require(publications[_publication_Id].isRunning, "Auction not running.")</span>;
+<span class="cstat-no" title="statement not covered" >        bids[_id].status = bidStatus.Rejected</span>;
+    }
+&nbsp;
+    /// @notice This function allows the auctioneer to cancel the bids
+<span class="fstat-no" title="function not covered" >    function cancelBid(uint256 _id) publi</span>c {
+<span class="cstat-no" title="statement not covered" >        uint256 _publication_Id = bids[_id].publication_Id;</span>
+<span class="cstat-no" title="statement not covered" >        require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication")</span>;
+<span class="cstat-no" title="statement not covered" >        require(publications[_publication_Id].isAuction, "Publication not an auction.")</span>;
+<span class="cstat-no" title="statement not covered" >        require(publications[_publication_Id].isRunning, "Auction not running.")</span>;
+<span class="cstat-no" title="statement not covered" >        bids[_id].status = bidStatus.Cancelled</span>;
+    }
+    
+    /// @notice This function allows the auctioneer to change from an auction to a sale
+<span class="fstat-no" title="function not covered" >    function changeToSale(uint256 _publication_Id, uint256 _sell_price) publi</span>c {
+<span class="cstat-no" title="statement not covered" >        require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication")</span>;
+<span class="cstat-no" title="statement not covered" >        require(publications[_publication_Id].isAuction, "Publication is not an auction")</span>;
+<span class="cstat-no" title="statement not covered" >        publications[_publication_Id].sell_price = _sell_price</span>;
+<span class="cstat-no" title="statement not covered" >        publications[_publication_Id].isAuction = false</span>;
+    }
+&nbsp;
+    /// @notice This function allows the auctioneer to change from a sale to an auction
+<span class="fstat-no" title="function not covered" >    function changeToAuction(uint256 _publication_Id) publi</span>c {
+<span class="cstat-no" title="statement not covered" >        require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication")</span>;
+<span class="cstat-no" title="statement not covered" >        require(!publications[_publication_Id].isAuction, "Publication is already on auction")</span>;
+<span class="cstat-no" title="statement not covered" >        publications[_publication_Id].sell_price = 0</span>;
+<span class="cstat-no" title="statement not covered" >        publications[_publication_Id].isAuction = true</span>;
+    }
+&nbsp;
+    /// @notice This function allows the auctioneer to change the sell price
+<span class="fstat-no" title="function not covered" >    function changeSellPrice(uint256 _publication_Id, uint256 _sell_price) publi</span>c {
+<span class="cstat-no" title="statement not covered" >        require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication")</span>;
+<span class="cstat-no" title="statement not covered" >        require(!publications[_publication_Id].isAuction, "Publication is on auction.")</span>;
+<span class="cstat-no" title="statement not covered" >        publications[_publication_Id].sell_price = _sell_price</span>;
+    }
+    /// @notice This function allows the auctioneer to change the running status
+<span class="fstat-no" title="function not covered" >    function changeRunningStatus(uint256 _publication_Id) publi</span>c {
+<span class="cstat-no" title="statement not covered" >        require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication")</span>;
+<span class="cstat-no" title="statement not covered" >        publications[_publication_Id].isRunning = !publications[_publication_Id].isRunning</span>;
+    }
+&nbsp;
+    /// @return This function allows anyone to get the list of publications based on the address of the publisher
+<span class="fstat-no" title="function not covered" >    function getPublications(address _address) public view returns(uint256[] memory</span>) {
+<span class="cstat-no" title="statement not covered" >        uint256 _author_Id = userAddresses[_address];</span>
+<span class="cstat-no" title="statement not covered" >        return publicationOwners[_author_Id];</span>
+    }
+&nbsp;
+    /// @return This function allows anyone to get the list of bids based on address of the user
+<span class="fstat-no" title="function not covered" >    function getBids(address _address) public view returns(uint256[] memory</span>) {
+<span class="cstat-no" title="statement not covered" >        uint256 _userAddress = userAddresses[_address];</span>
+<span class="cstat-no" title="statement not covered" >        return bidOwners[_userAddress];</span>
+    }
+&nbsp;
+    // From the user ID, get a list of all publications owned by the user ()
+    // function getPublications(uint256 _user_Id) public view returns(uint256[] memory) {
+    //     return publicationOwners[_user_Id];
+    // }
+&nbsp;
+    // function getBids(uint256 _user_Id) public view returns(uint256[] memory) {
+    //     return bidOwners[_user_Id];
+    // }
+&nbsp;
+    /// @return This function allows anyone to get list of bids per publication
+<span class="fstat-no" title="function not covered" >    function getPublicationBids(uint256 _publication_Id) public view returns(uint256[] memory</span>) {
+<span class="cstat-no" title="statement not covered" >        return publications[_publication_Id].publication_bids;</span>
+    }
+&nbsp;
+&nbsp;
+    /// @return This function allows the return of the total number of publications
+<span class="fstat-no" title="function not covered" >    function getPublicationLength() public view returns(uint count</span>) {
+<span class="cstat-no" title="statement not covered" >        return publications.length;</span>
+    }
+    
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jul 19 2019 09:58:15 GMT+0200 (South Africa Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

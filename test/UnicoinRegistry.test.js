@@ -446,10 +446,11 @@ contract("Unicoin Registry", (accounts) => {
             assert(bid.owner_Id, 3, "Bid owner ID not correct")
 
         })
-        it("Gets number of publications", async () => {
+        
+        it("Gets number of publications correctly", async () => {
             let publicationLength = await registry.getPublicationLength()
-            //Ensure that number of publications is equal to total number of publications
-            assert(publicationLength.length == 1, "Number of publications not correct")
+            // Ensure that number of publications is equal to total number of publications
+            assert(publicationLength.toNumber() == noPublications, "Number of publications not correct")
         })
 
 

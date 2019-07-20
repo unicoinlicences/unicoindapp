@@ -43,6 +43,7 @@
     "@vue/cli-service": "^3.8.0",
     "sass": "^1.18.0",
     "sass-loader": "^7.1.0",
+    "solidity-coverage": "^0.6.3",
     "vue-template-compiler": "^2.6.10"
   }
 }
