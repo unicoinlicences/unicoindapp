@@ -137,9 +137,9 @@ contract UnicoinRegistry is ERC721 {
             bidOwners[userAddresses[msg.sender]].push(_id);
 
             /// @dev Transfer Dai from buyer to seller
-            require(daiContract.allowance(msg.sender, address(this)) >= _offer, "Insufficient fund allowance");
-            address publisherAddress = users[publications[_publication_Id].author_Id].owned_address;
-            daiContract.transferFrom(msg.sender, publisherAddress, _offer);
+            // require(daiContract.allowance(msg.sender, address(this)) >= _offer, "Insufficient fund allowance");
+            // address publisherAddress = users[publications[_publication_Id].author_Id].owned_address;
+            // daiContract.transferFrom(msg.sender, publisherAddress, _offer);
 
             /// @dev parameters of licence design: buyer_id, publication id, bid_id
             uint256 _licence_Id = licences.push(LicenceDesign(bids[_id].owner_Id, _publication_Id, _id));
