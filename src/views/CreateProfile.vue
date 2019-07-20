@@ -12,17 +12,27 @@
         </div>
       </div>
     </div>
-    <a
-      href="https://orcid.org/oauth/authorize?client_id=APP-0JZDFYT5L60YYAWM&response_type=token&scope=openid&redirect_uri=http://localhost:8080/CreateProfile"
-    >Login With ORCID</a>
+
+    <md-radio v-model="accountType" value="academic">Academic</md-radio>
+    <md-radio v-model="accountType" value="company">Company</md-radio>
+    {{accountType}}
     <br />
-    <form novalidate class="md-layout" @submit.prevent="validateUser" style="padding-top:20px">
+    <form
+      v-if="accountType=='academic'"
+      novalidate
+      class="md-layout"
+      @submit.prevent="validateUser"
+      style="padding-top:20px"
+    >
       <md-content class="md-layout-item md-size-50 md-small-size-100">
         <md-card-header>
           <div class="md-title">Users</div>
         </md-card-header>
 
         <md-card-content>
+          <a
+      href="https://orcid.org/oauth/authorize?client_id=APP-0JZDFYT5L60YYAWM&response_type=token&scope=openid&redirect_uri=http://localhost:8080/CreateProfile"
+    >Login With ORCID</a>
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getValidationClass('firstName')">
@@ -98,10 +108,9 @@
       <md-snackbar :md-active.sync="userSaved">The user {{ lastUser }} was saved with success!</md-snackbar>
     </form>
     <md-button @click="createUser" class="md-raised md-accent">Create User</md-button>
-  <br>
-  <br>
-  {{form}}
-  
+    <br />
+    <br />
+    {{form}}
   </div>
 </template>
 
@@ -124,7 +133,7 @@ export default {
   name: "FormValidation",
   mixins: [validationMixin],
   data: () => ({
-    isAcademic: true,
+    accountType: "academic",
     form: {
       firstName: null,
       lastName: null,
