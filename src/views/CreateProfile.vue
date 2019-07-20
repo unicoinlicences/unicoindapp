@@ -57,12 +57,12 @@
 
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
-              <md-field :class="getValidationClass('gender')">
-                <label for="gender">Gender</label>
+              <md-field :class="getValidationClass('university')">
+                <label for="university">University</label>
                 <md-select
-                  name="gender"
-                  id="gender"
-                  v-model="form.gender"
+                  name="university"
+                  id="university"
+                  v-model="form.university"
                   md-dense
                   :disabled="sending"
                 >
@@ -139,12 +139,14 @@ export default {
   name: "FormValidation",
   mixins: [validationMixin],
   data: () => ({
+    isAcademic: true,
     form: {
       firstName: null,
       lastName: null,
-      gender: null,
       age: null,
-      email: null
+      email: null,
+      orcid: null,
+      university: null,
     },
     userSaved: false,
     sending: false,
@@ -164,7 +166,7 @@ export default {
         required,
         maxLength: maxLength(3)
       },
-      gender: {
+      university: {
         required
       },
       email: {
