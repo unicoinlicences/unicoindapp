@@ -14,7 +14,8 @@
     </div>
     <a
       href="https://orcid.org/oauth/authorize?client_id=APP-0JZDFYT5L60YYAWM&response_type=token&scope=openid&redirect_uri=http://localhost:8080/CreateProfile"
-    >Login With ORCID</a><br>
+    >Login With ORCID</a>
+    <br />
     <form novalidate class="md-layout" @submit.prevent="validateUser" style="padding-top:20px">
       <md-content class="md-layout-item md-size-50 md-small-size-100">
         <md-card-header>
@@ -83,6 +84,7 @@
                   autocomplete="age"
                   v-model="form.age"
                   :disabled="sending"
+                  min="18"
                 />
                 <span class="md-error" v-if="!$v.form.age.required">The age is required</span>
                 <span class="md-error" v-else-if="!$v.form.age.maxlength">Invalid age</span>
@@ -114,10 +116,13 @@
 
       <md-snackbar :md-active.sync="userSaved">The user {{ lastUser }} was saved with success!</md-snackbar>
     </form>
+    <md-button @click="createUser" class="md-raised md-accent">Create User</md-button>
   </div>
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
+
 import { validationMixin } from "vuelidate";
 import {
   required,
@@ -128,8 +133,7 @@ import {
 
 import router from "@/router";
 
-var jwt = require('jsonwebtoken');
-
+var jwt = require("jsonwebtoken");
 
 export default {
   name: "FormValidation",
@@ -171,15 +175,24 @@ export default {
   },
   mounted() {
     console.log(this.$route.hash);
-    console.log("PAAA")
-    
-    let token = this.getFragmentParameterByName("id_token", this.$route.hash)
+    console.log("PAAA");
+
+    let token = this.getFragmentParameterByName("id_token", this.$route.hash);
     let decoded = jwt.decode(token);
-    console.log("decoded")
-    console.log(decoded)
+    console.log("decoded");
+    console.log(decoded);
   },
 
   methods: {
+    ...mapActions(["CREATE_USER"]),
+    createUser() {
+      console.log("it worked!");
+
+      console.log(this.form.firstName)
+
+      this.CREATE_USER(this.form.firstName)
+    },
+
     getFragmentParameterByName(name, route) {
       name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
       var regex = new RegExp("[\\#&]" + name + "=([^&#]*)"),

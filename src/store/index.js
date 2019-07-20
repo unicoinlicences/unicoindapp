@@ -29,6 +29,7 @@ export default new Vuex.Store({
     account: null,
     currentNetwork: null,
     etherscanBase: null,
+    registry: null
   },
   mutations: {
     //WEB3 Stuff
@@ -41,8 +42,12 @@ export default new Vuex.Store({
     [mutations.SET_ETHERSCAN_NETWORK](state, etherscanBase) {
       state.etherscanBase = etherscanBase;
     },
-    [mutations.SET_WEB3]: async function (state, web3) {
+    [mutations.SET_WEB3]: async function (state, {
+      web3,
+      contract
+    }) {
       state.web3 = web3;
+      state.registry = contract;
     },
     [mutations.SET_USD_PRICE](state, price) {
       state.usdPrice = price;
@@ -67,18 +72,40 @@ export default new Vuex.Store({
       dispatch,
       state
     }, web3) {
-      
+
       Registry.setProvider(web3.currentProvider)
 
       dispatch(actions.GET_CURRENT_NETWORK);
 
-      let contract = await Registry.deployed();
-    
+      let registry = await Registry.deployed();
       let accounts = await web3.eth.getAccounts();
       let account = accounts[0];
       if (account) {
         commit(mutations.SET_ACCOUNT, account);
-        console.log("SET STASTE")
       }
+
+      commit(mutations.SET_WEB3, {
+        web3,
+        contract: registry
+      })
+
+
+    },
+    [actions.CREATE_USER]: async function ({
+      commit,
+      dispatch,
+      state
+    }, params) {
+      console.log("IN create user CALL")
+      console.log(params)
+
+      console.log(state.registry)
+      await state.registry.registerUser(params,{from: state.account})
+
+      // await fundFactory.createFund(tokenArray, weightingArray, rebalancePeriod, {
+      //   from: state.account,
+      //   value: state.web3.web3.utils.toWei(params.addedEther, "ether")
+      // })
+    }
   }
 })
