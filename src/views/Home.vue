@@ -84,9 +84,9 @@
       <div class="md-layout">
       <div class="md-layout">
         <div class="md-layout-item">
-          <md-content style="padding: 100px;">
+          <md-content style="padding-bottom: 50px;padding-top:50px">
             <md-card-header>
-              <span class="md-headline">How does UniCoin work?</span>
+              <span class="md-headline text-center">How does UniCoin work?</span>
             </md-card-header>
                 <div class="md-layout md-gutter">
             <div class="md-layout-item md-size-20 md-medium-hide" />
@@ -99,7 +99,7 @@
               />
               <p
                 class="text-center"
-              >1. abc</p>
+              >1. Researchers register on the platform, with their identities attested to by ORCID, a digital identifier for academics.</p>
             </div>
             <div class="md-layout-item md-small-size-100">
               <img
@@ -110,7 +110,7 @@
               />
               <p
                 class="text-center"
-              >2. abc</p>
+              >2. Research is uploaded to the platform, available freely for download, with a <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0</a></p>
             </div>
             <div class="md-layout-item md-size-20 md-medium-hide" />
           </div>
@@ -127,7 +127,7 @@
               />
               <p
                 class="text-center"
-              >3. abc</p>
+              >3. Entities wishing to use any research for commercial purposes can browse the platform and purchase a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International</a> licence.</p>
             </div>
             <div class="md-layout-item md-small-size-100">
               <img
@@ -138,7 +138,7 @@
               />
               <p
                 class="text-center"
-              >4. abc</p>
+              >4. Funds securely transferred to researchers through an Ethereum smart contract can be distrubuted to influential works of research, ensuring foundational research is recognized and compensated.</p>
             </div>
             <div class="md-layout-item md-size-20 md-medium-hide" />
           </div>
