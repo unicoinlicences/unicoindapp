@@ -5,7 +5,7 @@
         <div class="md-layout-item">
           <md-content style="padding: 20px;">
             <md-card-header>
-              <div class="md-title">Manage your licenses here</div>
+              <div class="md-title">Manage your licences here</div>
             </md-card-header>
             <p>your bids here boi</p>
           </md-content>

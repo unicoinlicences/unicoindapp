@@ -11,8 +11,10 @@
           <br />
           <md-button class="md-raised md-primary" @click style="margin-top:25px" href="/CreateProfile">Begin</md-button>
           <md-button class="md-raised" @click style="margin-top:25px" href="https://github.com/unicoinlicences/unicoindapp">Learn More</md-button>
+          <md-button class="md-raised" @click style="margin-top:25px" href="/ContactUs">GET IN TOUCH</md-button>
         </p>
       </div>
+
       <div class="md-layout-item md-size-40 md-small-size-100">
         <img
           class="text-center"
@@ -21,6 +23,7 @@
           src="../assets/unicorn_running.gif"
         />
       </div>
+
       <div class="md-layout-item md-size-5 md-medium-hide" />
     </div>
     <md-content style="padding-top:100px; padding-bottom:50px">

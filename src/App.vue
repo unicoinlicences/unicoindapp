@@ -81,7 +81,7 @@
         <md-list-item>
           <md-icon>vpn_key</md-icon>
           <span class="md-list-item-text">
-            <router-link to="/MyLicenses">My Licenses</router-link>
+            <router-link to="/MyLicenses">My Licences</router-link>
           </span>
         </md-list-item>
         <md-divider></md-divider>
@@ -102,6 +102,15 @@
             >Documentation</a>
           </span>
         </md-list-item>
+
+        <md-list-item>
+          <md-icon>chat</md-icon>
+          <span class="md-list-item-text">
+            <router-link to="/ContactUs">Contact</router-link>
+          </span>
+        </md-list-item>
+        <md-divider></md-divider>
+
       </md-list>
     </md-app-drawer>
 
