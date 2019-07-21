@@ -14,7 +14,7 @@
           style="text-align:right; width:500px"
         >
           <div class="md-layout-item">
-            <div class="md-subheading">Dr Frankennstein</div>
+            <div class="md-subheading">Dr Frankenstein</div>
           </div>
           <div class="md-layout-item">
             <div class="md-subheading">

@@ -39,7 +39,7 @@
         /></md-button>
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
-              <md-field>
+              <md-field :class="getAcademicValidationClass('firstName')">
                 <label for="first-name">First Name</label>
                 <md-input
                   name="first-name"
@@ -54,7 +54,7 @@
             </div>
 
             <div class="md-layout-item md-small-size-100">
-              <md-field>
+              <md-field :class="getAcademicValidationClass('lastName')">
                 <label for="last-name">Last Name</label>
                 <md-input
                   name="last-name"
@@ -71,7 +71,7 @@
 
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
-              <md-field>
+              <md-field :class="getAcademicValidationClass('university')">
                 <label for="university">University</label>
                 <md-input
                   name="university"
@@ -86,7 +86,7 @@
             </div>
           </div>
 
-          <md-field>
+          <md-field :class="getAcademicValidationClass('email')">
             <label for="email">Email</label>
             <md-input
               type="email"
@@ -128,7 +128,7 @@
 
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
-              <md-field>
+              <md-field :class="getCompanyValidationClass('company')">
                 <label for="company">Company</label>
                 <md-input
                   name="company"
@@ -143,7 +143,7 @@
             </div>
           </div>
 
-          <md-field>
+          <md-field :class="getCompanyValidationClass('email')">
             <label for="email">Email</label>
             <md-input
               type="email"
