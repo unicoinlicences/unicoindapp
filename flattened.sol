@@ -1,7 +1,5 @@
 pragma solidity ^0.5.0;
 
-// File: openzeppelin-solidity/contracts/ownership/Ownable.sol
-
 /**
  * @dev Contract module which provides a basic access control mechanism, where
  * there is an account (an owner) that can be granted exclusive access to
@@ -76,7 +74,9 @@ contract Ownable {
     }
 }
 
-// File: openzeppelin-solidity/contracts/token/ERC20/IERC20.sol
+// File: node_modules\openzeppelin-solidity\contracts\token\ERC20\IERC20.sol
+
+pragma solidity ^0.5.0;
 
 /**
  * @dev Interface of the ERC20 standard as defined in the EIP. Does not include
@@ -153,7 +153,9 @@ interface IERC20 {
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
-// File: openzeppelin-solidity/contracts/math/SafeMath.sol
+// File: node_modules\openzeppelin-solidity\contracts\math\SafeMath.sol
+
+pragma solidity ^0.5.0;
 
 /**
  * @dev Wrappers over Solidity's arithmetic operations with added overflow
@@ -261,7 +263,11 @@ library SafeMath {
     }
 }
 
-// File: openzeppelin-solidity/contracts/token/ERC20/ERC20.sol
+// File: openzeppelin-solidity\contracts\token\ERC20\ERC20.sol
+
+pragma solidity ^0.5.0;
+
+
 
 /**
  * @dev Implementation of the `IERC20` interface.
@@ -487,7 +493,9 @@ contract ERC20 is IERC20 {
     }
 }
 
-// File: openzeppelin-solidity/contracts/introspection/IERC165.sol
+// File: node_modules\openzeppelin-solidity\contracts\introspection\IERC165.sol
+
+pragma solidity ^0.5.0;
 
 /**
  * @dev Interface of the ERC165 standard, as defined in the
@@ -510,7 +518,10 @@ interface IERC165 {
     function supportsInterface(bytes4 interfaceId) external view returns (bool);
 }
 
-// File: openzeppelin-solidity/contracts/token/ERC721/IERC721.sol
+// File: node_modules\openzeppelin-solidity\contracts\token\ERC721\IERC721.sol
+
+pragma solidity ^0.5.0;
+
 
 /**
  * @dev Required interface of an ERC721 compliant contract.
@@ -534,7 +545,7 @@ contract IERC721 is IERC165 {
      * @dev Transfers a specific NFT (`tokenId`) from one account (`from`) to
      * another (`to`).
      *
-     * 
+     *
      *
      * Requirements:
      * - `from`, `to` cannot be zero.
@@ -562,7 +573,9 @@ contract IERC721 is IERC165 {
     function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory data) public;
 }
 
-// File: openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol
+// File: node_modules\openzeppelin-solidity\contracts\token\ERC721\IERC721Receiver.sol
+
+pragma solidity ^0.5.0;
 
 /**
  * @title ERC721 token receiver interface
@@ -588,7 +601,9 @@ contract IERC721Receiver {
     public returns (bytes4);
 }
 
-// File: openzeppelin-solidity/contracts/utils/Address.sol
+// File: node_modules\openzeppelin-solidity\contracts\utils\Address.sol
+
+pragma solidity ^0.5.0;
 
 /**
  * @dev Collection of functions related to the address type,
@@ -616,7 +631,10 @@ library Address {
     }
 }
 
-// File: openzeppelin-solidity/contracts/drafts/Counters.sol
+// File: node_modules\openzeppelin-solidity\contracts\drafts\Counters.sol
+
+pragma solidity ^0.5.0;
+
 
 /**
  * @title Counters
@@ -652,7 +670,10 @@ library Counters {
     }
 }
 
-// File: openzeppelin-solidity/contracts/introspection/ERC165.sol
+// File: node_modules\openzeppelin-solidity\contracts\introspection\ERC165.sol
+
+pragma solidity ^0.5.0;
+
 
 /**
  * @dev Implementation of the `IERC165` interface.
@@ -703,7 +724,15 @@ contract ERC165 is IERC165 {
     }
 }
 
-// File: openzeppelin-solidity/contracts/token/ERC721/ERC721.sol
+// File: node_modules\openzeppelin-solidity\contracts\token\ERC721\ERC721.sol
+
+pragma solidity ^0.5.0;
+
+
+
+
+
+
 
 /**
  * @title ERC721 Non-Fungible Token Standard basic implementation
@@ -996,20 +1025,123 @@ contract ERC721 is ERC165, IERC721 {
     }
 }
 
-// File: contracts/UnicoinRegistry.sol
+// File: node_modules\openzeppelin-solidity\contracts\token\ERC721\IERC721Metadata.sol
+
+pragma solidity ^0.5.0;
+
+
+/**
+ * @title ERC-721 Non-Fungible Token Standard, optional metadata extension
+ * @dev See https://eips.ethereum.org/EIPS/eip-721
+ */
+contract IERC721Metadata is IERC721 {
+    function name() external view returns (string memory);
+    function symbol() external view returns (string memory);
+    function tokenURI(uint256 tokenId) external view returns (string memory);
+}
+
+// File: openzeppelin-solidity\contracts\token\ERC721\ERC721Metadata.sol
+
+pragma solidity ^0.5.0;
+
+
+
+
+contract ERC721Metadata is ERC165, ERC721, IERC721Metadata {
+    // Token name
+    string private _name;
+
+    // Token symbol
+    string private _symbol;
+
+    // Optional mapping for token URIs
+    mapping(uint256 => string) private _tokenURIs;
+
+    /*
+     *     bytes4(keccak256('name()')) == 0x06fdde03
+     *     bytes4(keccak256('symbol()')) == 0x95d89b41
+     *     bytes4(keccak256('tokenURI(uint256)')) == 0xc87b56dd
+     *
+     *     => 0x06fdde03 ^ 0x95d89b41 ^ 0xc87b56dd == 0x5b5e139f
+     */
+    bytes4 private constant _INTERFACE_ID_ERC721_METADATA = 0x5b5e139f;
+
+    /**
+     * @dev Constructor function
+     */
+    constructor (string memory name, string memory symbol) public {
+        _name = name;
+        _symbol = symbol;
+
+        // register the supported interfaces to conform to ERC721 via ERC165
+        _registerInterface(_INTERFACE_ID_ERC721_METADATA);
+    }
+
+    /**
+     * @dev Gets the token name.
+     * @return string representing the token name
+     */
+    function name() external view returns (string memory) {
+        return _name;
+    }
+
+    /**
+     * @dev Gets the token symbol.
+     * @return string representing the token symbol
+     */
+    function symbol() external view returns (string memory) {
+        return _symbol;
+    }
+
+    /**
+     * @dev Returns an URI for a given token ID.
+     * Throws if the token ID does not exist. May return an empty string.
+     * @param tokenId uint256 ID of the token to query
+     */
+    function tokenURI(uint256 tokenId) external view returns (string memory) {
+        require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
+        return _tokenURIs[tokenId];
+    }
+
+    /**
+     * @dev Internal function to set the token URI for a given token.
+     * Reverts if the token ID does not exist.
+     * @param tokenId uint256 ID of the token to set its URI
+     * @param uri string URI to assign
+     */
+    function _setTokenURI(uint256 tokenId, string memory uri) internal {
+        require(_exists(tokenId), "ERC721Metadata: URI set of nonexistent token");
+        _tokenURIs[tokenId] = uri;
+    }
+
+    /**
+     * @dev Internal function to burn a specific token.
+     * Reverts if the token does not exist.
+     * Deprecated, use _burn(uint256) instead.
+     * @param owner owner of the token to burn
+     * @param tokenId uint256 ID of the token being burned by the msg.sender
+     */
+    function _burn(address owner, uint256 tokenId) internal {
+        super._burn(owner, tokenId);
+
+        // Clear metadata (if any)
+        if (bytes(_tokenURIs[tokenId]).length != 0) {
+            delete _tokenURIs[tokenId];
+        }
+    }
+}
+
+// File: contracts\UnicoinRegistry.sol
 
 pragma solidity^0.5.0;
 
 /// @title UniCoin smart contract
-/// @author Chris Maree, Helda Mandlate, Luke Meiklejohn 
+/// @author Chris Maree, Helda Mandlate, Luke Meiklejohn
 
 /// @dev import contracts from openzeppelin related to ownable and ERC20, ERC721 tokens
 
-
-
-
 /// @notice contract begins here
-contract UnicoinRegistry is ERC721 {
+contract UnicoinRegistry is ERC721Metadata {
     /// @notice Creates a struct for users of the plaform, needs their Ethereum address and profile URL
     struct User {
         address owned_address;
@@ -1049,10 +1181,10 @@ contract UnicoinRegistry is ERC721 {
     }
     /// @notice Creates an array of publications for every published document
     Publication[] public publications;
-    
+
     /// @notice The mapping below will map the addresses of all the successful bidders' addresses to the ID of their owned publications
     mapping(uint256 => uint256[]) public publicationOwners;
-    
+
     /// @notice Creates a struct for licencing
     struct LicenceDesign {
         uint256 buyer_Id;
@@ -1069,8 +1201,10 @@ contract UnicoinRegistry is ERC721 {
     /// @dev ERC20 is now daiContract
     ERC20 daiContract;
     /// @dev The constructor below reserves user 0 for all unregistered users
-    constructor(address _daiContractAddress) public ERC721(){
-        users.push(User(address(0),""));
+    constructor(address _daiContractAddress) public ERC721Metadata("UniCoin Licence", "UNIC"){
+        users.push(User(address(0), ""));
+        licences.push(LicenceDesign(0, 0, 0));
+
         daiContract = ERC20(_daiContractAddress);
     }
 
@@ -1137,7 +1271,7 @@ contract UnicoinRegistry is ERC721 {
             _mint(users[bids[_id].owner_Id].owned_address, _licence_Id);
         }
     }
-        
+
     /// @notice This function allows the auctioneer to accept the bids
     /// @dev parameters of licence design: buyer_id, publication id, bid_id
     /// @notice This function allows the auctioneer to reject the bids
@@ -1147,7 +1281,7 @@ contract UnicoinRegistry is ERC721 {
         require(publications[_publication_Id].isAuction, "Publication not an auction.");
         require(publications[_publication_Id].isRunning, "Auction is not running.");
         bids[_id].status = bidStatus.Accepted;
-        
+
         uint256 _licence_Id = licences.push(LicenceDesign(bids[_id].owner_Id, _publication_Id, _id));
         licenceOwners[bids[_id].owner_Id] = _licence_Id;
         publicationLicences[_publication_Id].push(_licence_Id);
@@ -1170,7 +1304,7 @@ contract UnicoinRegistry is ERC721 {
         require(publications[_publication_Id].isRunning, "Auction not running.");
         bids[_id].status = bidStatus.Cancelled;
     }
-    
+
     /// @notice This function allows the auctioneer to change from an auction to a sale
     function changeToSale(uint256 _publication_Id, uint256 _sell_price) public {
         require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");

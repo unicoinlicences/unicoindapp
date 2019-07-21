@@ -245,12 +245,4 @@ contract UnicoinRegistry is ERC721Metadata {
         _publication.contributors,
         _publication.contributors_weightings);
     }
-
-    function name() external view returns (string) {
-        return tokenName;
-    }
-
-    function symbol() external view returns (string) {
-        return tokenSymbol;
-    }
 }
