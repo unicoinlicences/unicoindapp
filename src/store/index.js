@@ -35,7 +35,9 @@ export default new Vuex.Store({
     currentNetwork: null,
     etherscanBase: null,
     registry: null,
-    userNumber: 1
+    userNumber: 1,
+    numberOfPublications: 0,
+    listedPublications: []
   },
   mutations: {
     //WEB3 Stuff
@@ -55,8 +57,8 @@ export default new Vuex.Store({
       state.web3 = web3;
       state.registry = contract;
     },
-    [mutations.SET_USD_PRICE](state, price) {
-      state.usdPrice = price;
+    [mutations.SET_NUMBER_OF_PUBLICATIONS](state, numberOfPublications) {
+      state.numberOfPublications = numberOfPublications;
     },
   },
   actions: {
@@ -95,6 +97,10 @@ export default new Vuex.Store({
         contract: registry
       })
 
+      let numberOfPublications = await state.registry.getPublicationLength()
+      if (numberOfPublications) {
+        commit(mutations.SET_NUMBER_OF_PUBLICATIONS, numberOfPublications.toNumber());
+      }
 
     },
     [actions.CREATE_USER]: async function ({
@@ -128,6 +134,13 @@ export default new Vuex.Store({
       await state.registry.createPublication(ipfsHash.toString(), params.isAuction, true, params.sellPrice, params.contributors, params.contributorsWeightings, {
         from: state.account
       })
+    },
+    [actions.GET_ALL_PUBLICATIONS]: async function ({
+      commit,
+      dispatch,
+      state
+    }) {
+
     }
   }
 })
