@@ -10,6 +10,9 @@ import "openzeppelin-solidity/contracts/token/ERC721/ERC721.sol";
 
 /// @notice contract begins here
 contract UnicoinRegistry is ERC721 {
+    string tokenName ="UniCoin Licence";
+    string tokenSymbol = "UNIC";
+    
     /// @notice Creates a struct for users of the plaform, needs their Ethereum address and profile URL
     struct User {
         address owned_address;
@@ -70,7 +73,9 @@ contract UnicoinRegistry is ERC721 {
     ERC20 daiContract;
     /// @dev The constructor below reserves user 0 for all unregistered users
     constructor(address _daiContractAddress) public ERC721(){
-        users.push(User(address(0),""));
+        users.push(User(address(0), ""));
+        licences.push(LicenceDesign(0, 0, 0));
+
         daiContract = ERC20(_daiContractAddress);
     }
 
@@ -242,5 +247,13 @@ contract UnicoinRegistry is ERC721 {
         _publication.sell_price,
         _publication.contributors,
         _publication.contributors_weightings);
+    }
+
+    function name() external view returns (string) {
+        return tokenName;
+    }
+
+    function symbol() external view returns (string) {
+        return tokenSymbol;
     }
 }
