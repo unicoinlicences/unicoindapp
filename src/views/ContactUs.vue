@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding:50px;">
     <md-field>
       <label>Initial Value</label>
       <md-input v-model="initial"></md-input>
