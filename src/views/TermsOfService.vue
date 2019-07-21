@@ -3,7 +3,7 @@
     <div class="md-layout">
       <div class="md-layout">
         <div class="md-layout-item">
-          <md-content style="padding: 50px;">
+          <md-content style="padding-left: 50px; padding-right: 50px">
             <md-card-header>
               <div class="md-title"><h3>Privacy Policy</h3></div>
             </md-card-header>
