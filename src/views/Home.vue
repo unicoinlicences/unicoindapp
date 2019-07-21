@@ -9,8 +9,8 @@
           <br />Connecting researchers and Companies since 2019.
           <br />
           <br />
-          <md-button class="md-raised md-primary" @click style="margin-top:25px">Begin</md-button>
-          <md-button class="md-raised" @click style="margin-top:25px">Learn More</md-button>
+          <md-button class="md-raised md-primary" @click style="margin-top:25px" href="/CreateProfile">Begin</md-button>
+          <md-button class="md-raised" @click style="margin-top:25px" href="https://github.com/unicoinlicences/unicoindapp">Learn More</md-button>
         </p>
       </div>
       <div class="md-layout-item md-size-40 md-small-size-100">

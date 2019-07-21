@@ -13,9 +13,8 @@
       </div>
     </div>
 
-    <md-radio v-model="accountType" value="academic">Academic</md-radio>
-    <md-radio v-model="accountType" value="company">Company</md-radio>
-    {{accountType}}
+    <md-radio v-model="accountType" value="academic" @change="clearForm">Academic</md-radio>
+    <md-radio v-model="accountType" value="company" @change="clearForm">Company</md-radio>
     <br />
     <form
       v-if="accountType=='academic'"
@@ -47,7 +46,7 @@
                   id="first-name"
                   autocomplete="given-name"
                   v-model="form.firstName"
-                  :disabled="sending"
+                  disabled="true"
                 />
                 <span class="md-error" v-if="!$v.academicForm.firstName.required">The first name is required</span>
                 <span class="md-error" v-else-if="!$v.academicForm.firstName.minlength">Invalid first name</span>
@@ -62,7 +61,7 @@
                   id="last-name"
                   autocomplete="family-name"
                   v-model="form.lastName"
-                  :disabled="sending"
+                  disabled="true"
                 />
                 <span class="md-error" v-if="!$v.academicForm.lastName.required">The last name is required</span>
                 <span class="md-error" v-else-if="!$v.academicForm.lastName.minlength">Invalid last name</span>
@@ -73,16 +72,16 @@
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field>
-                <label for="last-name">University</label>
+                <label for="university">University</label>
                 <md-input
-                  name="last-name"
-                  id="last-name"
-                  autocomplete="family-name"
+                  name="university"
+                  id="university"
+                  autocomplete="university"
                   v-model="form.university"
                   :disabled="sending"
                 />
-                <span class="md-error" v-if="!$v.academicForm.university.required">The last name is required</span>
-                <span class="md-error" v-else-if="!$v.academicForm.university.minlength">Invalid last name</span>
+                <span class="md-error" v-if="!$v.academicForm.university.required">The university is required</span>
+                <span class="md-error" v-else-if="!$v.academicForm.university.minlength">Invalid university name</span>
               </md-field>
             </div>
           </div>
@@ -105,7 +104,7 @@
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
 
         <md-card-actions>
-          <md-button type="submit" class="md-primary" :disabled="sending" @click="createUser">Create user</md-button>
+          <md-button type="submit" class="md-raised md-accent" :disabled="sending" @click="createUser">Create user</md-button>
         </md-card-actions>
         <!-- {{form.orcid}} -->
       </md-content>
@@ -162,7 +161,7 @@
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
 
         <md-card-actions>
-          <md-button type="submit" class="md-primary" :disabled="sending" @click="createUser">Create user</md-button>
+          <md-button type="submit" class="md-raised md-accent" :disabled="sending" @click="createUser">Create user</md-button>
         </md-card-actions>
         <!-- {{form.orcid}} -->
       </md-content>
@@ -170,7 +169,7 @@
       <md-snackbar :md-active.sync="userSaved">The user {{ lastUser }} was saved with success!</md-snackbar>
     </form>
 
-    <md-button @click="createUser" class="md-raised md-accent">Create User</md-button>
+    <!-- <md-button @click="createUser" class="md-raised md-accent">Create User</md-button> -->
     <br />
     <br />
     <!-- {{form}} -->
@@ -260,7 +259,6 @@ export default {
         ? ""
         : decodeURIComponent(results[1].replace(/\+/g, " "));
     },
-    
     getAcademicValidationClass(fieldName) {
       const field = this.$v.academicForm[fieldName];
       if (field) {
