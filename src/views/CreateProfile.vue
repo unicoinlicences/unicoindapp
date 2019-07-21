@@ -8,6 +8,8 @@
               <div class="md-title">Welcome to UniCoin!</div>
             </md-card-header>
             <p>Create your profile here. Are you a researcher wanting to publish material, or do you represent a company wishing to licence a researcher's work?</p>
+            <br>
+            <p>Already registered? <a href="/Profile">View your profile here.</a></p>
           </md-content>
         </div>
       </div>
@@ -29,17 +31,17 @@
         </md-card-header>
 
         <md-card-content>
-          <md-button class = "md-accent"
+          <md-button
       href="https://orcid.org/oauth/authorize?client_id=APP-0JZDFYT5L60YYAWM&response_type=token&scope=openid&redirect_uri=http://localhost:8080/CreateProfile"
     ><img
-          class="text-center"
-          alt="step logo"
-          style = "width: 25px"
+          class="text-right"
+          alt="ORCID logo"
+          style = "width: 18px"
           src="../assets/orcid.png"
-        /></md-button>
+        /> ORCID LOGIN</md-button>
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
-              <md-field>
+              <md-field :class="getAcademicValidationClass('firstName')">
                 <label for="first-name">First Name</label>
                 <md-input
                   name="first-name"
@@ -48,13 +50,13 @@
                   v-model="form.firstName"
                   disabled="true"
                 />
-                <span class="md-error" v-if="!$v.academicForm.firstName.required">The first name is required</span>
-                <span class="md-error" v-else-if="!$v.academicForm.firstName.minlength">Invalid first name</span>
+                <span class="md-error" v-if="!$v.form.firstName.required">The first name is required</span>
+                <span class="md-error" v-else-if="!$v.form.firstName.minlength">Invalid first name</span>
               </md-field>
             </div>
 
             <div class="md-layout-item md-small-size-100">
-              <md-field>
+              <md-field :class="getAcademicValidationClass('lastName')">
                 <label for="last-name">Last Name</label>
                 <md-input
                   name="last-name"
@@ -63,15 +65,15 @@
                   v-model="form.lastName"
                   disabled="true"
                 />
-                <span class="md-error" v-if="!$v.academicForm.lastName.required">The last name is required</span>
-                <span class="md-error" v-else-if="!$v.academicForm.lastName.minlength">Invalid last name</span>
+                <span class="md-error" v-if="!$v.form.lastName.required">The last name is required</span>
+                <span class="md-error" v-else-if="!$v.form.lastName.minlength">Invalid last name</span>
               </md-field>
             </div>
           </div>
 
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
-              <md-field>
+              <md-field :class="getAcademicValidationClass('university')">
                 <label for="university">University</label>
                 <md-input
                   name="university"
@@ -80,13 +82,13 @@
                   v-model="form.university"
                   :disabled="sending"
                 />
-                <span class="md-error" v-if="!$v.academicForm.university.required">The university is required</span>
-                <span class="md-error" v-else-if="!$v.academicForm.university.minlength">Invalid university name</span>
+                <span class="md-error" v-if="!$v.form.university.required">The university is required</span>
+                <span class="md-error" v-else-if="!$v.form.university.minlength">Invalid university name</span>
               </md-field>
             </div>
           </div>
 
-          <md-field>
+          <md-field :class="getAcademicValidationClass('email')">
             <label for="email">Email</label>
             <md-input
               type="email"
@@ -96,8 +98,8 @@
               v-model="form.email"
               :disabled="sending"
             />
-            <span class="md-error" v-if="!$v.academicForm.email.required">The email is required</span>
-            <span class="md-error" v-else-if="!$v.academicForm.email.email">Invalid email</span>
+            <span class="md-error" v-if="!$v.form.email.required">The email is required</span>
+            <span class="md-error" v-else-if="!$v.form.email.email">Invalid email</span>
           </md-field>
         </md-card-content>
 
@@ -128,7 +130,7 @@
 
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
-              <md-field>
+              <md-field :class="getCompanyValidationClass('company')">
                 <label for="company">Company</label>
                 <md-input
                   name="company"
@@ -137,13 +139,13 @@
                   v-model="form.company"
                   :disabled="sending"
                 />
-                <span class="md-error" v-if="!$v.companyForm.company.required">The company name is required</span>
-                <span class="md-error" v-else-if="!$v.companyForm.email.minlength">Invalid company name</span>
+                <span class="md-error" v-if="!$v.form.company.required">The company name is required</span>
+                <span class="md-error" v-else-if="!$v.form.email.minlength">Invalid company name</span>
               </md-field>
             </div>
           </div>
 
-          <md-field>
+          <md-field :class="getCompanyValidationClass('email')">
             <label for="email">Email</label>
             <md-input
               type="email"
@@ -153,8 +155,8 @@
               v-model="form.email"
               :disabled="sending"
             />
-            <span class="md-error" v-if="!$v.companyForm.email.required">The email is required</span>
-            <span class="md-error" v-else-if="!$v.companyForm.email.email">Invalid email</span>
+            <span class="md-error" v-if="!$v.form.email.required">The email is required</span>
+            <span class="md-error" v-else-if="!$v.form.email.email">Invalid email</span>
           </md-field>
         </md-card-content>
 
@@ -186,6 +188,7 @@ import {
   maxLength
 } from "vuelidate/lib/validators";
 import router from "@/router";
+import { min } from 'bn.js';
 var jwt = require("jsonwebtoken");
 export default {
   name: "FormValidation",
@@ -204,7 +207,7 @@ export default {
     lastUser: null
   }),
   validations: {
-    academicForm: {
+    form: {
       firstName: {
         required,
         minLength: minLength(3)
@@ -214,20 +217,20 @@ export default {
         minLength: minLength(3)
       },
       university: {
-        required
+        required,
+        minLength: minLength(3)
       },
       email: {
         required,
-        email
-      }
-    },
-    companyForm: {
+        minLength: minLength(3)
+      },
       company: {
-        required
+        required,
+        minLength: minLength(3)
       },
       email: {
         required,
-        email
+        minLength: minLength(3)
       }
     }
   },
@@ -260,7 +263,7 @@ export default {
         : decodeURIComponent(results[1].replace(/\+/g, " "));
     },
     getAcademicValidationClass(fieldName) {
-      const field = this.$v.academicForm[fieldName];
+      const field = this.$v.form[fieldName];
       if (field) {
         return {
           "md-invalid": field.$invalid && field.$dirty
@@ -268,7 +271,7 @@ export default {
       }
     },
      getCompanyValidationClass(fieldName) {
-      const field = this.$v.companyForm[fieldName];
+      const field = this.$v.form[fieldName];
       if (field) {
         return {
           "md-invalid": field.$invalid && field.$dirty

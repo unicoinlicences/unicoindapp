@@ -14,7 +14,7 @@
           style="text-align:right; width:500px"
         >
           <div class="md-layout-item">
-            <div class="md-subheading">Dr Frankennstein</div>
+            <div class="md-subheading">Dr Frankenstein</div>
           </div>
           <div class="md-layout-item">
             <div class="md-subheading">
@@ -81,7 +81,7 @@
         <md-list-item>
           <md-icon>vpn_key</md-icon>
           <span class="md-list-item-text">
-            <router-link to="/MyLicenses">My Licenses</router-link>
+            <router-link to="/MyLicenses">My Licences</router-link>
           </span>
         </md-list-item>
         <md-divider></md-divider>
@@ -102,13 +102,24 @@
             >Documentation</a>
           </span>
         </md-list-item>
+
+        <md-divider></md-divider>
+        
+        <md-list-item>
+          <md-icon>chat</md-icon>
+          <span class="md-list-item-text">
+            <router-link to="/ContactUs">Contact</router-link>
+          </span>
+        </md-list-item>
+        <md-divider></md-divider>
+
       </md-list>
     </md-app-drawer>
 
     <md-app-content style="background-color: #F5F9F9; padding-left:0px; padding-right:0px">
       <router-view />
       <div style="padding-top:20px;padding-left:20px; padding-right:20px">
-        <span class="md-subheading">Terms Of Service</span>
+        <span class="md-subheading"><a href="/TermsOfService">Terms Of Service</a></span>
         <span class="md-caption" style="float: right;">
           {{currentNetwork}}
           <clickable-address :light="false" :icon="false" :eth-address="account" />
