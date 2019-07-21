@@ -9,6 +9,12 @@
             </md-card-header>
             <p>View all your deployed publications and change their key settings.</p>
           </md-content>
+          <manage-publication-row-item
+            v-for="publication in listedPublications"
+            v-if="publication.authorNumber == userNumber"
+            :publicationInformation="publication"
+            style="margin:20px"
+          />
         </div>
       </div>
     </div>
@@ -16,9 +22,15 @@
 </template>
 
 <script>
-// @ is an alias to /src
+import { mapActions, mapState } from "vuex";
+
+import managePublicationRowItem from "@/components/managePublicationRowItem";
 
 export default {
-  name: "manage"
+  name: "manage",
+  components: { managePublicationRowItem },
+  computed: {
+    ...mapState(["numberOfPublications", "listedPublications", "userNumber"])
+  }
 };
 </script>

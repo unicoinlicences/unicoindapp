@@ -103,6 +103,7 @@ export default new Vuex.Store({
       let numberOfPublications = await state.registry.getPublicationLength()
       if (numberOfPublications) {
         commit(mutations.SET_NUMBER_OF_PUBLICATIONS, numberOfPublications.toNumber());
+        dispatch(actions.GET_ALL_PUBLICATIONS);
       }
 
     },
@@ -169,7 +170,23 @@ export default new Vuex.Store({
         let authorProfile = await viewFile(authorBlob.profile_uri)
         console.log(authorProfile)
 
+        let publicationBidsInformation = []
+
+        for (let j = 0; j < publicationObjectProcessed[2].length; j++) {
+          let bidId = publicationObjectProcessed[2][j]
+          let bidInformation = await state.registry.bids(bidId)
+          let ownerAddress = (await state.registry.users(bidInformation.owner_Id)).owned_address
+          publicationBidsInformation.push({
+            bidId: bidId,
+            offer: bidInformation.offer,
+            status: bidInformation.status,
+            ownerId: bidInformation.owner_Id,
+            ownerAddress: ownerAddress
+          })
+        }
+
         let finalPublicationObject = {}
+        finalPublicationObject['publicationId'] = i
         finalPublicationObject['title'] = ipfsFile.title
         finalPublicationObject['abstract'] = ipfsFile.title
         finalPublicationObject['authorNumber'] = publicationObjectProcessed[0]
@@ -186,6 +203,7 @@ export default new Vuex.Store({
         finalPublicationObject['sellPrice'] = publicationObjectProcessed[5]
         finalPublicationObject['contributors'] = publicationObjectProcessed[6]
         finalPublicationObject['contributorsWeightings'] = publicationObjectProcessed[7]
+        finalPublicationObject['bids'] = publicationBidsInformation
 
 
         publicationsReturned.push(finalPublicationObject)
@@ -193,7 +211,40 @@ export default new Vuex.Store({
       }
       console.log(publicationsReturned)
       commit(mutations.SET_ALL_LISTED_PUBLICATIONS, publicationsReturned);
-    }
+    },
+    [actions.MAKE_BID]: async function ({
+      commit,
+      dispatch,
+      state
+    }, params) {
+      console.log("IN MAKE BID CALL")
+      console.log(params)
+      await state.registry.makeBid(params.offer, params.publicationId, {
+        from: state.account
+      })
+    },
+    [actions.ACCEPT_BID]: async function ({
+      commit,
+      dispatch,
+      state
+    }, bidId) {
+      console.log("IN ACCEPT BID CALL")
+      console.log(bidId)
+      await state.registry.acceptBid(bidId, {
+        from: state.account
+      })
+    },
+    [actions.REJECT_BID]: async function ({
+      commit,
+      dispatch,
+      state
+    }, bidId) {
+      console.log("IN REJECT BID CALL")
+      console.log(bidId)
+      await state.registry.rejectBid(bidId, {
+        from: state.account
+      })
+    },
   }
 })
 
