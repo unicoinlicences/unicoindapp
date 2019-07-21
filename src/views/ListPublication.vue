@@ -319,6 +319,9 @@
         >Back</md-button>
       </md-step>
     </md-steppers>
+    <pdf :src="pdf" :page="1">
+      <template slot="loading">loading content here...</template>
+    </pdf>
   </div>
 </template>
 
@@ -327,9 +330,11 @@ import ClickableAddress from "@/components/widgets/ClickableAddress";
 import VuePlotly from "@statnett/vue-plotly";
 import { constants } from "fs";
 
+import pdf from "pdfvuer";
+
 export default {
   name: "manage",
-  components: { ClickableAddress, VuePlotly },
+  components: { ClickableAddress, VuePlotly, pdf },
   data: () => ({
     active: "first",
     first: false,
