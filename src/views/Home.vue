@@ -6,7 +6,7 @@
         <span class="md-display-3">Unlock the value in academic research</span>
         <p style="padding-top:20px">
           <br />Introducing a new research marketplace to empower academics to benefit from commercially viable work.
-          <br />Connecting researchers and Companies since 2019.
+          <br />Connecting researchers and companies since 2019.
           <br />
           <br />
           <md-button class="md-raised md-primary" @click style="margin-top:25px" href="/CreateProfile">Begin</md-button>
@@ -81,6 +81,71 @@
         </div>
         <div class="md-layout-item md-size-20 md-medium-hide" />
       </div>
+      <div class="md-layout">
+      <div class="md-layout">
+        <div class="md-layout-item">
+          <md-content style="padding: 100px;">
+            <md-card-header>
+              <span class="md-headline">How does UniCoin work?</span>
+            </md-card-header>
+                <div class="md-layout md-gutter">
+            <div class="md-layout-item md-size-20 md-medium-hide" />
+            <div class="md-layout-item md-small-size-100">
+              <img
+                class="text-center"
+                alt="step logo"
+                style="height:85px;"
+                src="../assets/003-search.png"
+              />
+              <p
+                class="text-center"
+              >1. abc</p>
+            </div>
+            <div class="md-layout-item md-small-size-100">
+              <img
+                class="text-center"
+                alt="step logo"
+                style="height:85px;"
+                src="../assets/001-statistics.png"
+              />
+              <p
+                class="text-center"
+              >2. abc</p>
+            </div>
+            <div class="md-layout-item md-size-20 md-medium-hide" />
+          </div>
+          <br />
+          <br />
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item md-size-20 md-medium-hide" />
+            <div class="md-layout-item md-small-size-100">
+              <img
+                class="text-center"
+                alt="step logo"
+                style="height:85px;"
+                src="../assets/002-wallet.png"
+              />
+              <p
+                class="text-center"
+              >3. abc</p>
+            </div>
+            <div class="md-layout-item md-small-size-100">
+              <img
+                class="text-center"
+                alt="step logo"
+                style="height:85px;"
+                src="../assets/005-test-tube.png"
+              />
+              <p
+                class="text-center"
+              >4. abc</p>
+            </div>
+            <div class="md-layout-item md-size-20 md-medium-hide" />
+          </div>
+          </md-content>
+        </div>
+      </div>
+    </div>
     </md-content>
   </div>
 </template>
