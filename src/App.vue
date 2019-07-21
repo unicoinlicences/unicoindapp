@@ -103,6 +103,8 @@
           </span>
         </md-list-item>
 
+        <md-divider></md-divider>
+        
         <md-list-item>
           <md-icon>chat</md-icon>
           <span class="md-list-item-text">
