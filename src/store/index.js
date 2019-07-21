@@ -60,6 +60,9 @@ export default new Vuex.Store({
     [mutations.SET_NUMBER_OF_PUBLICATIONS](state, numberOfPublications) {
       state.numberOfPublications = numberOfPublications;
     },
+    [mutations.SET_ALL_LISTED_PUBLICATIONS](state, listedPublications) {
+      state.listedPublications = listedPublications;
+    },
   },
   actions: {
     [actions.GET_CURRENT_NETWORK]: function ({
@@ -140,7 +143,67 @@ export default new Vuex.Store({
       dispatch,
       state
     }) {
+      console.log("CALLING")
+      let publicationsReturned = []
+      for (let i = 1; i < state.numberOfPublications; i++) {
+        console.log(i)
+        let publicationObject = await state.registry.getPublication(i)
+        let publicationObjectProcessed = []
+        publicationObjectProcessed[0] = publicationObject[0].toNumber()
+        publicationObjectProcessed[1] = publicationObject[1]
+        publicationObjectProcessed[2] = publicationObject[2].map(v => v.toNumber())
+        publicationObjectProcessed[3] = publicationObject[3]
+        publicationObjectProcessed[4] = publicationObject[4]
+        publicationObjectProcessed[5] = publicationObject[5].toNumber()
+        publicationObjectProcessed[6] = publicationObject[6].map(v => v.toNumber())
+        publicationObjectProcessed[7] = publicationObject[7].map(v => v.toNumber())
+        // console.log(publicationObject)
+        // console.log(publicationObjectProcessed)
 
+
+        let ipfsFile = await viewFile(publicationObjectProcessed[1])
+        // console.log(ipfsFile)
+
+        let authorBlob = await state.registry.users(publicationObjectProcessed[0])
+        console.log(authorBlob)
+        let authorProfile = await viewFile(authorBlob.profile_uri)
+        console.log(authorProfile)
+
+        let finalPublicationObject = {}
+        finalPublicationObject['title'] = ipfsFile.title
+        finalPublicationObject['abstract'] = ipfsFile.title
+        finalPublicationObject['authorNumber'] = publicationObjectProcessed[0]
+        finalPublicationObject['authorAddress'] = authorBlob.owned_address
+        finalPublicationObject['authorFirstName'] = authorProfile.firstName
+        finalPublicationObject['authorLastName'] = authorProfile.lastName
+        finalPublicationObject['authorEmail'] = authorProfile.email
+        finalPublicationObject['authorOrcid'] = authorProfile.orcid
+        finalPublicationObject['authorUniversity'] = authorProfile.university
+        finalPublicationObject['pdfFile'] = ipfsFile.pdfFile
+        finalPublicationObject['keyword'] = ipfsFile.keyword
+        finalPublicationObject['isAuction'] = publicationObjectProcessed[3]
+        finalPublicationObject['isRunning'] = publicationObjectProcessed[4]
+        finalPublicationObject['sellPrice'] = publicationObjectProcessed[5]
+        finalPublicationObject['contributors'] = publicationObjectProcessed[6]
+        finalPublicationObject['contributorsWeightings'] = publicationObjectProcessed[7]
+
+
+        publicationsReturned.push(finalPublicationObject)
+
+      }
+      console.log(publicationsReturned)
+      commit(mutations.SET_ALL_LISTED_PUBLICATIONS, publicationsReturned);
     }
   }
 })
+
+
+// abstract: "abstract boi"
+// contributors: (3)[1, "2", "4"]
+// contributorsWeightings: (3)[27, 52, 21]
+// isAuction: true
+// keyword: ["rocket"]
+// pdfFile: "dW5kZWZpbmVk"
+// sellPrice: 0
+// title: "this is the title"
+// userNumber: 1

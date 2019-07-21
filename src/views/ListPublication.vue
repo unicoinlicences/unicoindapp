@@ -374,15 +374,7 @@ export default {
       "Pawel Fiedor",
       "Hylton Hollander"
     ],
-    authorsAddresses: [
-      "0xF303A862b6f9C24adba90f2CF6964BB3D77e04A7",
-      "0x4eA36D76Fc2eF6C58b087AEC5Cbf10832626de75",
-      "0xc8dFcEc53AB1102A38E8f96BE8EBA37FC5340c99",
-      "0xAa1CC5543C558524C3Db21D219fCEE58af054f2C",
-      "0xb3c5485526f7dbe5b8067de2c59c819937782066",
-      "0x580a29FA60B86AaFF102743dE5Cba60Bb5f9de75",
-      "0xB3c5485526F7Dbe5b8067DE2C59c819937782066"
-    ],
+    authorsAddresses: ["2", "3", "4", "5", "6", "7", "8"],
     selectedAuthor: "",
     SplitWithOthers: 0,
     colors: [
@@ -452,8 +444,11 @@ export default {
         title: this.title,
         abstract: this.abstract,
         keyword: this.keywords,
-        contributors: contributorAddresses,
-        contributorsWeightings: contributorWeighting,
+        contributors: [this.userNumber, ...contributorAddresses],
+        contributorsWeightings: [
+          this.remainingAllocation,
+          ...contributorWeighting
+        ],
         sellPrice: sellPrice,
         isAuction: isAuction,
         pdfFile: this.pdfFile
@@ -477,6 +472,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(["userNumber"]),
     sliderOptions() {
       return {
         process: ([pos, i]) => [

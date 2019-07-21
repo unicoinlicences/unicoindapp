@@ -9,6 +9,13 @@
             </md-card-header>
             <p>Table with all of them. search and filter</p>
           </md-content>
+
+          <browse-publication-row-item
+            v-for="publication in listedPublications"
+            :publicationInformation="publication"
+          style="margin:20px"
+          />
+          <!-- {{publication}} -->
         </div>
       </div>
     </div>
@@ -16,9 +23,22 @@
 </template>
 
 <script>
-// @ is an alias to /src
+import { mapActions, mapState } from "vuex";
+
+import browsePublicationRowItem from "@/components/browsePublicationRowItem.vue";
 
 export default {
-  name: "manage"
+  name: "manage",
+  components: { browsePublicationRowItem },
+  data: () => ({}),
+  methods: {
+    ...mapActions(["GET_ALL_PUBLICATIONS"])
+  },
+  mounted() {
+    this.GET_ALL_PUBLICATIONS();
+  },
+  computed: {
+    ...mapState(["numberOfPublications", "listedPublications"])
+  }
 };
 </script>
