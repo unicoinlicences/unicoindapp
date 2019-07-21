@@ -8,6 +8,7 @@ import ListPublication from './views/ListPublication.vue'
 import ManagePublications from './views/ManagePublications.vue'
 import MyBids from './views/MyBids.vue'
 import MyLicenses from './views/MyLicenses.vue'
+import TermsOfService from './views/TermsOfService.vue'
 
 
 Vue.use(Router)
@@ -54,6 +55,11 @@ export default new Router({
       path: '/MyLicenses',
       name: 'UniCoin - Manage Licences',
       component: MyLicenses
+    },
+    {
+      path: '/TermsOfService',
+      name: 'UniCoin - Terms of Use',
+      component: TermsOfService
     },
   ]
 })

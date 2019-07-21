@@ -5,12 +5,12 @@
         <div class="md-layout-item">
           <md-content style="padding: 20px;">
             <md-card-header>
-              <div class="md-title">Change your user profile</div>
+              <div class="md-title">Welcome to your UniCoin profile!</div>
             </md-card-header>
             <p>profile detz</p>
           </md-content>
           <img
-          class="text-center"
+          class="text-right"
           alt="step logo"
           style="height:250px;"
           src="../assets/unicorn_dabbing.png"
@@ -25,6 +25,7 @@
 // @ is an alias to /src
 
 export default {
-  name: "manage"
+  name: "manage profile"
 };
+
 </script>

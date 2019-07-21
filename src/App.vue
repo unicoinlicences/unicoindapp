@@ -108,7 +108,7 @@
     <md-app-content style="background-color: #F5F9F9; padding-left:0px; padding-right:0px">
       <router-view />
       <div style="padding-top:20px;padding-left:20px; padding-right:20px">
-        <span class="md-subheading">Terms Of Service</span>
+        <span class="md-subheading"><a href="/TermsOfService">Terms Of Service</a></span>
         <span class="md-caption" style="float: right;">
           {{currentNetwork}}
           <clickable-address :light="false" :icon="false" :eth-address="account" />
