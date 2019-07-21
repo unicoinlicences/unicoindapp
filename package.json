@@ -27,6 +27,7 @@
     "register-service-worker": "^1.6.2",
     "truffle": "^5.0.27",
     "truffle-contract": "^4.0.21",
+    "truffle-flattener": "^1.4.0",
     "truffle-hdwallet-provider": "^1.0.14",
     "typeface-space-mono": "^0.0.71",
     "vue": "^2.6.10",

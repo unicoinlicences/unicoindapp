@@ -120,6 +120,11 @@ contract("Unicoin Registry", (accounts) => {
             assert(publication.isAuction == validPublication.isAuction, "isAuction not set")
             assert(publication.isRunning == validPublication.isRunning, "isRunning not set")
             assert(publication.sell_price.toNumber(), validPublication.sellPrice, "sellPrice not set")
+
+            let allPublicationInfo = await registry.getPublication(noPublications - 1)
+            // console.log("HERE")
+            // console.log(allPublicationInfo)
+
         });
 
         it("Reverts if bad user input", async () => {
@@ -356,12 +361,12 @@ contract("Unicoin Registry", (accounts) => {
             // Should not go through if status is not changed and a flat price is not allocated
             await registry.changeToSale(noPublications - 1, 107, {
                 from: publisher
-                })
+            })
             let publication = await registry.publications(noPublications - 1)
-            assert(publication.isAuction == false,"Auction status not changed")
-            assert(publication.sell_price.toNumber() == 107, "Price not changed")     
+            assert(publication.isAuction == false, "Auction status not changed")
+            assert(publication.sell_price.toNumber() == 107, "Price not changed")
         })
-        
+
         // The correct user should change status
         it("Reverts if unauthorized user modifies auction", async () => {
             await assertRevert(registry.changeToAuction(noPublications - 1, {
@@ -373,7 +378,7 @@ contract("Unicoin Registry", (accounts) => {
         it("Can change from sale to auction", async () => {
             await registry.changeToAuction(noPublications - 1, {
                 from: publisher
-                })
+            })
             let publication = await registry.publications(noPublications - 1)
             assert(publication.isAuction == true, "Auction status not changed")
             assert(publication.sell_price.toNumber() == 0, "Price not removed")
@@ -390,12 +395,12 @@ contract("Unicoin Registry", (accounts) => {
         it("Correctly changes sell price", async () => {
             await registry.changeToSale(noPublications - 1, 109, {
                 from: publisher
-                })
+            })
             await registry.changeSellPrice(noPublications - 1, 110, {
                 from: publisher
-                })
+            })
             let publication = await registry.publications(noPublications - 1)
-            assert(publication.sell_price.toNumber(),110,"Price not changed")
+            assert(publication.sell_price.toNumber(), 110, "Price not changed")
         })
 
         it("Reverts if unauthorized user modifies sell price", async () => {
@@ -408,7 +413,7 @@ contract("Unicoin Registry", (accounts) => {
         it("Changes running status", async () => {
             await registry.changeRunningStatus(noPublications - 1, {
                 from: publisher
-                })
+            })
             let publication = await registry.publications(noPublications - 1)
             assert(publication.isRunning == false, "Status not changed")
         })
@@ -430,7 +435,7 @@ contract("Unicoin Registry", (accounts) => {
 
         it("Gets bids correctly", async () => {
             let bidArray = await registry.getBids(buyer)
-            
+
             assert(bidArray.length == noBids, "Number of bids not correct")
         })
 
@@ -441,12 +446,12 @@ contract("Unicoin Registry", (accounts) => {
 
             bid = await registry.bids(bid_Id)
             assert(bid.offer.toNumber(), 100, "Bid price not correct")
-            assert(bid.status,"Pending", "Bid status not correct")
+            assert(bid.status, "Pending", "Bid status not correct")
             assert(bid.publication_Id, 1, "Publication ID not correct")
             assert(bid.owner_Id, 3, "Bid owner ID not correct")
 
         })
-        
+
         it("Gets number of publications correctly", async () => {
             let publicationLength = await registry.getPublicationLength()
             // Ensure that number of publications is equal to total number of publications
