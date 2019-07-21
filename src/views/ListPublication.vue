@@ -24,10 +24,15 @@
                   </md-card-header>Add your Paper in PDF format. 🗂
                   <md-field>
                     <label>Paper PDF</label>
-                    <md-file v-model="pdf" />
+                    <md-file
+                      v-model="pdfName"
+                      id="file"
+                      ref="file"
+                      @change="handleFileUpload($event.target.files)"
+                    />
                   </md-field>
                   <img
-                    v-if="pdf != null"
+                    v-if="pdfFile != null"
                     class="text-center"
                     alt="step logo"
                     style="height:200px;"
@@ -119,7 +124,7 @@
                               v-bind="sliderOptions"
                               :min="0"
                               :max="100"
-                              :interval="0.1"
+                              :interval="1"
                               :adsorb="true"
                               :dotOptions="{max: contributor.weighting + remainingAllocation}"
                               :tooltip="'always'"
@@ -293,7 +298,7 @@
               </div>
               <div class="md-layout-item md-size-30">
                 <img
-                  v-if="pdf != null"
+                  v-if="pdfFile != null"
                   class="text-center"
                   alt="step logo"
                   style="height:300px;"
@@ -319,13 +324,19 @@
         >Back</md-button>
       </md-step>
     </md-steppers>
-    <pdf :src="pdf" :page="1">
-      <template slot="loading">loading content here...</template>
-    </pdf>
+
+    <!-- <pdf src=""></pdf> -->
+    <!-- <pdf v-if="pdfName!=null" src="pdf" :page="1" type="application/pdf">
+    <template slot="loading">
+      loading content here...
+    </template>
+    </pdf>-->
   </div>
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
+
 import ClickableAddress from "@/components/widgets/ClickableAddress";
 import VuePlotly from "@statnett/vue-plotly";
 import { constants } from "fs";
@@ -341,7 +352,8 @@ export default {
     second: false,
     third: false,
     fourth: false,
-    pdf: null,
+    pdfFile: null,
+    pdfName: null,
     title: "",
     abstract: "",
     keywords: [],
@@ -405,6 +417,19 @@ export default {
     pricePerLicence: 100
   }),
   methods: {
+    ...mapActions(["LIST_PUBLICATION"]),
+    handleFileUpload(file) {
+      // this.pdfFile = file[0]
+      var reader = new FileReader();
+      reader.readAsDataURL(file[0]);
+      reader.onload = function() {
+        console.log(reader);
+      };
+      reader.onerror = function(error) {
+        console.log("Error: ", error);
+      };
+      this.pdfFile = btoa(reader.pdfFile);
+    },
     setDone(id, index) {
       this[id] = true;
 
@@ -417,6 +442,24 @@ export default {
     deploy() {
       console.log("LAUNCH");
       this.deployed = !this.deployed;
+
+      let contributorAddresses = this.coAuthor.map(v => v.address);
+      let contributorWeighting = this.coAuthor.map(v => v.weighting);
+      let isAuction = this.marketType === "auction" ? true : false;
+      let sellPrice = this.marketType === "auction" ? 0 : this.pricePerLicence;
+
+      let publicationObject = {
+        title: this.title,
+        abstract: this.abstract,
+        keyword: this.keywords,
+        contributors: contributorAddresses,
+        contributorsWeightings: contributorWeighting,
+        sellPrice: sellPrice,
+        isAuction: isAuction,
+        pdfFile: this.pdfFile
+      };
+      console.log(publicationObject);
+      this.LIST_PUBLICATION(publicationObject);
     },
     addContributor() {
       this.coAuthor.push({ name: "", address: "", weighting: 0 });

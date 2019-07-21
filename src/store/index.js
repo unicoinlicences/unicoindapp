@@ -34,7 +34,8 @@ export default new Vuex.Store({
     account: null,
     currentNetwork: null,
     etherscanBase: null,
-    registry: null
+    registry: null,
+    userNumber: 1
   },
   mutations: {
     //WEB3 Stuff
@@ -108,6 +109,23 @@ export default new Vuex.Store({
       let ipfsHash = await uploadFile(params)
       console.log(ipfsHash.toString())
       await state.registry.registerUser(ipfsHash.toString(), {
+        from: state.account
+      })
+    },
+    [actions.LIST_PUBLICATION]: async function ({
+      commit,
+      dispatch,
+      state
+    }, params) {
+      console.log("IN list publication call")
+      console.log(params)
+
+      let ipfsBlob = params
+      ipfsBlob['userNumber'] = state.userNumber
+      console.log(ipfsBlob)
+      let ipfsHash = await uploadFile(ipfsBlob)
+      console.log(ipfsHash.toString())
+      await state.registry.createPublication(ipfsHash.toString(), params.isAuction, true, params.sellPrice, params.contributors, params.contributorsWeightings, {
         from: state.account
       })
     }
