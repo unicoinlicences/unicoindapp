@@ -7,3 +7,4 @@ export const GET_ALL_PUBLICATIONS = "GET_ALL_PUBLICATIONS";
 export const MAKE_BID = "MAKE_BID";
 export const ACCEPT_BID = "ACCEPT_BID";
 export const REJECT_BID = "REJECT_BID";
+export const SUBMIT= "SUBMIT";
