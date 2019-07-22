@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.a0bad31dc5384a7ea5b9d37e1f8b8708.js"
+  "/precache-manifest.e381908f6771e95509cfed3f45a01b82.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "UniCoin"});
