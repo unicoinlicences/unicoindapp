@@ -21,6 +21,7 @@ contract UnicoinRegistry is ERC721Metadata {
     /// @notice The mapping below maps all users' addresses to their userID
     mapping (address => uint256) public userAddresses ;
 
+    /// @notice Creates user defined type
     enum bidStatus {Pending, Accepted, Rejected, Sale, Cancelled}
 
     /// @notice Creates a struct for all bids, takes in the offer (amount of the bid), one of the enum parameters, publication Id and owner Id
@@ -37,6 +38,13 @@ contract UnicoinRegistry is ERC721Metadata {
     mapping(uint256 => uint256[]) public bidOwners;
 
     /// @notice Creates a struct for all publications
+    /// @param author_Id The array below will contain all bids received for that work
+    /// @param publication_uri If the researcher has chosen the auction pricing structure, the below is TRUE.
+    /// @param publication_bids If the auction is still running, the below is TRUE, because the researcher can choose to stop the auction at any point.
+    /// @param isAuction If both of the booleans above are FALSE, the price below is the flat sale price of the work.
+    /// @param isRunning The value of the publication
+    /// @param sell_price The co-authors/ contributors of the publication
+    /// @param contributors_weightings The contributor's respective weighting contributions
     struct Publication {
         uint256 author_Id;
         string publication_uri;
@@ -54,6 +62,9 @@ contract UnicoinRegistry is ERC721Metadata {
     mapping(uint256 => uint256[]) public publicationOwners;
     
     /// @notice Creates a struct for licencing
+    /// @param buyer_Id of each publication's buyer
+    /// @param publication_Id of the publication being bought
+    /// @param bid_Id The bid's Id for the publication    
     struct LicenceDesign {
         uint256 buyer_Id;
         uint256 Publication_Id;
@@ -69,6 +80,7 @@ contract UnicoinRegistry is ERC721Metadata {
     /// @dev ERC20 is now daiContract
     ERC20 daiContract;
     /// @dev The constructor below reserves user 0 for all unregistered users
+    /// @param _daiContractAddress DAI contract address
     constructor(address _daiContractAddress) public ERC721Metadata("UniCoin Licence", "UNIC"){
         users.push(User(address(0), ""));
         licences.push(LicenceDesign(0, 0, 0));
@@ -77,6 +89,7 @@ contract UnicoinRegistry is ERC721Metadata {
     }
 
     /// @notice This function registers a user on the platform by taking in their profile URL
+    /// @param _profile_uri user profile url
     /// @dev If the user's address is in position 0 of the userAddresses array, they are unregistered
     /// @dev Create an instance of the user and add the Id to their address
     function registerUser(string memory _profile_uri) public {
@@ -107,6 +120,8 @@ contract UnicoinRegistry is ERC721Metadata {
     }
 
     /// @notice This function creates a new bid for a particular publication
+    /// @param _offer for the research
+    /// @param _publication_Id is the index for the publication Id
     /// @dev The bidder should only be able to submit a bid if the publication's pricing structure is an auction and the auction is running
     /// @dev By default the bid will have a status of Pending until it is accepted or rejected by the author
     /// @dev If the author has specified a flat rate, the buyer doesn't submit a bid but just sends the funds.
@@ -143,6 +158,7 @@ contract UnicoinRegistry is ERC721Metadata {
     /// @notice This function allows the auctioneer to accept the bids
     /// @dev parameters of licence design: buyer_id, publication id, bid_id
     /// @notice This function allows the auctioneer to reject the bids
+    /// @param _Id is the bid Id
     function acceptBid(uint256 _id) public {
         uint256 _publication_Id = bids[_id].publication_Id;
         require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");
@@ -165,6 +181,7 @@ contract UnicoinRegistry is ERC721Metadata {
     }
 
     /// @notice This function allows the auctioneer to cancel the bids
+    /// @param _Id is the bid Id
     function cancelBid(uint256 _id) public {
         uint256 _publication_Id = bids[_id].publication_Id;
         require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");
@@ -174,6 +191,8 @@ contract UnicoinRegistry is ERC721Metadata {
     }
     
     /// @notice This function allows the auctioneer to change from an auction to a sale
+    /// @param _publication_Id
+    /// @param _sell_price for the research
     function changeToSale(uint256 _publication_Id, uint256 _sell_price) public {
         require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");
         require(publications[_publication_Id].isAuction, "Publication is not an auction");
@@ -182,6 +201,7 @@ contract UnicoinRegistry is ERC721Metadata {
     }
 
     /// @notice This function allows the auctioneer to change from a sale to an auction
+    /// @param _publication_Id
     function changeToAuction(uint256 _publication_Id) public {
         require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");
         require(!publications[_publication_Id].isAuction, "Publication is already on auction");
@@ -190,18 +210,22 @@ contract UnicoinRegistry is ERC721Metadata {
     }
 
     /// @notice This function allows the auctioneer to change the sell price
+    /// @param _publication_Id
+    /// @param _sell_price for the research
     function changeSellPrice(uint256 _publication_Id, uint256 _sell_price) public {
         require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");
         require(!publications[_publication_Id].isAuction, "Publication is on auction.");
         publications[_publication_Id].sell_price = _sell_price;
     }
     /// @notice This function allows the auctioneer to change the running status
+    /// @param _publication_Id
     function changeRunningStatus(uint256 _publication_Id) public {
         require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");
         publications[_publication_Id].isRunning = !publications[_publication_Id].isRunning;
     }
 
     /// @return This function allows anyone to get the list of publications based on the address of the publisher
+    /// @param _address eth address for the user
     function getPublications(address _address) public view returns(uint256[] memory) {
         uint256 _author_Id = userAddresses[_address];
         return publicationOwners[_author_Id];
@@ -223,6 +247,7 @@ contract UnicoinRegistry is ERC721Metadata {
     // }
 
     /// @return This function allows anyone to get list of bids per publication
+    /// @param _publication_Id
     function getPublicationBids(uint256 _publication_Id) public view returns(uint256[] memory) {
         return publications[_publication_Id].publication_bids;
     }
