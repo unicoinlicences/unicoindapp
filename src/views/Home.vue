@@ -81,10 +81,10 @@
         </div>
         <div class="md-layout-item md-size-20 md-medium-hide" />
       </div>
-      <div class="md-layout">
-      <div class="md-layout">
-        <div class="md-layout-item">
-          <md-content style="padding-bottom: 50px;padding-top:50px">
+      </md-content>
+      <div>
+        <div>
+          <div style="padding-top:50px">
             <h1>How does <span>UniCoin</span> work?</h1>
             <div class="container">
 
@@ -129,11 +129,11 @@
               </div>
 
             </div>
-          </md-content>
+          </div>
         </div>
       </div>
     </div>
-    </md-content>
+    
   </div>
 </template>
 
