@@ -5,9 +5,8 @@
         <div class="md-layout-item">
           <md-content style="padding: 20px;">
             <md-card-header>
-              <div class="md-title">View all publications within the marketplace</div>
+              <div class="md-title">View all publications on the marketplace</div>
             </md-card-header>
-            <p>Table with all of them. search and filter</p>
           </md-content>
 
           <browse-publication-row-item

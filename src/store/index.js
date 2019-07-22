@@ -188,7 +188,7 @@ export default new Vuex.Store({
         let finalPublicationObject = {}
         finalPublicationObject['publicationId'] = i
         finalPublicationObject['title'] = ipfsFile.title
-        finalPublicationObject['abstract'] = ipfsFile.title
+        finalPublicationObject['abstract'] = ipfsFile.abstract
         finalPublicationObject['authorNumber'] = publicationObjectProcessed[0]
         finalPublicationObject['authorAddress'] = authorBlob.owned_address
         finalPublicationObject['authorFirstName'] = authorProfile.firstName
