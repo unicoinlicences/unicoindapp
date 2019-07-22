@@ -13,7 +13,8 @@
           <browse-publication-row-item
             v-for="publication in listedPublications"
             :publicationInformation="publication"
-          style="margin:20px"
+            style="margin:20px"
+            :key="publication"
           />
           <!-- {{publication}} -->
         </div>
