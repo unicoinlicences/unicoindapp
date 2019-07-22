@@ -132,10 +132,152 @@
           </div>
         </div>
       </div>
+      <div>
+      <md-content style="padding:50px">
+        
+        <h1>What technology do we use?</h1>
+        <br>
+        <div class="card-expansion">
+          <md-card>
+            <md-card-media>
+              <img 
+              src="../assets/ethereum.png" 
+              alt="ethereum logo"
+              class="text-center"
+              style="height:200px;width:135px;padding-top:20px">
+            </md-card-media>
+
+            <md-card-header>
+              <div class="md-title">Ethereum smart contracts</div>
+              <div class="md-subhead"><br>Immutable fund processing and issuing of non-fungible token licences.</div>
+            </md-card-header>
+
+            <md-card-expand>
+              <md-card-actions md-alignment="space-between">
+                <md-card-expand-trigger>
+                  <md-button class="md-icon-button">
+                    <md-icon>keyboard_arrow_down</md-icon>
+                  </md-button>
+                </md-card-expand-trigger>
+              </md-card-actions>
+
+              <md-card-expand-content>
+                <md-card-content>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in deleniti minus sint. Excepturi.
+                </md-card-content>
+              </md-card-expand-content>
+            </md-card-expand>
+          </md-card>
+
+          <md-card>
+            <md-card-media>
+              <img 
+              src="../assets/ipfs.png" 
+              alt="IPFS logo"
+              class="text-center"
+              style="height:200px;width:200px;padding-top:20px">
+            </md-card-media>
+
+            <md-card-header>
+              <div class="md-title">InterPlanetary File System</div>
+              <div class="md-subhead"><br>We utilize this peer-to-peer network for distributed storage of accounts and research files.</div>
+            </md-card-header>
+
+            <md-card-expand>
+              <md-card-actions md-alignment="space-between">
+                <md-card-expand-trigger>
+                  <md-button class="md-icon-button">
+                    <md-icon>keyboard_arrow_down</md-icon>
+                  </md-button>
+                </md-card-expand-trigger>
+              </md-card-actions>
+
+              <md-card-expand-content>
+                <md-card-content>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in deleniti minus sint. Excepturi.
+                </md-card-content>
+              </md-card-expand-content>
+            </md-card-expand>
+          </md-card>
+
+          <md-card>
+            <md-card-media>
+              <img 
+              src="../assets/orcid_logo.png" 
+              alt="ORCID logo"
+              class="text-center"
+              style="height:200px;width:200px;padding-top:70px;padding-bottom:70px">
+            </md-card-media>
+
+            <md-card-header>
+              <div class="md-title">Integration with ORCID</div>
+              <div class="md-subhead"><br>We leverage the <i>de facto</i> digital academic identifier to prove researchers' identity.</div>
+            </md-card-header>
+
+            <md-card-expand>
+              <md-card-actions md-alignment="space-between">
+                <md-card-expand-trigger>
+                  <md-button class="md-icon-button">
+                    <md-icon>keyboard_arrow_down</md-icon>
+                  </md-button>
+                </md-card-expand-trigger>
+              </md-card-actions>
+
+              <md-card-expand-content>
+                <md-card-content>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in deleniti minus sint. Excepturi.
+                </md-card-content>
+              </md-card-expand-content>
+            </md-card-expand>
+          </md-card>
+
+          <md-card>
+            <md-card-media>
+              <video autoplay style="padding-top:20px">
+                <source src="../assets/web3.mp4" type="video/mp4">
+              </video>
+            </md-card-media>
+
+            <md-card-header>
+              <div class="md-title">MetaMask and Portis web3 injection</div>
+              <div class="md-subhead"><br>Both one-click access to the blockchain, and a frictionless user experience.</div>
+            </md-card-header>
+
+            <md-card-expand>
+              <md-card-actions md-alignment="space-between">
+                <md-card-expand-trigger>
+                  <md-button class="md-icon-button">
+                    <md-icon>keyboard_arrow_down</md-icon>
+                  </md-button>
+                </md-card-expand-trigger>
+              </md-card-actions>
+
+              <md-card-expand-content>
+                <md-card-content>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in deleniti minus sint. Excepturi.
+                </md-card-content>
+              </md-card-expand-content>
+            </md-card-expand>
+          </md-card>
+
+        </div>
+      </md-content>
     </div>
-    
-  </div>
+    </div>
+
 </template>
+<style lang="scss" scoped>
+  .card-expansion {
+    height: 480px;
+  }
+
+  .md-card {
+    width: 320px;
+    margin: 4px;
+    display: inline-block;
+    vertical-align: top;
+  }
+</style>
 
 <script>
 import ClickableAddress from "@/components/widgets/ClickableAddress";
