@@ -85,63 +85,50 @@
       <div class="md-layout">
         <div class="md-layout-item">
           <md-content style="padding-bottom: 50px;padding-top:50px">
-            <md-card-header>
-              <span class="md-headline text-center">How does UniCoin work?</span>
-            </md-card-header>
-                <div class="md-layout md-gutter">
-            <div class="md-layout-item md-size-20 md-medium-hide" />
-            <div class="md-layout-item md-small-size-100">
-              <img
-                class="text-center"
-                alt="step logo"
-                style="height:85px;"
-                src="../assets/003-search.png"
-              />
-              <p
-                class="text-center"
-              >1. Researchers register on the platform, with their identities attested to by ORCID, a digital identifier for academics.</p>
+            <h1>How does <span>UniCoin</span> work?</h1>
+            <div class="container">
+
+              <div class="timeline-block timeline-block-right">
+                  <div class="marker"></div>
+                  <div class="timeline-content">
+                    <h3>Step 1</h3>
+                    <p>Researchers register on the platform, with their identities attested to by ORCID, a digital identifier for academics</p>
+                  </div>
+              </div>
+
+              <div class="timeline-block timeline-block-left">
+                  <div class="marker"></div>
+                  <div class="timeline-content">
+                    <h3>Step 2</h3>
+                    <p>Research is uploaded to the platform, available freely for download, with a <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0</a></p>
+                  </div>
+              </div>
+
+              <div class="timeline-block timeline-block-right">
+                  <div class="marker"></div>
+                  <div class="timeline-content">
+                    <h3>Step 3</h3>
+                    <p>Entities wishing to use any research for commercial purposes can browse the platform and purchase a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International</a> licence, giving them permission to utilize the research for commercial purposes</p>
+                  </div>
+              </div>
+
+              <div class="timeline-block timeline-block-left">
+                  <div class="marker"></div>
+                  <div class="timeline-content">
+                    <h3>Step 4</h3>
+                    <p>Funds securely transferred to researchers through an Ethereum smart contract can be automatically distrubuted to influential works of research, ensuring foundational research is recognized and compensated</p>
+                  </div>
+              </div>
+
+              <div class="timeline-block timeline-block-right">
+                  <div class="marker"></div>
+                  <div class="timeline-content">
+                    <h3>Step 5</h3>
+                    <p>Researchers can use UniCoin as a platform for funding their research! Institutions wanting to allocate funds towards specific research topics can use UniCoin to fund research in advance, ensuring that all the right parties receive an allocation of that funding as well</p>
+                  </div>
+              </div>
+
             </div>
-            <div class="md-layout-item md-small-size-100">
-              <img
-                class="text-center"
-                alt="step logo"
-                style="height:85px;"
-                src="../assets/001-statistics.png"
-              />
-              <p
-                class="text-center"
-              >2. Research is uploaded to the platform, available freely for download, with a <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0</a></p>
-            </div>
-            <div class="md-layout-item md-size-20 md-medium-hide" />
-          </div>
-          <br />
-          <br />
-          <div class="md-layout md-gutter">
-            <div class="md-layout-item md-size-20 md-medium-hide" />
-            <div class="md-layout-item md-small-size-100">
-              <img
-                class="text-center"
-                alt="step logo"
-                style="height:85px;"
-                src="../assets/002-wallet.png"
-              />
-              <p
-                class="text-center"
-              >3. Entities wishing to use any research for commercial purposes can browse the platform and purchase a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International</a> licence.</p>
-            </div>
-            <div class="md-layout-item md-small-size-100">
-              <img
-                class="text-center"
-                alt="step logo"
-                style="height:85px;"
-                src="../assets/005-test-tube.png"
-              />
-              <p
-                class="text-center"
-              >4. Funds securely transferred to researchers through an Ethereum smart contract can be distrubuted to influential works of research, ensuring foundational research is recognized and compensated.</p>
-            </div>
-            <div class="md-layout-item md-size-20 md-medium-hide" />
-          </div>
           </md-content>
         </div>
       </div>
