@@ -4,12 +4,9 @@
       <div class="md-layout-item">
         <h2>{{publicationInformation.title}}</h2>
         <p>
-          <b>Published by:</b>
+          <b>Published by: </b>
           <b>
-            <i>{{publicationInformation.authorFirstName}} {{publicationInformation.authorLastName}}</i>
-          </b>
-          ,
-          {{publicationInformation.authorUniversity}}.
+            <i>{{publicationInformation.authorFirstName}} {{publicationInformation.authorLastName}}</i> </b>, {{publicationInformation.authorUniversity}}.
           <a
             v-bind:href="'https://orcid.org/'+publicationInformation.authorOrcid"
             target="_blank"
@@ -44,7 +41,7 @@
           {{publicationInformation.sellPrice}} USD
         </p>
 
-        <md-field v-if="!publicationInformation.isAuction">
+        <md-field v-if="!publicationInformation.isAuction" >
           <label>Licencing fee (USD)</label>
           <md-input v-model="offer" type="number"></md-input>
         </md-field>
@@ -97,6 +94,8 @@
             >Download</md-button>
           </md-dialog-actions>
         </md-dialog>
+
+
         <md-dialog :md-active.sync="showDialog2">
           <md-tabs md-dynamic-height>
             <md-tab md-label="Make bid">
@@ -133,9 +132,46 @@
           </md-dialog-actions>
         </md-dialog>
 
+        <md-dialog :md-active.sync="showDialog3">
+          <md-tabs md-dynamic-height>
+            <md-tab md-label="Buy licence">
+              <p>You can purchase the commercial rights to this publication here.</p>
+              <a 
+              rel="license" 
+              href="http://creativecommons.org/licenses/by/4.0/"
+              ><img 
+              alt="Creative Commons License" 
+              style="border-width:0" 
+              src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+              <br />Buy doing so, you will receive a
+              <a 
+              rel="license" 
+              href="http://creativecommons.org/licenses/by/4.0/"
+              >Creative Commons Attribution 4.0 International License</a> to this work.
+              <p>The full terms of this licence can be accessed at the link provided above.</p>
+              <p>Under this licence, the following terms apply:</p>
+              <ol>
+                <li><b>Attribution</b> — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.</li>
+                <li><b>No additional restrictions</b> — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.</li>
+              </ol>
+            </md-tab>
+          </md-tabs>
+
+          <md-field style="padding-left:20px" v-if="!publicationInformation.isAuction">
+            <label style="padding-left:20px">Licencing fee (USD)</label>
+            <md-input style="padding:20px" v-model="offer" value=publicationInformation.sellPrice readonly></md-input>
+          </md-field>
+
+          <md-dialog-actions>
+            <md-button class="md-primary" @click="showDialog3 = false">Close</md-button>
+            <md-button class="md-primary md-raised" @click="makeBid">Purchase licence</md-button>
+          </md-dialog-actions>
+        </md-dialog>
+
+
         <md-button @click="showDialog1 = true">Download free copy</md-button>
         <md-button v-if="publicationInformation.isAuction" @click="showDialog2 = true">Bid for licence here</md-button>
-        <md-button v-if="!publicationInformation.isAuction" @click="makeBid">Purchase licence</md-button>
+        <md-button v-if="!publicationInformation.isAuction" @click="showDialog3 = true">Purchase licence</md-button>
 
       </div>
       <div class="md-layout-item md-size-20">
@@ -168,7 +204,8 @@ export default {
   name: "DialogCustom",
   data: () => ({
     showDialog1: false,
-    showDialog2: false
+    showDialog2: false,
+    showDialog3: false
   }),
   name: "ButtonVsLink",
   computed: {
