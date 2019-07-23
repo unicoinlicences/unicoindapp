@@ -121,9 +121,7 @@ export default new Vuex.Store({
       console.log("length", numberOfPublications.toNumber())
       if (numberOfPublications) {
         commit(mutations.SET_NUMBER_OF_PUBLICATIONS, numberOfPublications.toNumber());
-        if (numberOfPublications > 0) {
-          dispatch(actions.GET_ALL_PUBLICATIONS);
-        }
+        dispatch(actions.GET_ALL_PUBLICATIONS);
       }
 
 
