@@ -154,8 +154,8 @@
       </div>
     </div>
     <div>
-      <md-content style="padding:50px;padding-bottom:200px">
-        <h1>Technology behind Unicoin</h1>
+      <md-content style="padding:50px;padding-bottom:60px">
+        <h1>The <span>technology</span> behind UniCoin</h1>
         <br />
         <div class="md-layout">
           <div class="md-layout-item">
@@ -186,7 +186,7 @@
                 </md-card-actions>
 
                 <md-card-expand-content>
-                  <md-card-content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in deleniti minus sint. Excepturi.</md-card-content>
+                  <md-card-content>Through our smart contract, written in Solidity and tested in JavaScript using Truffle, we issue licences to commercial rights through the issuance of an NFT. Licences are cryptographically unique and only allow the buyer to those commercial rights.</md-card-content>
                 </md-card-expand-content>
               </md-card-expand>
             </md-card>
@@ -219,7 +219,7 @@
                 </md-card-actions>
 
                 <md-card-expand-content>
-                  <md-card-content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in deleniti minus sint. Excepturi.</md-card-content>
+                  <md-card-content>To avoid as many slow transactions with the blockchain as possible, we make use of IPFS for the storage of all research media on our platform. Data is hashed and spread across a wide network, allowing efficient access and ensuring security of material on the platform.</md-card-content>
                 </md-card-expand-content>
               </md-card-expand>
             </md-card>
@@ -253,7 +253,7 @@
                 </md-card-actions>
 
                 <md-card-expand-content>
-                  <md-card-content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in deleniti minus sint. Excepturi.</md-card-content>
+                  <md-card-content>ORCID is the leading standard for digital identities for academics, so we leverage their existing auth0 system to validate researchers' profiles. Researchers attest to the ownership of an Ethereum wallet, which can only be done on successful ORCID validation of their identity.</md-card-content>
                 </md-card-expand-content>
               </md-card-expand>
             </md-card>
@@ -261,9 +261,6 @@
           <div class="md-layout-item">
             <md-card>
               <md-card-media>
-                <!-- <video autoplay style="padding-top:20px">
-                  <source src="../assets/web3.mp4" type="video/mp4" />
-                </video>-->
                 <img
                   src="../assets/metamaskPortis.png"
                   alt="ORCID logo"
@@ -289,7 +286,7 @@
                 </md-card-actions>
 
                 <md-card-expand-content>
-                  <md-card-content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in deleniti minus sint. Excepturi.</md-card-content>
+                  <md-card-content>Clients can access web3 through MetaMask if installed, which allows the direct interaction with Ethereum dApps without running a full Ethereum node. Portis aims to ensure a frictionless experience for users without a wallet, and will allow a much broader class of users to interact with us.</md-card-content>
                 </md-card-expand-content>
               </md-card-expand>
             </md-card>
@@ -297,6 +294,9 @@
         </div>
       </md-content>
     </div>
+      <div style="padding:50px;padding-bottom:60px">
+        <h1>The <span>people</span> behind UniCoin</h1>
+      </div>
   </div>
 </template>
 <style lang="scss" scoped>
