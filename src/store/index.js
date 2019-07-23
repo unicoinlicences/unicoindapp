@@ -38,7 +38,8 @@ export default new Vuex.Store({
     userNumber: 0,
     numberOfPublications: 0,
     listedPublications: [],
-    contractAddress: null
+    contractAddress: null,
+    userProfile: {}
   },
   mutations: {
     //WEB3 Stuff
@@ -47,6 +48,9 @@ export default new Vuex.Store({
     },
     [mutations.SET_USER_NUMBER](state, userNumber) {
       state.userNumber = userNumber;
+    },
+    [mutations.SET_USER_PROFILE](state, userProfile) {
+      state.userProfile = userProfile;
     },
     [mutations.SET_CURRENT_NETWORK](state, currentNetwork) {
       state.currentNetwork = currentNetwork;
@@ -115,6 +119,9 @@ export default new Vuex.Store({
       let userNumber = await registry.userAddresses(account)
       if (userNumber) {
         commit(mutations.SET_USER_NUMBER, userNumber.toNumber())
+        if (userNumber != 0) {
+          dispatch(actions.GET_USER_PROFILE)
+        }
       }
 
       let numberOfPublications = await registry.getPublicationLength()
@@ -233,6 +240,17 @@ export default new Vuex.Store({
       }
       console.log(publicationsReturned)
       commit(mutations.SET_ALL_LISTED_PUBLICATIONS, publicationsReturned);
+    },
+    [actions.GET_USER_PROFILE]: async function ({
+      commit,
+      dispatch,
+      state
+    }) {
+      let userProfile = await state.registry.users(state.userNumber, {
+        from: state.account
+      })
+      let ipfsBlob = await viewFile(userProfile.profile_uri)
+      commit(mutations.SET_USER_PROFILE, ipfsBlob)
     },
     [actions.MAKE_BID]: async function ({
       commit,
