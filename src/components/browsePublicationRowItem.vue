@@ -90,7 +90,8 @@
             <md-button class="md-primary" @click="showDialog = false">Close</md-button>
             <md-button
               class="md-primary md-raised"
-              v-bind:href="'https://infura.ipfs.io/ipfs/'+publicationInformation.pdfFile"
+              download
+              :href="publicationInformation.pdfFile"
             >Download</md-button>
           </md-dialog-actions>
         </md-dialog>

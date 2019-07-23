@@ -5,7 +5,9 @@
         <div class="md-layout-item">
           <md-content style="padding: 20px;">
             <md-card-header>
-              <div class="md-title"><h1>View all publications on the marketplace</h1></div>
+              <div class="md-title">
+                <h1>View all publications on the marketplace</h1>
+              </div>
             </md-card-header>
             <md-content style="padding:40px" class="text-center">
               <h2>All publications on UniCoin are available freely for download for academic or personal use. Please see individual publications for commercial licencing details.</h2>
@@ -18,7 +20,6 @@
             style="margin:20px"
             :key="publication"
           />
-          {{publication}}
         </div>
       </div>
     </div>
