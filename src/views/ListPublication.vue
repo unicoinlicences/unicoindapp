@@ -31,13 +31,11 @@
                       @change="handleFileUpload($event.target.files)"
                     />
                   </md-field>
-                  <img
-                    v-if="pdfFile != null"
-                    class="text-center"
-                    alt="step logo"
-                    style="height:200px;"
-                    src="../assets/samplePaper.png"
-                  />
+                  <div v-if="pdfFile!=null" class="text-center" style="width:200px">
+                    <pdf :src="pdfFile" :page="1" :resize="true">
+                      <template slot="loading">loading content here...</template>
+                    </pdf>
+                  </div>
                 </md-content>
               </div>
               <div class="md-layout-item">
@@ -297,13 +295,11 @@
                 </md-content>
               </div>
               <div class="md-layout-item md-size-30">
-                <img
-                  v-if="pdfFile != null"
-                  class="text-center"
-                  alt="step logo"
-                  style="height:300px;"
-                  src="../assets/samplePaper.png"
-                />
+                <div v-if="pdfFile!=null" style="width:250px">
+                  <pdf :src="pdfFile" :page="1" :resize="true">
+                    <template slot="loading">loading content here...</template>
+                  </pdf>
+                </div>
               </div>
             </div>
             <md-content style="padding: 20px;" v-if="deployed==true">
@@ -324,14 +320,6 @@
         >Back</md-button>
       </md-step>
     </md-steppers>
-
-    <pdf src="./static/sample.pdf" :page="1">
-      <template slot="loading">loading content here...</template>
-    </pdf>
-
-    <!-- <pdf :src="pdfFile" :page="1">
-      <template slot="loading">loading content here...</template>
-    </pdf> -->
   </div>
 </template>
 
@@ -412,16 +400,15 @@ export default {
   methods: {
     ...mapActions(["LIST_PUBLICATION"]),
     handleFileUpload(file) {
-      // this.pdfFile = file[0]
       var reader = new FileReader();
+      let scopedThis = this;
       reader.readAsDataURL(file[0]);
       reader.onload = function() {
-        console.log(reader);
+        scopedThis.pdfFile = reader.result;
       };
       reader.onerror = function(error) {
         console.log("Error: ", error);
       };
-      this.pdfFile = btoa(reader.pdfFile);
     },
     setDone(id, index) {
       this[id] = true;
