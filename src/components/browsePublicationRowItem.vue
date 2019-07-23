@@ -26,7 +26,7 @@
           <b>Keywords:</b>
           {{publicationInformation.keyword.toString()}}
         </p>
-        <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">
+        <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">
           <img
             alt="Creative Commons License"
             style="border-width:0"
@@ -56,7 +56,11 @@
         <md-dialog :md-active.sync="showDialog">
           <md-tabs md-dynamic-height>
             <md-tab md-label="Copyright notice">
-              <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">
+              <a
+                rel="license"
+                href="http://creativecommons.org/licenses/by-nc-nd/4.0/"
+                target="_blank"
+              >
                 <img
                   alt="Creative Commons License"
                   style="border-width:0"
@@ -67,6 +71,7 @@
               <a
                 rel="license"
                 href="http://creativecommons.org/licenses/by-nc-nd/4.0/"
+                target="_blank"
               >Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.
               <p>The full terms of this licence can be accessed at the link provided above.</p>
               <p>The following terms apply:</p>
