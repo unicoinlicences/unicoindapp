@@ -104,7 +104,7 @@
         </md-list-item>
 
         <md-divider></md-divider>
-        
+
         <md-list-item>
           <md-icon>chat</md-icon>
           <span class="md-list-item-text">
@@ -112,17 +112,18 @@
           </span>
         </md-list-item>
         <md-divider></md-divider>
-
       </md-list>
     </md-app-drawer>
 
     <md-app-content style="background-color: #F5F9F9; padding-left:0px; padding-right:0px">
       <router-view />
       <div style="padding-top:20px;padding-left:20px; padding-right:20px">
-        <span class="md-subheading"><a href="/TermsOfService">Terms Of Service</a></span>
+        <span class="md-subheading">
+          <a href="/TermsOfService">Terms Of Service</a>
+        </span>
         <span class="md-caption" style="float: right;">
           {{currentNetwork}}
-          <clickable-address :light="false" :icon="false" :eth-address="account" />
+          <clickable-address :light="false" :icon="false" :eth-address="contractAddress" />
         </span>
       </div>
     </md-app-content>
@@ -196,7 +197,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["currentNetwork", "account"])
+    ...mapState(["currentNetwork", "account", "contractAddress"])
   }
 };
 </script>

@@ -1,5 +1,7 @@
 pragma solidity ^0.5.0;
 
+// File: openzeppelin-solidity/contracts/ownership/Ownable.sol
+
 /**
  * @dev Contract module which provides a basic access control mechanism, where
  * there is an account (an owner) that can be granted exclusive access to
@@ -74,9 +76,7 @@ contract Ownable {
     }
 }
 
-// File: node_modules\openzeppelin-solidity\contracts\token\ERC20\IERC20.sol
-
-pragma solidity ^0.5.0;
+// File: openzeppelin-solidity/contracts/token/ERC20/IERC20.sol
 
 /**
  * @dev Interface of the ERC20 standard as defined in the EIP. Does not include
@@ -153,9 +153,7 @@ interface IERC20 {
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
-// File: node_modules\openzeppelin-solidity\contracts\math\SafeMath.sol
-
-pragma solidity ^0.5.0;
+// File: openzeppelin-solidity/contracts/math/SafeMath.sol
 
 /**
  * @dev Wrappers over Solidity's arithmetic operations with added overflow
@@ -263,11 +261,7 @@ library SafeMath {
     }
 }
 
-// File: openzeppelin-solidity\contracts\token\ERC20\ERC20.sol
-
-pragma solidity ^0.5.0;
-
-
+// File: openzeppelin-solidity/contracts/token/ERC20/ERC20.sol
 
 /**
  * @dev Implementation of the `IERC20` interface.
@@ -493,9 +487,7 @@ contract ERC20 is IERC20 {
     }
 }
 
-// File: node_modules\openzeppelin-solidity\contracts\introspection\IERC165.sol
-
-pragma solidity ^0.5.0;
+// File: openzeppelin-solidity/contracts/introspection/IERC165.sol
 
 /**
  * @dev Interface of the ERC165 standard, as defined in the
@@ -518,10 +510,7 @@ interface IERC165 {
     function supportsInterface(bytes4 interfaceId) external view returns (bool);
 }
 
-// File: node_modules\openzeppelin-solidity\contracts\token\ERC721\IERC721.sol
-
-pragma solidity ^0.5.0;
-
+// File: openzeppelin-solidity/contracts/token/ERC721/IERC721.sol
 
 /**
  * @dev Required interface of an ERC721 compliant contract.
@@ -545,7 +534,7 @@ contract IERC721 is IERC165 {
      * @dev Transfers a specific NFT (`tokenId`) from one account (`from`) to
      * another (`to`).
      *
-     *
+     * 
      *
      * Requirements:
      * - `from`, `to` cannot be zero.
@@ -573,9 +562,7 @@ contract IERC721 is IERC165 {
     function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory data) public;
 }
 
-// File: node_modules\openzeppelin-solidity\contracts\token\ERC721\IERC721Receiver.sol
-
-pragma solidity ^0.5.0;
+// File: openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol
 
 /**
  * @title ERC721 token receiver interface
@@ -601,9 +588,7 @@ contract IERC721Receiver {
     public returns (bytes4);
 }
 
-// File: node_modules\openzeppelin-solidity\contracts\utils\Address.sol
-
-pragma solidity ^0.5.0;
+// File: openzeppelin-solidity/contracts/utils/Address.sol
 
 /**
  * @dev Collection of functions related to the address type,
@@ -631,10 +616,7 @@ library Address {
     }
 }
 
-// File: node_modules\openzeppelin-solidity\contracts\drafts\Counters.sol
-
-pragma solidity ^0.5.0;
-
+// File: openzeppelin-solidity/contracts/drafts/Counters.sol
 
 /**
  * @title Counters
@@ -670,10 +652,7 @@ library Counters {
     }
 }
 
-// File: node_modules\openzeppelin-solidity\contracts\introspection\ERC165.sol
-
-pragma solidity ^0.5.0;
-
+// File: openzeppelin-solidity/contracts/introspection/ERC165.sol
 
 /**
  * @dev Implementation of the `IERC165` interface.
@@ -724,15 +703,7 @@ contract ERC165 is IERC165 {
     }
 }
 
-// File: node_modules\openzeppelin-solidity\contracts\token\ERC721\ERC721.sol
-
-pragma solidity ^0.5.0;
-
-
-
-
-
-
+// File: openzeppelin-solidity/contracts/token/ERC721/ERC721.sol
 
 /**
  * @title ERC721 Non-Fungible Token Standard basic implementation
@@ -1025,10 +996,7 @@ contract ERC721 is ERC165, IERC721 {
     }
 }
 
-// File: node_modules\openzeppelin-solidity\contracts\token\ERC721\IERC721Metadata.sol
-
-pragma solidity ^0.5.0;
-
+// File: openzeppelin-solidity/contracts/token/ERC721/IERC721Metadata.sol
 
 /**
  * @title ERC-721 Non-Fungible Token Standard, optional metadata extension
@@ -1040,12 +1008,7 @@ contract IERC721Metadata is IERC721 {
     function tokenURI(uint256 tokenId) external view returns (string memory);
 }
 
-// File: openzeppelin-solidity\contracts\token\ERC721\ERC721Metadata.sol
-
-pragma solidity ^0.5.0;
-
-
-
+// File: openzeppelin-solidity/contracts/token/ERC721/ERC721Metadata.sol
 
 contract ERC721Metadata is ERC165, ERC721, IERC721Metadata {
     // Token name
@@ -1131,14 +1094,17 @@ contract ERC721Metadata is ERC165, ERC721, IERC721Metadata {
     }
 }
 
-// File: contracts\UnicoinRegistry.sol
+// File: contracts/UnicoinRegistry.sol
 
 pragma solidity^0.5.0;
 
 /// @title UniCoin smart contract
-/// @author Chris Maree, Helda Mandlate, Luke Meiklejohn
+/// @author Chris Maree, Helda Mandlate, Luke Meiklejohn 
 
 /// @dev import contracts from openzeppelin related to ownable and ERC20, ERC721 tokens
+
+
+
 
 /// @notice contract begins here
 contract UnicoinRegistry is ERC721Metadata {
@@ -1153,6 +1119,7 @@ contract UnicoinRegistry is ERC721Metadata {
     /// @notice The mapping below maps all users' addresses to their userID
     mapping (address => uint256) public userAddresses ;
 
+    /// @notice Creates user defined type
     enum bidStatus {Pending, Accepted, Rejected, Sale, Cancelled}
 
     /// @notice Creates a struct for all bids, takes in the offer (amount of the bid), one of the enum parameters, publication Id and owner Id
@@ -1169,6 +1136,13 @@ contract UnicoinRegistry is ERC721Metadata {
     mapping(uint256 => uint256[]) public bidOwners;
 
     /// @notice Creates a struct for all publications
+    /// @param author_Id The array below will contain all bids received for that work
+    /// @param publication_uri If the researcher has chosen the auction pricing structure, the below is TRUE.
+    /// @param publication_bids If the auction is still running, the below is TRUE, because the researcher can choose to stop the auction at any point.
+    /// @param isAuction If both of the booleans above are FALSE, the price below is the flat sale price of the work.
+    /// @param isRunning The value of the publication
+    /// @param sell_price The co-authors/ contributors of the publication
+    /// @param contributors_weightings The contributor's respective weighting contributions
     struct Publication {
         uint256 author_Id;
         string publication_uri;
@@ -1181,11 +1155,14 @@ contract UnicoinRegistry is ERC721Metadata {
     }
     /// @notice Creates an array of publications for every published document
     Publication[] public publications;
-
+    
     /// @notice The mapping below will map the addresses of all the successful bidders' addresses to the ID of their owned publications
     mapping(uint256 => uint256[]) public publicationOwners;
-
+    
     /// @notice Creates a struct for licencing
+    /// @param buyer_Id of each publication's buyer
+    /// @param publication_Id of the publication being bought
+    /// @param bid_Id The bid's Id for the publication    
     struct LicenceDesign {
         uint256 buyer_Id;
         uint256 Publication_Id;
@@ -1201,6 +1178,7 @@ contract UnicoinRegistry is ERC721Metadata {
     /// @dev ERC20 is now daiContract
     ERC20 daiContract;
     /// @dev The constructor below reserves user 0 for all unregistered users
+    /// @param _daiContractAddress DAI contract address
     constructor(address _daiContractAddress) public ERC721Metadata("UniCoin Licence", "UNIC"){
         users.push(User(address(0), ""));
         licences.push(LicenceDesign(0, 0, 0));
@@ -1209,11 +1187,12 @@ contract UnicoinRegistry is ERC721Metadata {
     }
 
     /// @notice This function registers a user on the platform by taking in their profile URL
+    /// @param _profile_uri user profile url
     /// @dev If the user's address is in position 0 of the userAddresses array, they are unregistered
     /// @dev Create an instance of the user and add the Id to their address
     function registerUser(string memory _profile_uri) public {
         require(bytes(_profile_uri).length > 0, "Profile URI should not be empty.");
-       require(userAddresses[msg.sender]==0,"User already registered.");
+        require(userAddresses[msg.sender]==0,"User already registered.");
         uint256 id = users.push(User(msg.sender,_profile_uri));
         userAddresses[msg.sender] = id - 1;
     }
@@ -1222,7 +1201,13 @@ contract UnicoinRegistry is ERC721Metadata {
     /// @notice since no one has bidded for or bought a licence yet
     /// @dev The researcher only specifies the flat rate if they have chosen not to auction the work
     /// @dev Add instance to the respective arrays
-    function createPublication(string memory _publication_uri, bool _isAuction, bool _isRunning, uint256 _sell_price, uint256[] memory _contributors, uint256[] memory _contributors_weightings) public {
+    function createPublication(
+        string memory _publication_uri,
+        bool _isAuction,
+        bool _isRunning,
+        uint256 _sell_price,
+        uint256[] memory _contributors,
+        uint256[] memory _contributors_weightings) public {
         require(bytes(_publication_uri).length > 0, "Publication URI should not be empty.");
         require(userAddresses[msg.sender] != 0, "User address is not registered.");
         if(_isAuction) {
@@ -1233,12 +1218,22 @@ contract UnicoinRegistry is ERC721Metadata {
         }
         uint256 _author_Id = userAddresses[msg.sender];
         uint256[] memory _publication_bids;
-        Publication memory _publication = Publication(_author_Id, _publication_uri, _publication_bids, _isAuction, _isRunning, _sell_price, _contributors, _contributors_weightings);
+        Publication memory _publication = Publication(
+            _author_Id,
+            _publication_uri,
+            _publication_bids,
+            _isAuction,
+            _isRunning,
+            _sell_price,
+            _contributors,
+            _contributors_weightings);
         uint256 _id = publications.push(_publication);
         publicationOwners[_author_Id].push(_id - 1);
     }
 
     /// @notice This function creates a new bid for a particular publication
+    /// @param _offer for the research
+    /// @param _publication_Id is the index for the publication Id
     /// @dev The bidder should only be able to submit a bid if the publication's pricing structure is an auction and the auction is running
     /// @dev By default the bid will have a status of Pending until it is accepted or rejected by the author
     /// @dev If the author has specified a flat rate, the buyer doesn't submit a bid but just sends the funds.
@@ -1271,23 +1266,26 @@ contract UnicoinRegistry is ERC721Metadata {
             _mint(users[bids[_id].owner_Id].owned_address, _licence_Id);
         }
     }
-
+        
     /// @notice This function allows the auctioneer to accept the bids
     /// @dev parameters of licence design: buyer_id, publication id, bid_id
     /// @notice This function allows the auctioneer to reject the bids
+    /// @param _id is the bid Id
     function acceptBid(uint256 _id) public {
         uint256 _publication_Id = bids[_id].publication_Id;
         require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");
         require(publications[_publication_Id].isAuction, "Publication not an auction.");
         require(publications[_publication_Id].isRunning, "Auction is not running.");
         bids[_id].status = bidStatus.Accepted;
-
+        
         uint256 _licence_Id = licences.push(LicenceDesign(bids[_id].owner_Id, _publication_Id, _id));
         licenceOwners[bids[_id].owner_Id] = _licence_Id;
         publicationLicences[_publication_Id].push(_licence_Id);
         _mint(users[bids[_id].owner_Id].owned_address, _licence_Id);
     }
 
+    /// @notice This function allows the auctioneer to reject the bids
+    /// @param _id is the bid Id
     function rejectBid(uint256 _id) public {
         uint256 _publication_Id = bids[_id].publication_Id;
         require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");
@@ -1297,6 +1295,7 @@ contract UnicoinRegistry is ERC721Metadata {
     }
 
     /// @notice This function allows the auctioneer to cancel the bids
+    /// @param _id is the bid Id
     function cancelBid(uint256 _id) public {
         uint256 _publication_Id = bids[_id].publication_Id;
         require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");
@@ -1304,8 +1303,10 @@ contract UnicoinRegistry is ERC721Metadata {
         require(publications[_publication_Id].isRunning, "Auction not running.");
         bids[_id].status = bidStatus.Cancelled;
     }
-
+    
     /// @notice This function allows the auctioneer to change from an auction to a sale
+    /// @param _publication_Id publication id number
+    /// @param _sell_price for the research
     function changeToSale(uint256 _publication_Id, uint256 _sell_price) public {
         require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");
         require(publications[_publication_Id].isAuction, "Publication is not an auction");
@@ -1314,6 +1315,7 @@ contract UnicoinRegistry is ERC721Metadata {
     }
 
     /// @notice This function allows the auctioneer to change from a sale to an auction
+    /// @param _publication_Id publication id number
     function changeToAuction(uint256 _publication_Id) public {
         require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");
         require(!publications[_publication_Id].isAuction, "Publication is already on auction");
@@ -1322,18 +1324,22 @@ contract UnicoinRegistry is ERC721Metadata {
     }
 
     /// @notice This function allows the auctioneer to change the sell price
+    /// @param _publication_Id publication id number
+    /// @param _sell_price for the research
     function changeSellPrice(uint256 _publication_Id, uint256 _sell_price) public {
         require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");
         require(!publications[_publication_Id].isAuction, "Publication is on auction.");
         publications[_publication_Id].sell_price = _sell_price;
     }
     /// @notice This function allows the auctioneer to change the running status
+    /// @param _publication_Id publication id number
     function changeRunningStatus(uint256 _publication_Id) public {
         require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");
         publications[_publication_Id].isRunning = !publications[_publication_Id].isRunning;
     }
 
     /// @return This function allows anyone to get the list of publications based on the address of the publisher
+    /// @param _address eth address for the user
     function getPublications(address _address) public view returns(uint256[] memory) {
         uint256 _author_Id = userAddresses[_address];
         return publicationOwners[_author_Id];
@@ -1355,6 +1361,7 @@ contract UnicoinRegistry is ERC721Metadata {
     // }
 
     /// @return This function allows anyone to get list of bids per publication
+    /// @param _publication_Id publication id number
     function getPublicationBids(uint256 _publication_Id) public view returns(uint256[] memory) {
         return publications[_publication_Id].publication_bids;
     }
@@ -1365,7 +1372,17 @@ contract UnicoinRegistry is ERC721Metadata {
         return publications.length;
     }
 
-    function getPublication(uint256 _publication_Id) public view returns(uint256, string memory, uint256[] memory, bool, bool, uint256, uint256[] memory, uint256[] memory){
+    /// @return Returns information about a spesific publication ID
+    /// @param _publication_Id publication id number
+    function getPublication(uint256 _publication_Id) public view returns(
+        uint256,
+        string memory,
+        uint256[] memory,
+        bool,
+        bool,
+        uint256,
+        uint256[] memory,
+        uint256[] memory){
         Publication memory _publication = publications[_publication_Id];
         return (
         _publication.author_Id,

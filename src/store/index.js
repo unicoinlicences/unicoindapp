@@ -35,20 +35,27 @@ export default new Vuex.Store({
     currentNetwork: null,
     etherscanBase: null,
     registry: null,
-    userNumber: 1,
+    userNumber: 0,
     numberOfPublications: 0,
-    listedPublications: []
+    listedPublications: [],
+    contractAddress: null
   },
   mutations: {
     //WEB3 Stuff
     [mutations.SET_ACCOUNT](state, account) {
       state.account = account;
     },
+    [mutations.SET_USER_NUMBER](state, userNumber) {
+      state.userNumber = userNumber;
+    },
     [mutations.SET_CURRENT_NETWORK](state, currentNetwork) {
       state.currentNetwork = currentNetwork;
     },
     [mutations.SET_ETHERSCAN_NETWORK](state, etherscanBase) {
       state.etherscanBase = etherscanBase;
+    },
+    [mutations.SET_CONTRACT_ADDRESS](state, contractAddress) {
+      state.contractAddress = contractAddress;
     },
     [mutations.SET_WEB3]: async function (state, {
       web3,
@@ -89,6 +96,11 @@ export default new Vuex.Store({
       dispatch(actions.GET_CURRENT_NETWORK);
 
       let registry = await Registry.deployed();
+
+      if (registry.address) {
+        commit(mutations.SET_CONTRACT_ADDRESS, registry.address);
+      }
+
       let accounts = await web3.eth.getAccounts();
       let account = accounts[0];
       if (account) {
@@ -100,11 +112,20 @@ export default new Vuex.Store({
         contract: registry
       })
 
-      let numberOfPublications = await state.registry.getPublicationLength()
+      let userNumber = await registry.userAddresses(account)
+      if (userNumber) {
+        commit(mutations.SET_USER_NUMBER, userNumber.toNumber())
+      }
+
+      let numberOfPublications = await registry.getPublicationLength()
+      console.log("length", numberOfPublications.toNumber())
       if (numberOfPublications) {
         commit(mutations.SET_NUMBER_OF_PUBLICATIONS, numberOfPublications.toNumber());
-        dispatch(actions.GET_ALL_PUBLICATIONS);
+        if (numberOfPublications > 0) {
+          dispatch(actions.GET_ALL_PUBLICATIONS);
+        }
       }
+
 
     },
     [actions.CREATE_USER]: async function ({
@@ -144,11 +165,14 @@ export default new Vuex.Store({
       dispatch,
       state
     }) {
+
       console.log("CALLING")
       let publicationsReturned = []
-      for (let i = 1; i < state.numberOfPublications; i++) {
-        console.log(i)
+      for (let i = 0; i < state.numberOfPublications; i++) {
+        console.log("loading publication: ", i)
         let publicationObject = await state.registry.getPublication(i)
+        console.log("OBJECT")
+        console.log(publicationObject)
         let publicationObjectProcessed = []
         publicationObjectProcessed[0] = publicationObject[0].toNumber()
         publicationObjectProcessed[1] = publicationObject[1]

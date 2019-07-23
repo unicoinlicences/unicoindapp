@@ -325,12 +325,13 @@
       </md-step>
     </md-steppers>
 
-    <!-- <pdf src=""></pdf> -->
-    <!-- <pdf v-if="pdfName!=null" src="pdf" :page="1" type="application/pdf">
-    <template slot="loading">
-      loading content here...
-    </template>
-    </pdf>-->
+    <pdf src="./static/sample.pdf" :page="1">
+      <template slot="loading">loading content here...</template>
+    </pdf>
+
+    <!-- <pdf :src="pdfFile" :page="1">
+      <template slot="loading">loading content here...</template>
+    </pdf> -->
   </div>
 </template>
 
