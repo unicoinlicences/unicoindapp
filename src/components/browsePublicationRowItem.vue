@@ -12,6 +12,7 @@
           {{publicationInformation.authorUniversity}}.
           <a
             v-bind:href="'https://orcid.org/'+publicationInformation.authorOrcid"
+            target="_blank"
           >
             <img class="text-right" alt="ORCID logo" style="width: 16px" src="../assets/orcid.png" />
             https://orcid.org/{{publicationInformation.authorOrcid}}
