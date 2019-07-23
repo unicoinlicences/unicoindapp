@@ -44,16 +44,12 @@
           {{publicationInformation.sellPrice}} USD
         </p>
 
-        <md-field v-if="publicationInformation.isAuction">
-          <label>Bid amount (USD)</label>
-          <md-input v-model="offer" type="number"></md-input>
-        </md-field>
         <md-field v-if="!publicationInformation.isAuction">
           <label>Licencing fee (USD)</label>
           <md-input v-model="offer" type="number"></md-input>
         </md-field>
 
-        <md-dialog :md-active.sync="showDialog">
+        <md-dialog :md-active.sync="showDialog1">
           <md-tabs md-dynamic-height>
             <md-tab md-label="Copyright notice">
               <a
@@ -93,7 +89,7 @@
           </md-tabs>
 
           <md-dialog-actions>
-            <md-button class="md-primary" @click="showDialog = false">Close</md-button>
+            <md-button class="md-primary" @click="showDialog1 = false">Close</md-button>
             <md-button
               class="md-primary md-raised"
               download
@@ -101,10 +97,46 @@
             >Download</md-button>
           </md-dialog-actions>
         </md-dialog>
+        <md-dialog :md-active.sync="showDialog2">
+          <md-tabs md-dynamic-height>
+            <md-tab md-label="Make bid">
+              <p>You can bid for the commercial rights to this publication here.</p>
+              <a 
+              rel="license" 
+              href="http://creativecommons.org/licenses/by/4.0/"
+              ><img 
+              alt="Creative Commons License" 
+              style="border-width:0" 
+              src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+              <br />If your bid is accepted, you will receive a license under a 
+              <a 
+              rel="license" 
+              href="http://creativecommons.org/licenses/by/4.0/"
+              >Creative Commons Attribution 4.0 International License</a>.
+              <p>The full terms of this licence can be accessed at the link provided above.</p>
+              <p>Under this licence, the following terms apply:</p>
+              <ol>
+                <li><b>Attribution</b> — You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.</li>
+                <li><b>No additional restrictions</b> — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.</li>
+              </ol>
+            </md-tab>
+          </md-tabs>
 
-        <md-button @click="showDialog = true">Download free copy</md-button>
-        <md-button v-if="publicationInformation.isAuction" @click="makeBid">Bid for licence</md-button>
+          <md-field style="padding-left:20px" v-if="publicationInformation.isAuction">
+            <label style="padding-left:20px">Bid amount (USD)</label>
+            <md-input style="padding:20px" v-model="offer" type="number"></md-input>
+          </md-field>
+
+          <md-dialog-actions>
+            <md-button class="md-primary" @click="showDialog2 = false">Close</md-button>
+            <md-button class="md-primary md-raised" @click="makeBid">Bid</md-button>
+          </md-dialog-actions>
+        </md-dialog>
+
+        <md-button @click="showDialog1 = true">Download free copy</md-button>
+        <md-button v-if="publicationInformation.isAuction" @click="showDialog2 = true">Bid for licence here</md-button>
         <md-button v-if="!publicationInformation.isAuction" @click="makeBid">Purchase licence</md-button>
+
       </div>
       <div class="md-layout-item md-size-20">
         <md-card v-if="publicationInformation.pdfFile!=null" style="width:auto">
@@ -114,6 +146,7 @@
         </md-card>
       </div>
     </div>
+
   </md-card>
 </template>
 
@@ -134,7 +167,8 @@ export default {
   },
   name: "DialogCustom",
   data: () => ({
-    showDialog: false
+    showDialog1: false,
+    showDialog2: false
   }),
   name: "ButtonVsLink",
   computed: {
