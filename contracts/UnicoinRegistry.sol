@@ -260,7 +260,8 @@ contract UnicoinRegistry is ERC721Metadata {
     /// @param _id is the bid Id
     function cancelBid(uint256 _id) public {
         uint256 _publication_Id = bids[_id].publication_Id;
-        require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");
+        require(userAddresses[msg.sender] == publications[_publication_Id].author_Id
+        || userAddresses[msg.sender] == bids[_id].owner_Id, "User not the author of this publication");
         require(publications[_publication_Id].isAuction, "Publication not an auction.");
         require(publications[_publication_Id].isRunning, "Auction not running.");
         bids[_id].status = bidStatus.Cancelled;

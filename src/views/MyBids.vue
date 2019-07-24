@@ -29,17 +29,19 @@ import browsePublicationRowItem from "@/components/browsePublicationRowItem.vue"
 
 
 export default {
-  name: "viewBids",
+  name: "viewbid",
   data: () => ({ }),
   components: { 
     browseBidsRowItem, 
     browsePublicationRowItem
   },
   methods: {
-    ...mapActions(["GET_ALL_PUBLICATIONS"])
+    ...mapActions(["GET_USER_BIDS", "GET_ALL_PUBLICATIONS"])
   },
   mounted() {
+    this.GET_USER_BIDS();
     this.GET_ALL_PUBLICATIONS();
+
   },
   computed: {
     ...mapState(["userBids"]),
