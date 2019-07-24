@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from './store/index'
+
+//pages
 import Home from './views/Home.vue'
 import UserProfile from './views/UserProfile.vue'
 import CreateProfile from './views/CreateProfile.vue'
@@ -12,6 +15,7 @@ import TermsOfService from './views/TermsOfService.vue'
 import ContactUs from './views/ContactUs.vue'
 
 
+
 Vue.use(Router)
 
 const router = new Router({
@@ -20,57 +24,95 @@ const router = new Router({
   routes: [{
       path: '/',
       name: 'UniCoin - Home',
-      component: Home
+      component: Home,
+      meta: {
+        accountNeeded: false
+      }
     },
     {
       path: '/Profile',
       name: 'UniCoin - Profile',
-      component: UserProfile
+      component: UserProfile,
+      meta: {
+        accountNeeded: true
+      }
     },
     {
       path: '/CreateProfile',
       name: 'UniCoin - Create Profile',
-      component: CreateProfile
+      component: CreateProfile,
+      meta: {
+        accountNeeded: false
+      }
     },
     {
       path: '/BrowsePublications',
       name: 'UniCoin - Browse Publications',
-      component: BrowsePublications
+      component: BrowsePublications,
+      meta: {
+        accountNeeded: false
+      }
     },
     {
       path: '/ListPublication',
       name: 'UniCoin - List new Publication',
-      component: ListPublication
+      component: ListPublication,
+      meta: {
+        accountNeeded: true
+      }
     },
     {
       path: '/ManagePublications',
       name: 'UniCoin - Manage Publications',
-      component: ManagePublications
+      component: ManagePublications,
+      meta: {
+        accountNeeded: true
+      }
     },
     {
       path: '/MyBids',
       name: 'UniCoin - Manage Bids',
-      component: MyBids
+      component: MyBids,
+      meta: {
+        accountNeeded: true
+      }
     },
     {
       path: '/MyLicenses',
       name: 'UniCoin - Manage Licences',
-      component: MyLicenses
+      component: MyLicenses,
+      meta: {
+        accountNeeded: true
+      }
     },
     {
       path: '/TermsOfService',
       name: 'UniCoin - Terms of Use',
-      component: TermsOfService
+      component: TermsOfService,
+      meta: {
+        accountNeeded: false
+      }
     },
     {
       path: '/ContactUs',
       name: 'UniCoin - Contact Us',
-      component: ContactUs
+      component: ContactUs,
+      meta: {
+        accountNeeded: false
+      }
     },
   ]
 })
 
 router.beforeEach((to, from, next) => {
+  console.log("router")
+  console.log(to.meta.accountNeeded)
+  let pageNeedsAccount = to.meta.accountNeeded
+  console.log(store.state.userNumber)
+
+  if (pageNeedsAccount && store.state.userNumber == 0) {
+    window.location.href = "/CreateProfile?newUser=true"
+  }
   next()
 })
 

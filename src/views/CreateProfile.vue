@@ -8,8 +8,11 @@
               <div class="md-title">Welcome to UniCoin!</div>
             </md-card-header>
             <p>Create your profile here. Are you a researcher wanting to publish material, or do you represent a company wishing to licence a researcher's work?</p>
-            <br>
-            <p>Already registered? <a href="/Profile">View your profile here.</a></p>
+            <br />
+            <p>
+              Already registered?
+              <a href="/Profile">View your profile here.</a>
+            </p>
           </md-content>
         </div>
       </div>
@@ -27,18 +30,17 @@
     >
       <md-content class="md-layout-item md-size-50 md-small-size-100">
         <md-card-header>
-          <div class="md-title">To verify your profile as a researcher, please login with ORCID below.</div>
+          <div
+            class="md-title"
+          >To verify your profile as a researcher, please login with ORCID below.</div>
         </md-card-header>
 
         <md-card-content>
           <md-button
-      href="https://orcid.org/oauth/authorize?client_id=APP-0JZDFYT5L60YYAWM&response_type=token&scope=openid&redirect_uri=http://localhost:8080/CreateProfile"
-    ><img
-          class="text-right"
-          alt="ORCID logo"
-          style = "width: 18px"
-          src="../assets/orcid.png"
-        /> ORCID LOGIN</md-button>
+            href="https://orcid.org/oauth/authorize?client_id=APP-0JZDFYT5L60YYAWM&response_type=token&scope=openid&redirect_uri=http://localhost:8080/CreateProfile"
+          >
+            <img class="text-right" alt="ORCID logo" style="width: 18px" src="../assets/orcid.png" /> ORCID LOGIN
+          </md-button>
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getAcademicValidationClass('firstName')">
@@ -82,8 +84,14 @@
                   v-model="form.university"
                   :disabled="sending"
                 />
-                <span class="md-error" v-if="!$v.form.university.required">The university is required</span>
-                <span class="md-error" v-else-if="!$v.form.university.minlength">Invalid university name</span>
+                <span
+                  class="md-error"
+                  v-if="!$v.form.university.required"
+                >The university is required</span>
+                <span
+                  class="md-error"
+                  v-else-if="!$v.form.university.minlength"
+                >Invalid university name</span>
               </md-field>
             </div>
           </div>
@@ -106,7 +114,12 @@
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
 
         <md-card-actions>
-          <md-button type="submit" class="md-raised md-accent" :disabled="sending" @click="createUser">Create user</md-button>
+          <md-button
+            type="submit"
+            class="md-raised md-accent"
+            :disabled="sending"
+            @click="createUser"
+          >Create user</md-button>
         </md-card-actions>
         <!-- {{form.orcid}} -->
       </md-content>
@@ -123,11 +136,12 @@
     >
       <md-content class="md-layout-item md-size-50 md-small-size-100">
         <md-card-header>
-          <div class="md-title">To verify your profile as an institution, please provide your company details below.</div>
+          <div
+            class="md-title"
+          >To verify your profile as an institution, please provide your company details below.</div>
         </md-card-header>
 
         <md-card-content>
-
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
               <md-field :class="getCompanyValidationClass('company')">
@@ -163,7 +177,12 @@
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
 
         <md-card-actions>
-          <md-button type="submit" class="md-raised md-accent" :disabled="sending" @click="createUser">Create user</md-button>
+          <md-button
+            type="submit"
+            class="md-raised md-accent"
+            :disabled="sending"
+            @click="createUser"
+          >Create user</md-button>
         </md-card-actions>
         <!-- {{form.orcid}} -->
       </md-content>
@@ -175,6 +194,13 @@
     <br />
     <br />
     <!-- {{form}} -->
+
+    <md-dialog :md-active.sync="newUser">
+      <md-dialog-title>Create an account</md-dialog-title>
+      <md-content style="padding:30px">
+        <p>To use the Unicorn platform you first need to create an account.</p>
+      </md-content>
+    </md-dialog>
   </div>
 </template>
 
@@ -188,12 +214,13 @@ import {
   maxLength
 } from "vuelidate/lib/validators";
 import router from "@/router";
-import { min } from 'bn.js';
+import { min } from "bn.js";
 var jwt = require("jsonwebtoken");
 export default {
   name: "FormValidation",
   mixins: [validationMixin],
   data: () => ({
+    newUser: false,
     accountType: "academic",
     form: {
       firstName: null,
@@ -235,8 +262,8 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$route.hash);
-    console.log("PAAA");
+    console.log("CreateProfile Mounted");
+    console.log(this.$route);
     let token = this.getFragmentParameterByName("id_token", this.$route.hash);
     if (token) {
       let decoded = jwt.decode(token);
@@ -246,12 +273,19 @@ export default {
       this.form.lastName = decoded.family_name;
       this.form.orcid = decoded.sub;
     }
+
+    if (this.$route.query.newUser == "true") {
+      console.log("onboarding new user");
+      this.newUser = true;
+    }
   },
   methods: {
     ...mapActions(["CREATE_USER"]),
     createUser() {
       console.log("it worked!");
       console.log(this.form.firstName);
+      let submitBlob = this.form;
+      submitBlob["timestamp"] = new Date();
       this.CREATE_USER(this.form);
     },
     getFragmentParameterByName(name, route) {
@@ -270,7 +304,7 @@ export default {
         };
       }
     },
-     getCompanyValidationClass(fieldName) {
+    getCompanyValidationClass(fieldName) {
       const field = this.$v.form[fieldName];
       if (field) {
         return {

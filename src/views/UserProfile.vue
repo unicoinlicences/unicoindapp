@@ -26,7 +26,6 @@
           </a>
           <strong>Date Created:</strong>
           {{userProfile.timestamp}}
-          {{userProfile}}
         </md-content>
       </div>
       <div class="md-layout-item md-size-20 md-small-size-100">
