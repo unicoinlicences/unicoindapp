@@ -5,11 +5,11 @@
         <h2>{{bidInformation.publicationTitle}}</h2>
         <p><b>Bid ID: {{bidInformation.id}}</b></p>
         <p><b>Your offer:</b> {{bidInformation.offer}} USD</p>
-        <p v-if="bidInformation.bidStatus==0"><b>Bid status: </b>Pending</p>
-        <p v-if="bidInformation.bidStatus==1"><b>Bid status: </b>Your bid was accepted. View your licence on your <a href="/MyLicences">Licences</a> page</p>
-        <p v-if="bidInformation.bidStatus==2"><b>Bid status: </b>Rejected</p>
-        <p v-if="bidInformation.bidStatus==3"><b>Bid status: </b>Sale (successfully purchased). View your licence on your <a href="/MyLicences">Licences</a> page.</p>
-        <p v-if="bidInformation.bidStatus==4"><b>Bid status: </b>Cancelled</p>
+        <p v-if="bidInformation.bidStatus==0"><b>Bid status: </b><md-chip>Pending</md-chip></p>
+        <p v-if="bidInformation.bidStatus==1"><b>Bid status: </b><md-chip class="md-primary">Accepted</md-chip> View your licence on your <a href="/MyLicences">Licences</a> page</p>
+        <p v-if="bidInformation.bidStatus==2"><b>Bid status: </b><md-chip class="md-accent">Rejected</md-chip></p>
+        <p v-if="bidInformation.bidStatus==3"><b>Bid status: </b><md-chip class="md-primary">Sale</md-chip> Successfully purchased. View your licence on your <a href="/MyLicences">Licences</a> page.</p>
+        <p v-if="bidInformation.bidStatus==4"><b>Bid status: </b><md-chip class="md-accent">Cancelled</md-chip></p>
 
         <md-button v-if="bidInformation.bidStatus == 1"
           class="md-primary"
