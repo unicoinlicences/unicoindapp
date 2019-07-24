@@ -229,16 +229,16 @@ contract("Unicoin Registry", (accounts) => {
         it("Reverts if bad user input", async () => {
             // If bids with a non-running auction
             await registry.createPublication(validPublication.publication_uri,
-                validPublication.isAuction,
+                true,
                 false,
-                validPublication.sellPrice,
+                0,
                 validPublication.contributors,
                 validPublication.contributorsWeighting, {
                     from: publisher
                 })
             noPublications += 1;
             let publication = await registry.publications(noPublications - 1)
-
+            
             await assertRevert(registry.makeBid(100, noPublications - 1, {
                 from: buyer
             }), EVMRevert)

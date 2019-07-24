@@ -212,9 +212,9 @@ contract UnicoinRegistry is ERC721Metadata {
             publications[_publication_Id].publication_bids.push(_id);
             bidOwners[userAddresses[msg.sender]].push(_id);
 
-            // require(daiContract.allowance(msg.sender, address(this)) >= _offer, "Insufficient fund allowance");
-            // address publisherAddress = users[publications[_publication_Id].author_Id].owned_address;
-            // daiContract.transferFrom(msg.sender, publisherAddress, _offer);
+            require(daiContract.allowance(msg.sender, address(this)) >= _offer, "Insufficient fund allowance");
+            address publisherAddress = users[publications[_publication_Id].author_Id].owned_address;
+            daiContract.transferFrom(msg.sender, publisherAddress, _offer);
 
             uint256 _licence_Id = licences.push(LicenceDesign(bids[_id].owner_Id, _publication_Id, _id));
             licenceOwners[bids[_id].owner_Id] = _licence_Id;
