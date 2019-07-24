@@ -39,7 +39,8 @@ export default new Vuex.Store({
     numberOfPublications: 0,
     listedPublications: [],
     contractAddress: null,
-    userProfile: {}
+    userProfile: {},
+    userBids: []
   },
   mutations: {
     //WEB3 Stuff
@@ -51,6 +52,9 @@ export default new Vuex.Store({
     },
     [mutations.SET_USER_PROFILE](state, userProfile) {
       state.userProfile = userProfile;
+    },
+    [mutations.SET_USER_BIDS](state, userBids) {
+      state.userBids = userBids;
     },
     [mutations.SET_CURRENT_NETWORK](state, currentNetwork) {
       state.currentNetwork = currentNetwork;
@@ -121,6 +125,7 @@ export default new Vuex.Store({
         commit(mutations.SET_USER_NUMBER, userNumber.toNumber())
         if (userNumber != 0) {
           dispatch(actions.GET_USER_PROFILE)
+          dispatch(actions.GET_USER_BIDS)
         }
       }
 
@@ -251,6 +256,16 @@ export default new Vuex.Store({
       })
       let ipfsBlob = await viewFile(userProfile.profile_uri)
       commit(mutations.SET_USER_PROFILE, ipfsBlob)
+    },
+    [actions.GET_USER_BIDS]: async function ({
+      commit,
+      dispatch,
+      state
+    }) {
+      let userBids = await state.registry.getBids(state.account, {
+        from: state.account
+      })
+      commit(mutations.SET_USER_BIDS, userBids)
     },
     [actions.MAKE_BID]: async function ({
       commit,
