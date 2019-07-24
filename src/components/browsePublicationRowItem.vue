@@ -195,6 +195,7 @@
         <md-button @click="showDialog4 = true">Donate to researcher</md-button>
 
       </div>
+      
       <div class="md-layout-item md-size-20">
         <md-card v-if="publicationInformation.pdfFile!=null" style="width:auto">
           <pdf :src="publicationInformation.pdfFile" :page="1" :resize="true">
