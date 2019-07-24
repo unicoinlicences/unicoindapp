@@ -40,7 +40,8 @@ export default new Vuex.Store({
     listedPublications: [],
     contractAddress: null,
     userProfile: {},
-    userBids: []
+    userBids: [],
+    bidsReturned: [],
   },
   mutations: {
     //WEB3 Stuff
@@ -262,9 +263,34 @@ export default new Vuex.Store({
       dispatch,
       state
     }) {
-      let userBids = await state.registry.getBids(state.account, {
+      let usersBids = await state.registry.getBids(state.account, {
         from: state.account
       })
+      console.log("fetching bids")
+      console.log(usersBids)
+      let userBids = []
+      // bidInformation = {}
+      console.log(usersBids.length)
+      for (let j = 0; j < usersBids.length; j++) {
+        let bidInformation = {}
+        let bidId = usersBids[j]
+        let bidArray = await state.registry.bids(bidId)
+
+        bidInformation['id'] = bidId
+        bidInformation['offer'] = bidArray.offer
+        bidInformation['bidStatus'] = bidArray.status
+        bidInformation['publication_Id'] = bidArray.publication_Id
+        console.log("FETCHING BIDS")
+        console.log(bidInformation)
+        userBids.push(bidInformation)
+        // bidInformation.push({
+        //   bidId: bidId,
+        //   offer: bidInformation.offer,
+        //   status: bidInformation.status,
+        //   ownerId: bidInformation.owner_Id,
+        //   ownerAddress: ownerAddress
+        // })
+      }
       commit(mutations.SET_USER_BIDS, userBids)
     },
     [actions.MAKE_BID]: async function ({

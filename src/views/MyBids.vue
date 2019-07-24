@@ -7,7 +7,15 @@
             <md-card-header>
               <div class="md-title">View all pending, cancelled, or accepted bids and purchases here</div>
             </md-card-header>
-            <p>your bids here boi {{userBids}}</p>
+            <p>your bids here boi {{userBids}} {{bidsReturned}}</p>
+
+            <!-- <browse-bids-row-item
+            v-for="bid in userBids"
+            :bidInformation="bid"
+            style="margin:20px"
+            :key="bid"
+          /> -->
+
           </md-content>
         </div>
       </div>
@@ -17,6 +25,8 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+// import browseBidsRowItem from "@/components/browseBidsRowItem.vue";
+
 
 export default {
   name: "view bids",

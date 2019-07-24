@@ -104,16 +104,16 @@ const router = new Router({
   ]
 })
 
-router.beforeEach((to, from, next) => {
-  console.log("router")
-  console.log(to.meta.accountNeeded)
-  let pageNeedsAccount = to.meta.accountNeeded
-  console.log(store.state.userNumber)
+// router.beforeEach((to, from, next) => {
+//   console.log("router")
+//   console.log(to.meta.accountNeeded)
+//   let pageNeedsAccount = to.meta.accountNeeded
+//   console.log(store.state.userNumber)
 
-  if (pageNeedsAccount && store.state.userNumber == 0) {
-    window.location.href = "/CreateProfile?newUser=true"
-  }
-  next()
-})
+//   if (pageNeedsAccount && store.state.userNumber == 0) {
+//     window.location.href = "/CreateProfile?newUser=true"
+//   }
+//   next()
+// })
 
 export default router
