@@ -41,10 +41,10 @@
           {{publicationInformation.sellPrice}} USD
         </p>
 
-        <md-field v-if="!publicationInformation.isAuction" >
+        <!-- <md-field v-if="!publicationInformation.isAuction" >
           <label>Licencing fee (USD)</label>
           <md-input v-model="offer" type="number"></md-input>
-        </md-field>
+        </md-field> -->
 
         <md-dialog :md-active.sync="showDialog1">
           <md-tabs md-dynamic-height>
@@ -143,7 +143,7 @@
               alt="Creative Commons License" 
               style="border-width:0" 
               src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
-              <br />Buy doing so, you will receive a
+              <br />By doing so, you will receive a
               <a 
               rel="license" 
               href="http://creativecommons.org/licenses/by/4.0/"
@@ -158,13 +158,12 @@
           </md-tabs>
 
           <md-field style="padding-left:20px" v-if="!publicationInformation.isAuction">
-            <label style="padding-left:20px">Licencing fee (USD)</label>
-            <md-input style="padding:20px" v-model="offer" value=publicationInformation.sellPrice readonly></md-input>
+            <h3 style="padding:20px"><b>Licencing fee: </b>{{publicationInformation.sellPrice}} USD</h3>
           </md-field>
 
           <md-dialog-actions>
             <md-button class="md-primary" @click="showDialog3 = false">Close</md-button>
-            <md-button class="md-primary md-raised" @click="makeBid">Purchase licence</md-button>
+            <md-button class="md-primary md-raised" @click="makeBid(offer = publicationInformation.sellPrice)">Purchase licence</md-button>
           </md-dialog-actions>
         </md-dialog>
 
