@@ -113,7 +113,7 @@
                             <clickable-address
                               :light="false"
                               :icon="true"
-                              :eth-address="authorsAddresses[authorList.indexOf(contributor.name)] || ''"
+                              :eth-address="contributor.address || ''"
                             />
                           </div>
                           <div class="md-layout-item">
@@ -129,7 +129,7 @@
                               :process-style="{ backgroundColor: '#798288' }"
                               :tooltip-style="{ backgroundColor: '#646B71', borderColor: '#646B71' }"
                               style="padding-top:30px"
-                              :disabled="authorsAddresses[authorList.indexOf(contributor.name)] == null"
+                              :disabled="contributor.address == null"
                               @change="slideContribution(index)"
                             />
                           </div>
@@ -157,6 +157,15 @@
                       class="md-primary md-raised"
                       @click="addContributor"
                     >Add first contributor</md-button>
+                    <md-field>
+                      <label>Auto Attribute</label>
+                      <md-file
+                        v-model="autoAttribute"
+                        id="file"
+                        ref="file"
+                        @change="handelAutoAttributeFileUpload($event.target.files)"
+                      />
+                    </md-field>
                   </md-empty-state>
                   <md-button
                     @click="addContributor"
@@ -343,6 +352,7 @@ export default {
     fourth: false,
     pdfFile: null,
     pdfName: null,
+    autoAttribute: null,
     title: "",
     abstract: "",
     keywords: [],
@@ -408,6 +418,22 @@ export default {
       };
       reader.onerror = function(error) {
         console.log("Error: ", error);
+      };
+    },
+
+    handelAutoAttributeFileUpload(file) {
+      var reader = new FileReader();
+      reader.readAsText(file[0]);
+      let scopedThis = this;
+      reader.onload = function() {
+        let rows = reader.result.split("\n");
+        rows.map(v => {
+          scopedThis.coAuthor.push({
+            name: v.split(",")[0],
+            address: v.split(",")[1],
+            weighting: v.split(",")[2]
+          });
+        });
       };
     },
     setDone(id, index) {
