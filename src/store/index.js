@@ -280,21 +280,19 @@ export default new Vuex.Store({
         let bidInformation = {}
         let bidId = usersBids[j]
         let bidArray = await state.registry.bids(bidId)
+        let publicationObject = await state.registry.getPublication(bidArray.publication_Id)
+        let ipfsFile = await viewFile(publicationObject[1])
 
         bidInformation['id'] = bidId
-        bidInformation['offer'] = bidArray.offer
+        bidInformation['offer'] = bidArray.offer.toNumber()
         bidInformation['bidStatus'] = bidArray.status
         bidInformation['publication_Id'] = bidArray.publication_Id
+        bidInformation['publicationTitle'] = ipfsFile.title
+        bidInformation['pdfFile'] = ipfsFile.pdfFile        
         console.log("FETCHING BIDS")
         console.log(bidInformation)
         userBids.push(bidInformation)
-        // bidInformation.push({
-        //   bidId: bidId,
-        //   offer: bidInformation.offer,
-        //   status: bidInformation.status,
-        //   ownerId: bidInformation.owner_Id,
-        //   ownerAddress: ownerAddress
-        // })
+        
       }
       commit(mutations.SET_USER_BIDS, userBids)
     },
@@ -348,6 +346,17 @@ export default new Vuex.Store({
       console.log("IN REJECT BID CALL")
       console.log(bidId)
       await state.registry.rejectBid(bidId, {
+        from: state.account
+      })
+    },
+    [actions.CANCEL_BID]: async function ({
+      commit,
+      dispatch,
+      state
+    }, bidId) {
+      console.log("IN CANCEL BID CALL")
+      console.log(bidId)
+      await state.registry.cancelBid(bidId, {
         from: state.account
       })
     },

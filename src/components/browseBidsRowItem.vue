@@ -10,7 +10,7 @@
         <p v-if="bidInformation.bidStatus==2"><b>Bid status: </b>Rejected</p>
         <p v-if="bidInformation.bidStatus==3"><b>Bid status: </b>Sale (successfully purchased). View your licence on your <a href="/MyLicences">Licences</a> page.</p>
         <p v-if="bidInformation.bidStatus==4"><b>Bid status: </b>Cancelled</p>
-        
+
         <md-button v-if="bidInformation.bidStatus == 1"
           class="md-primary"
           download
@@ -50,13 +50,21 @@ import pdf from "pdfvuer";
 export default {
   name: "browseBidsRowItem",
   components: { pdf },
-  data: () => ({ }),
+  data: () => ({ offer: 0 }),
   props: {
     bidInformation: {
       type: Object,
       required: true
     },
   },
+  methods: {
+    ...mapActions(["CANCEL_BID"]),
+    cancelBid() {
+      this.CANCEL_BID({
+        bidId: this.bidInformation.id
+      });
+    }
+  }
 };
 </script>
 
