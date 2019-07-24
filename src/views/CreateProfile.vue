@@ -9,10 +9,6 @@
             </md-card-header>
             <p>Create your profile here. Are you a researcher wanting to publish material, or do you represent a company wishing to licence a researcher's work?</p>
             <br />
-            <p>
-              Already registered?
-              <a href="/Profile">View your profile here.</a>
-            </p>
           </md-content>
         </div>
       </div>
@@ -23,12 +19,13 @@
     <br />
     <form
       v-if="accountType=='academic'"
-      novalidate
       class="md-layout"
-      @submit.prevent="validateUser"
+      novalidate
+      @submit.prevent="$v.$touch()"
       style="padding-top:20px"
     >
-      <md-content class="md-layout-item md-size-50 md-small-size-100">
+      <div class="md-layout-item md-size-15 md-size-small-0" />
+      <md-content class="md-layout-item md-size-70 md-small-size-100">
         <md-card-header>
           <div
             class="md-title"
@@ -52,8 +49,14 @@
                   v-model="academicForm.firstName"
                   :disabled="true"
                 />
-                <span class="md-error" v-if="!$v.form.firstName.required">The first name is required</span>
-                <span class="md-error" v-else-if="!$v.form.firstName.minlength">Invalid first name</span>
+                <span
+                  class="md-error"
+                  v-if="!$v.academicForm.firstName.required"
+                >The first name is required</span>
+                <span
+                  class="md-error"
+                  v-else-if="!$v.academicForm.firstName.minlength"
+                >Invalid first name</span>
               </md-field>
             </div>
 
@@ -67,8 +70,14 @@
                   v-model="academicForm.lastName"
                   :disabled="true"
                 />
-                <span class="md-error" v-if="!$v.form.lastName.required">The last name is required</span>
-                <span class="md-error" v-else-if="!$v.form.lastName.minlength">Invalid last name</span>
+                <span
+                  class="md-error"
+                  v-if="!$v.academicForm.lastName.required"
+                >The last name is required</span>
+                <span
+                  class="md-error"
+                  v-else-if="!$v.academicForm.lastName.minlength"
+                >Invalid last name</span>
               </md-field>
             </div>
           </div>
@@ -85,11 +94,11 @@
                 />
                 <span
                   class="md-error"
-                  v-if="!$v.form.university.required"
+                  v-if="!$v.academicForm.university.required"
                 >The university is required</span>
                 <span
                   class="md-error"
-                  v-else-if="!$v.form.university.minlength"
+                  v-else-if="!$v.academicForm.university.minlength"
                 >Invalid university name</span>
               </md-field>
             </div>
@@ -104,8 +113,8 @@
               autocomplete="email"
               v-model="academicForm.email"
             />
-            <span class="md-error" v-if="!$v.form.email.required">The email is required</span>
-            <span class="md-error" v-else-if="!$v.form.email.email">Invalid email</span>
+            <span class="md-error" v-if="!$v.academicForm.email.required">The email is required</span>
+            <span class="md-error" v-else-if="!$v.academicForm.email.email">Invalid email</span>
           </md-field>
         </md-card-content>
 
@@ -124,10 +133,11 @@
       v-if="accountType=='company'"
       novalidate
       class="md-layout"
-      @submit.prevent="validateUser"
+      @submit.prevent="$v.$touch()"
       style="padding-top:20px"
     >
-      <md-content class="md-layout-item md-size-50 md-small-size-100">
+      <div class="md-layout-item md-size-15 md-size-small-0" />
+      <md-content class="md-layout-item md-size-70 md-small-size-100">
         <md-card-header>
           <div
             class="md-title"
@@ -137,7 +147,7 @@
         <md-card-content>
           <div class="md-layout md-gutter">
             <div class="md-layout-item md-small-size-100">
-              <md-field :class="getCompanyValidationClass('company')">
+              <md-field :class="getCompanyValidationClass('name')">
                 <label for="company">Company</label>
                 <md-input
                   name="company"
@@ -145,8 +155,14 @@
                   autocomplete="company"
                   v-model="companyForm.name"
                 />
-                <span class="md-error" v-if="!$v.form.company.required">The company name is required</span>
-                <span class="md-error" v-else-if="!$v.form.email.minlength">Invalid company name</span>
+                <span
+                  class="md-error"
+                  v-if="!$v.companyForm.name.required"
+                >The company name is required</span>
+                <span
+                  class="md-error"
+                  v-else-if="!$v.companyForm.name.minlength"
+                >Invalid company name</span>
               </md-field>
             </div>
           </div>
@@ -160,8 +176,8 @@
               autocomplete="email"
               v-model="companyForm.email"
             />
-            <span class="md-error" v-if="!$v.form.email.required">The email is required</span>
-            <span class="md-error" v-else-if="!$v.form.email.email">Invalid email</span>
+            <span class="md-error" v-if="!$v.companyForm.email.required">The email is required</span>
+            <span class="md-error" v-else-if="!$v.companyForm.email.email">Invalid email</span>
           </md-field>
         </md-card-content>
 
@@ -177,15 +193,12 @@
     </form>
     <br />
     <br />
-    <!-- {{form}} -->
-
     <md-dialog :md-active.sync="newUser">
       <md-dialog-title>Create an account</md-dialog-title>
       <md-content style="padding:30px">
-        <p>To use the Unicorn platform you first need to create an account.</p>
+        <p>To use the Unicorn platform you first need to create an account. This will add your information to the blockchain and be used to verify your identity when you add new publications or place bids on research. As an academic you will require an OrcidID to make your account. A company needs a name an an email address.</p>
       </md-content>
     </md-dialog>
-    {{canCreateUser}}
   </div>
 </template>
 
@@ -208,22 +221,22 @@ export default {
     newUser: false,
     accountType: "academic",
     academicForm: {
-      firstName: null,
-      lastName: null,
-      email: null,
-      orcid: null,
-      university: null
+      firstName: "",
+      lastName: "",
+      email: "",
+      orcid: "",
+      university: ""
     },
     companyForm: {
-      name: null,
-      email: null
+      name: "",
+      email: ""
     },
     userSaved: false,
     sending: false,
-    lastUser: null
+    lastUser: ""
   }),
   validations: {
-    form: {
+    academicForm: {
       firstName: {
         required,
         minLength: minLength(3)
@@ -239,8 +252,10 @@ export default {
       email: {
         required,
         minLength: minLength(3)
-      },
-      company: {
+      }
+    },
+    companyForm: {
+      name: {
         required,
         minLength: minLength(3)
       },
@@ -258,9 +273,9 @@ export default {
       let decoded = jwt.decode(token);
       console.log("decoded");
       console.log(decoded);
-      this.form.firstName = decoded.given_name;
-      this.form.lastName = decoded.family_name;
-      this.form.orcid = decoded.sub;
+      this.academicForm.firstName = decoded.given_name;
+      this.academicForm.lastName = decoded.family_name;
+      this.academicForm.orcid = decoded.sub;
     }
 
     if (this.$route.query.newUser == "true") {
@@ -278,7 +293,8 @@ export default {
           this.accountType == "academic" ? this.academicForm : this.companyForm;
         submitBlob["timestamp"] = new Date();
         submitBlob["accountType"] = this.accountType;
-        this.CREATE_USER(this.form);
+        console.log("user create blob");
+        this.CREATE_USER(submitBlob);
       }
     },
     getFragmentParameterByName(name, route) {
@@ -290,7 +306,7 @@ export default {
         : decodeURIComponent(results[1].replace(/\+/g, " "));
     },
     getAcademicValidationClass(fieldName) {
-      const field = this.$v.form[fieldName];
+      const field = this.$v.academicForm[fieldName];
       if (field) {
         return {
           "md-invalid": field.$invalid && field.$dirty
@@ -298,7 +314,7 @@ export default {
       }
     },
     getCompanyValidationClass(fieldName) {
-      const field = this.$v.form[fieldName];
+      const field = this.$v.companyForm[fieldName];
       if (field) {
         return {
           "md-invalid": field.$invalid && field.$dirty
@@ -307,48 +323,34 @@ export default {
     },
     clearForm() {
       this.$v.$reset();
-      this.academicForm.firstName = null;
-      this.academicForm.lastName = null;
-      this.academicForm.university = null;
-      this.academicForm.email = null;
-      this.companyForm.name = null;
-      this.companyForm.email = null;
-    },
-    saveUser() {
-      this.sending = true;
-      window.setTimeout(() => {
-        this.lastUser = `${this.form.firstName} ${this.form.lastName}`;
-        this.userSaved = true;
-        this.sending = false;
-        this.clearForm();
-      }, 1500);
-    },
-    validateUser() {
-      this.$v.$touch();
-      if (!this.$v.$invalid) {
-        this.saveUser();
-      }
+      this.academicForm.firstName = "";
+      this.academicForm.lastName = "";
+      this.academicForm.university = "";
+      this.academicForm.email = "";
+      this.companyForm.name = "";
+      this.companyForm.email = "";
     }
   },
   computed: {
     canCreateUser() {
       if (this.accountType == "academic") {
         if (
-          this.academicForm.firstName != null &&
-          this.academicForm.lastName != null &&
-          this.academicForm.university != null &&
-          this.academicForm.email != null &&
-          this.academicForm.orcid != null
+          this.academicForm.firstName != "" &&
+          this.academicForm.lastName != "" &&
+          this.academicForm.university != "" &&
+          this.academicForm.email != "" &&
+          this.academicForm.orcid != ""
         ) {
           return true;
         }
       }
 
       if (this.accountType == "company") {
-        if (this.companyForm.email != null && this.companyForm.name != null) {
+        if (this.companyForm.email != "" && this.companyForm.name != "") {
           return true;
         }
       }
+      console.log("values not added correctly");
       return false;
     }
   }
