@@ -9,6 +9,12 @@
             </md-card-header>
             <p>your bids here boi</p>
           </md-content>
+          <manage-licences-row-item
+            v-for="licence in userLicences"
+            :licenceInformation="licence"
+            style="margin:20px"
+            :key="licence"
+          />
         </div>
       </div>
     </div>
@@ -16,9 +22,24 @@
 </template>
 
 <script>
-// @ is an alias to /src
+import { mapActions, mapState } from "vuex";
+
+import mylicencesRowItem from "@/components/mylicencesRowItem.vue";
+import browsePublicationRowItem from "@/components/browsePublicationRowItem.vue";
 
 export default {
-  name: "manage"
+  name: "manage",
+  components: { mylicencesRowItem },
+  data: () => ({}),
+  methods: {
+    ...mapActions(["GET_USER_LICENCES"])
+  },
+  mounted() {
+    this.GET_USER_LICENCES();
+  },
+
+  computed: {
+    ...mapState(["userLicences"])
+  }
 };
 </script>

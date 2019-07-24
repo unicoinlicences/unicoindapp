@@ -41,6 +41,8 @@ export default new Vuex.Store({
     contractAddress: null,
     userProfile: {},
     userBids: [],
+    userLicences: [],
+
   },
   mutations: {
     //WEB3 Stuff
@@ -52,6 +54,9 @@ export default new Vuex.Store({
     },
     [mutations.SET_USER_PROFILE](state, userProfile) {
       state.userProfile = userProfile;
+    },
+    [mutations.SET_USER_LICENCES](state, userLicences) {
+      state.userLicences = userLicences; // helda
     },
     [mutations.SET_USER_BIDS](state, userBids) {
       state.userBids = userBids;
@@ -126,6 +131,7 @@ export default new Vuex.Store({
         if (userNumber != 0) {
           dispatch(actions.GET_USER_PROFILE)
           dispatch(actions.GET_USER_BIDS)
+          dispatch(actions.GET_USER_LICENCES) 
         }
       }
 
@@ -274,21 +280,43 @@ export default new Vuex.Store({
         let bidInformation = {}
         let bidId = usersBids[j]
         let bidArray = await state.registry.bids(bidId)
-        let publicationObject = await state.registry.getPublication(bidArray.publication_Id)
-        let ipfsFile = await viewFile(publicationObject[1])
 
         bidInformation['id'] = bidId
-        bidInformation['offer'] = bidArray.offer.toNumber()
+        bidInformation['offer'] = bidArray.offer
         bidInformation['bidStatus'] = bidArray.status
         bidInformation['publication_Id'] = bidArray.publication_Id
-        bidInformation['publicationTitle'] = ipfsFile.title
-        bidInformation['pdfFile'] = ipfsFile.pdfFile
         console.log("FETCHING BIDS")
         console.log(bidInformation)
         userBids.push(bidInformation)
-        
+        // bidInformation.push({
+        //   bidId: bidId,
+        //   offer: bidInformation.offer,
+        //   status: bidInformation.status,
+        //   ownerId: bidInformation.owner_Id,
+        //   ownerAddress: ownerAddress
+        // })
       }
       commit(mutations.SET_USER_BIDS, userBids)
+    },
+    [actions.GET_USER_LICENCES]: async function ({
+      commit,
+      dispatch,
+      state
+    }) {
+      let allLicences = await state.registry.licences
+      let userLicences = []
+      for (let j = 0; j < allLicences.length; j++) {
+        let licence = allLicences[j]
+
+        let licenceInformation = {}
+        licenceInformation['buyer_Id'] = licence.buyer_Id
+        licenceInformation['Publication_Id'] = licence.Publication_Id
+        licenceInformation['bid_Id'] = licence.bid_Id
+
+        userLicences.push(licenceInformation)
+      }
+
+      commit(mutations.SET_USER_LICENCES, userLicences)
     },
     [actions.MAKE_BID]: async function ({
       commit,
