@@ -168,9 +168,31 @@
         </md-dialog>
 
 
+        <md-dialog :md-active.sync="showDialog4">
+          <md-tabs md-dynamic-height>
+            <md-tab md-label="Make donation">
+              <p>Thank you for supporting the open research community.</p>
+              <p>Your funding will support this researcher, {{publicationInformation.authorFirstName}} {{publicationInformation.authorLastName}}, to conduct the research specified.</p>
+              <p>Please specify the donation amount below.</p>
+            </md-tab>
+          </md-tabs>
+
+          <md-field style="padding-left:20px">
+            <label style="padding-left:20px">Donation amount (USD)</label>
+            <md-input style="padding:20px" v-model="offer" type="number"></md-input>
+          </md-field>
+
+          <md-dialog-actions>
+            <md-button class="md-primary" @click="showDialog4 = false">Close</md-button>
+            <md-button class="md-primary md-raised">Donate</md-button>
+          </md-dialog-actions>
+        </md-dialog>
+
+
         <md-button @click="showDialog1 = true">Download free copy</md-button>
         <md-button v-if="publicationInformation.isAuction" @click="showDialog2 = true">Bid for licence here</md-button>
         <md-button v-if="!publicationInformation.isAuction" @click="showDialog3 = true">Purchase licence</md-button>
+        <md-button @click="showDialog4 = true">Donate to researcher</md-button>
 
       </div>
       <div class="md-layout-item md-size-20">
@@ -204,7 +226,8 @@ export default {
   data: () => ({
     showDialog1: false,
     showDialog2: false,
-    showDialog3: false
+    showDialog3: false,
+    showDialog4: false
   }),
   name: "ButtonVsLink",
   computed: {
