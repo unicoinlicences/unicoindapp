@@ -77,6 +77,54 @@ contract UnicoinRegistry is ERC721Metadata {
     /// @notice Mapping of licence Id to get the publication Id
     mapping(uint256 => uint256[]) public publicationLicences;
 
+    event NewPublication(
+        address indexed _from,
+        string _publication_uri,
+        bool _isAuction,
+        uint256 _sell_price,
+        uint256[] _contributors
+    );
+
+    event NewBid(
+        uint256 _publication_Id,
+        uint256 _offer
+    );
+
+    event AcceptedBid(
+        address indexed _from,
+        uint256 _id
+    );
+
+    event RejectedBid(
+        address indexed _from,
+        uint256 _id
+    ); 
+
+    event CancelledBid(
+        address indexed _from,
+        uint256 _id
+    );
+
+    event ChangeToSale(
+        uint256 _publication_Id,
+        uint256 _sell_price
+    );   
+
+    event ChangeToAuction(
+        uint256 _publication_Id,
+        bool _isAuction //added
+    ); 
+
+    event ChangeSellPrice(
+        uint256 _publication_Id,
+        uint256 _sell_price
+    );
+
+    event ChangeRunningStatus(
+        uint256 _publication_Id
+        bool _isRunning //added
+    );
+
     /// @dev ERC20 is now daiContract
     ERC20 daiContract;
     /// @dev The constructor below reserves user 0 for all unregistered users
@@ -103,13 +151,6 @@ contract UnicoinRegistry is ERC721Metadata {
     /// @notice since no one has bidded for or bought a licence yet
     /// @dev The researcher only specifies the flat rate if they have chosen not to auction the work
     /// @dev Add instance to the respective arrays
-
-    event NewPublication(
-        string _publication_uri,
-        bool _isAuction,
-        uint256 _sell_price,
-        uint256[] _contributors
-    );
 
     function createPublication(
         string memory _publication_uri,
@@ -139,12 +180,9 @@ contract UnicoinRegistry is ERC721Metadata {
             _contributors_weightings);
         uint256 _id = publications.push(_publication);
         publicationOwners[_author_Id].push(_id - 1);
-    }
 
-    event NewBid(
-        uint256 _publication_Id,
-        uint256 _offer
-    );
+        emit NewPublication(msg.sender,_publication_uri, _isAuction, _sell_price, _contributors);
+    }
 
     /// @notice This function creates a new bid for a particular publication
     /// @param _offer for the research
@@ -179,12 +217,10 @@ contract UnicoinRegistry is ERC721Metadata {
             licenceOwners[bids[_id].owner_Id] = _licence_Id;
             publicationLicences[_publication_Id].push(_licence_Id);
             _mint(users[bids[_id].owner_Id].owned_address, _licence_Id);
-        }
-    }
 
-    event AcceptedBid(
-        uint256 _id
-    );       
+            emit NewBid(_publication_Id, _offer);
+        }
+    }      
 
     /// @notice This function allows the auctioneer to accept the bids
     /// @dev parameters of licence design: buyer_id, publication id, bid_id
@@ -201,11 +237,9 @@ contract UnicoinRegistry is ERC721Metadata {
         licenceOwners[bids[_id].owner_Id] = _licence_Id;
         publicationLicences[_publication_Id].push(_licence_Id);
         _mint(users[bids[_id].owner_Id].owned_address, _licence_Id);
-    }
 
-    event RejectedBid(
-        uint256 _id
-    );
+        emit AcceptedBid(msg.sender,_id);
+    }
 
     /// @notice This function allows the auctioneer to reject the bids
     /// @param _id is the bid Id
@@ -215,11 +249,9 @@ contract UnicoinRegistry is ERC721Metadata {
         require(publications[_publication_Id].isAuction, "Publication not an auction.");
         require(publications[_publication_Id].isRunning, "Auction not running.");
         bids[_id].status = bidStatus.Rejected;
-    }
 
-    event CancelledBid(
-        uint256 _id
-    );
+        emit RejectedBid(msg.sender,_id);
+    }
 
     /// @notice This function allows the auctioneer to cancel the bids
     /// @param _id is the bid Id
@@ -229,12 +261,9 @@ contract UnicoinRegistry is ERC721Metadata {
         require(publications[_publication_Id].isAuction, "Publication not an auction.");
         require(publications[_publication_Id].isRunning, "Auction not running.");
         bids[_id].status = bidStatus.Cancelled;
-    }
 
-    event ChangeToSale(
-        uint256 _publication_Id,
-        uint256 _sell_price
-    );    
+        emit CancelledBid(msg.sender,_id);
+    }
 
     /// @notice This function allows the auctioneer to change from an auction to a sale
     /// @param _publication_Id publication id number
@@ -244,11 +273,9 @@ contract UnicoinRegistry is ERC721Metadata {
         require(publications[_publication_Id].isAuction, "Publication is not an auction");
         publications[_publication_Id].sell_price = _sell_price;
         publications[_publication_Id].isAuction = false;
-    }
 
-    event ChangeToAuction(
-        uint256 _publication_Id,
-    );
+        emit ChangeToSale(_publication_Id, _sell_price);
+    }
 
     /// @notice This function allows the auctioneer to change from a sale to an auction
     /// @param _publication_Id publication id number
@@ -257,13 +284,10 @@ contract UnicoinRegistry is ERC721Metadata {
         require(!publications[_publication_Id].isAuction, "Publication is already on auction");
         publications[_publication_Id].sell_price = 0;
         publications[_publication_Id].isAuction = true;
+
+        emit ChangeToAuction(_publication_Id, _isAuction);        
     }
-
-    event ChangeSellPrice(
-        uint256 _publication_Id,
-        uint256 _sell_price
-    );
-
+    
     /// @notice This function allows the auctioneer to change the sell price
     /// @param _publication_Id publication id number
     /// @param _sell_price for the research
@@ -271,17 +295,19 @@ contract UnicoinRegistry is ERC721Metadata {
         require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");
         require(!publications[_publication_Id].isAuction, "Publication is on auction.");
         publications[_publication_Id].sell_price = _sell_price;
-    }
 
-    event ChangeRunningStatus(
-        uint256 _publication_Id
-    );
+        emit ChangeSellPrice(_publication_Id, _sell_price);        
+
+    }
 
     /// @notice This function allows the auctioneer to change the running status
     /// @param _publication_Id publication id number
     function changeRunningStatus(uint256 _publication_Id) public {
         require(userAddresses[msg.sender] == publications[_publication_Id].author_Id, "User not the author of this publication");
         publications[_publication_Id].isRunning = !publications[_publication_Id].isRunning;
+
+        emit ChangeRunningStatus(_publication_Id, _isRunning);        
+
     }
 
     /// @return This function allows anyone to get the list of publications based on the address of the publisher
@@ -339,4 +365,15 @@ contract UnicoinRegistry is ERC721Metadata {
         _publication.contributors,
         _publication.contributors_weightings);
     }
+
+    /// @notice Donates funds to a research
+    /// @param _publication_Id The id of the publication
+    /// @param _value the amount that is being donated
+    function donate(uint256 _publication_Id, uint256 _value) public {
+        require(userAddresses[msg.sender] != 0, "User address is not registered.");
+        require(daiContract.allowance(msg.sender, address(this)) >= _value, "Insufficient fund allowance");
+        address publisherAddress = users[publications[_publication_Id].author_Id].owned_address;
+        daiContract.transferFrom(msg.sender, publisherAddress, _value);
+    }
+
 }
