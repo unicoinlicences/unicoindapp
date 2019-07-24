@@ -306,8 +306,8 @@ export default new Vuex.Store({
         from: state.account
       })
       console.log("fetching licences")
-      console.log(userLicences)
-      //let userLicences = []
+      // console.log(userLicences)
+      let userLicences = []
 
       console.log(userLicences.length)
       for (let j = 0; j < userLicences.length; j++) {
@@ -315,14 +315,14 @@ export default new Vuex.Store({
         let licenceArray = await state.registry.licence(licenceId)
 
         let licenceInformation = {}
-        licenceInformation['buyer_Id'] = licence.buyer_Id
-        licenceInformation['Publication_Id'] = licence.Publication_Id
-        licenceInformation['bid_Id'] = licence.bid_Id
+        licenceInformation['buyer_Id'] = licenceArray.buyer_Id
+        licenceInformation['Publication_Id'] = licenceArray.Publication_Id
+        licenceInformation['bid_Id'] = licenceArray.bid_Id
         console.log("FETCHING Licences")
-        console.log(bidInformation)
+        // console.log(bidInformation)
         userLicences.push(licenceInformation)
       }
-      commit(mutations.SET_USER_BIDS, userBids)
+      commit(mutations.SET_USER_BIDS, userLicences)
     },
     // [actions.GET_USER_LICENCES]: async function ({
     //   commit,
