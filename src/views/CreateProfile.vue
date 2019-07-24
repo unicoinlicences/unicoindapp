@@ -112,11 +112,7 @@
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
 
         <md-card-actions>
-          <md-button
-            type="submit"
-            class="md-raised md-accent"
-            @click="createUser"
-          >Create user</md-button>
+          <md-button type="submit" class="md-raised md-accent" @click="createUser">Create user</md-button>
         </md-card-actions>
         <!-- {{form.orcid}} -->
       </md-content>
@@ -172,11 +168,7 @@
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
 
         <md-card-actions>
-          <md-button
-            type="submit"
-            class="md-raised md-accent"
-            @click="createUser"
-          >Create user</md-button>
+          <md-button type="submit" class="md-raised md-accent" @click="createUser">Create user</md-button>
         </md-card-actions>
         <!-- {{form.orcid}} -->
       </md-content>
@@ -279,6 +271,7 @@ export default {
   methods: {
     ...mapActions(["CREATE_USER"]),
     createUser() {
+      console.log("user button clicked");
       if (this.canCreateUser) {
         console.log("Create User method");
         let submitBlob =
@@ -314,10 +307,12 @@ export default {
     },
     clearForm() {
       this.$v.$reset();
-      this.form.firstName = null;
-      this.form.lastName = null;
-      this.form.university = null;
-      this.form.email = null;
+      this.academicForm.firstName = null;
+      this.academicForm.lastName = null;
+      this.academicForm.university = null;
+      this.academicForm.email = null;
+      this.companyForm.name = null;
+      this.companyForm.email = null;
     },
     saveUser() {
       this.sending = true;
