@@ -49,8 +49,8 @@
                   name="first-name"
                   id="first-name"
                   autocomplete="given-name"
-                  v-model="form.firstName"
-                  disabled="true"
+                  v-model="academicForm.firstName"
+                  :disabled="true"
                 />
                 <span class="md-error" v-if="!$v.form.firstName.required">The first name is required</span>
                 <span class="md-error" v-else-if="!$v.form.firstName.minlength">Invalid first name</span>
@@ -64,8 +64,8 @@
                   name="last-name"
                   id="last-name"
                   autocomplete="family-name"
-                  v-model="form.lastName"
-                  disabled="true"
+                  v-model="academicForm.lastName"
+                  :disabled="true"
                 />
                 <span class="md-error" v-if="!$v.form.lastName.required">The last name is required</span>
                 <span class="md-error" v-else-if="!$v.form.lastName.minlength">Invalid last name</span>
@@ -81,8 +81,7 @@
                   name="university"
                   id="university"
                   autocomplete="university"
-                  v-model="form.university"
-                  :disabled="sending"
+                  v-model="academicForm.university"
                 />
                 <span
                   class="md-error"
@@ -103,8 +102,7 @@
               name="email"
               id="email"
               autocomplete="email"
-              v-model="form.email"
-              :disabled="sending"
+              v-model="academicForm.email"
             />
             <span class="md-error" v-if="!$v.form.email.required">The email is required</span>
             <span class="md-error" v-else-if="!$v.form.email.email">Invalid email</span>
@@ -117,7 +115,6 @@
           <md-button
             type="submit"
             class="md-raised md-accent"
-            :disabled="sending"
             @click="createUser"
           >Create user</md-button>
         </md-card-actions>
@@ -150,8 +147,7 @@
                   name="company"
                   id="company"
                   autocomplete="company"
-                  v-model="form.company"
-                  :disabled="sending"
+                  v-model="companyForm.name"
                 />
                 <span class="md-error" v-if="!$v.form.company.required">The company name is required</span>
                 <span class="md-error" v-else-if="!$v.form.email.minlength">Invalid company name</span>
@@ -166,8 +162,7 @@
               name="email"
               id="email"
               autocomplete="email"
-              v-model="form.email"
-              :disabled="sending"
+              v-model="companyForm.email"
             />
             <span class="md-error" v-if="!$v.form.email.required">The email is required</span>
             <span class="md-error" v-else-if="!$v.form.email.email">Invalid email</span>
@@ -180,7 +175,6 @@
           <md-button
             type="submit"
             class="md-raised md-accent"
-            :disabled="sending"
             @click="createUser"
           >Create user</md-button>
         </md-card-actions>
@@ -189,8 +183,6 @@
 
       <md-snackbar :md-active.sync="userSaved">The user {{ lastUser }} was saved with success!</md-snackbar>
     </form>
-
-    <!-- <md-button @click="createUser" class="md-raised md-accent">Create User</md-button> -->
     <br />
     <br />
     <!-- {{form}} -->
@@ -201,6 +193,7 @@
         <p>To use the Unicorn platform you first need to create an account.</p>
       </md-content>
     </md-dialog>
+    {{canCreateUser}}
   </div>
 </template>
 
@@ -222,12 +215,16 @@ export default {
   data: () => ({
     newUser: false,
     accountType: "academic",
-    form: {
+    academicForm: {
       firstName: null,
       lastName: null,
       email: null,
       orcid: null,
       university: null
+    },
+    companyForm: {
+      name: null,
+      email: null
     },
     userSaved: false,
     sending: false,
@@ -282,11 +279,14 @@ export default {
   methods: {
     ...mapActions(["CREATE_USER"]),
     createUser() {
-      console.log("it worked!");
-      console.log(this.form.firstName);
-      let submitBlob = this.form;
-      submitBlob["timestamp"] = new Date();
-      this.CREATE_USER(this.form);
+      if (this.canCreateUser) {
+        console.log("Create User method");
+        let submitBlob =
+          this.accountType == "academic" ? this.academicForm : this.companyForm;
+        submitBlob["timestamp"] = new Date();
+        submitBlob["accountType"] = this.accountType;
+        this.CREATE_USER(this.form);
+      }
     },
     getFragmentParameterByName(name, route) {
       name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -321,7 +321,6 @@ export default {
     },
     saveUser() {
       this.sending = true;
-      // Instead of this timeout, here you can call your API
       window.setTimeout(() => {
         this.lastUser = `${this.form.firstName} ${this.form.lastName}`;
         this.userSaved = true;
@@ -334,6 +333,28 @@ export default {
       if (!this.$v.$invalid) {
         this.saveUser();
       }
+    }
+  },
+  computed: {
+    canCreateUser() {
+      if (this.accountType == "academic") {
+        if (
+          this.academicForm.firstName != null &&
+          this.academicForm.lastName != null &&
+          this.academicForm.university != null &&
+          this.academicForm.email != null &&
+          this.academicForm.orcid != null
+        ) {
+          return true;
+        }
+      }
+
+      if (this.accountType == "company") {
+        if (this.companyForm.email != null && this.companyForm.name != null) {
+          return true;
+        }
+      }
+      return false;
     }
   }
 };
