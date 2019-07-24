@@ -73,7 +73,7 @@ contract UnicoinRegistry is ERC721Metadata {
     /// @notice Creates an array of purchased licences
     LicenceDesign[] public licences;
     /// @notice Mapping of licence Id to get the licence owners
-    mapping(uint256 => uint256) public licenceOwners;
+    mapping(uint256 => uint256[]) public licenceOwners;
     /// @notice Mapping of licence Id to get the publication Id
     mapping(uint256 => uint256[]) public publicationLicences;
 
@@ -217,7 +217,7 @@ contract UnicoinRegistry is ERC721Metadata {
             daiContract.transferFrom(msg.sender, publisherAddress, _offer);
 
             uint256 _licence_Id = licences.push(LicenceDesign(bids[_id].owner_Id, _publication_Id, _id));
-            licenceOwners[bids[_id].owner_Id] = _licence_Id;
+            licenceOwners[bids[_id].owner_Id].push(_licence_Id);
             publicationLicences[_publication_Id].push(_licence_Id);
             _mint(users[bids[_id].owner_Id].owned_address, _licence_Id);
 
@@ -237,7 +237,7 @@ contract UnicoinRegistry is ERC721Metadata {
         bids[_id].status = bidStatus.Accepted;
         
         uint256 _licence_Id = licences.push(LicenceDesign(bids[_id].owner_Id, _publication_Id, _id));
-        licenceOwners[bids[_id].owner_Id] = _licence_Id;
+        licenceOwners[bids[_id].owner_Id].push(_licence_Id);
         publicationLicences[_publication_Id].push(_licence_Id);
         _mint(users[bids[_id].owner_Id].owned_address, _licence_Id);
 
@@ -367,6 +367,13 @@ contract UnicoinRegistry is ERC721Metadata {
         _publication.sell_price,
         _publication.contributors,
         _publication.contributors_weightings);
+    }
+
+    /// @return get the licences per owner
+    /// @param _address of the account holder
+    function getLicence(address _address) public view returns(uint256[] memory) {
+        uint256 _userNumber = userAddresses[_address];
+        return licenceOwners[_userNumber];
     }
 
     /// @notice Donates funds to a research
