@@ -283,7 +283,7 @@ export default new Vuex.Store({
         let publicationObject = await state.registry.getPublication(bidArray.publication_Id)
         let ipfsFile = await viewFile(publicationObject[1])
 
-        bidInformation['id'] = bidId
+        bidInformation['id'] = bidId.toNumber()
         bidInformation['offer'] = bidArray.offer.toNumber()
         bidInformation['bidStatus'] = bidArray.status
         bidInformation['publication_Id'] = bidArray.publication_Id
@@ -353,10 +353,10 @@ export default new Vuex.Store({
       commit,
       dispatch,
       state
-    }, bidId) {
+    }, param) {
       console.log("IN CANCEL BID CALL")
-      console.log(bidId)
-      await state.registry.cancelBid(bidId, {
+      console.log(param.bidId)
+      await state.registry.cancelBid(param.bidId, {
         from: state.account
       })
     },

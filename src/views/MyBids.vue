@@ -29,7 +29,7 @@ import browsePublicationRowItem from "@/components/browsePublicationRowItem.vue"
 
 
 export default {
-  name: "view",
+  name: "viewbid",
   data: () => ({ }),
   components: { 
     browseBidsRowItem, 

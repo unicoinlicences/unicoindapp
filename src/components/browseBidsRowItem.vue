@@ -25,7 +25,7 @@
         </md-button>
         <md-button class="md-primary" v-if="bidInformation.bidStatus == 1">Download licence</md-button>
         <md-button class="md-primary" v-else-if="bidInformation.bidStatus == 3">Download licence</md-button>
-        <md-button class="md-primary md-raised" v-if="bidInformation.bidStatus == 0">Cancel bid</md-button>
+        <md-button class="md-primary md-raised" v-if="bidInformation.bidStatus == 0" @click="cancelBid">Cancel bid</md-button>
 
         <!-- {{bidInformation}} -->
       </div>
