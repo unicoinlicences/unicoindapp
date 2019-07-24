@@ -13,6 +13,7 @@
             v-for="publication in listedPublications"
             v-if="publication.authorNumber == userNumber"
             :publicationInformation="publication"
+            :key="publication"
             style="margin:20px"
           />
         </div>

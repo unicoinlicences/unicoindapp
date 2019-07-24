@@ -41,7 +41,6 @@ export default new Vuex.Store({
     contractAddress: null,
     userProfile: {},
     userBids: [],
-    bidsReturned: [],
   },
   mutations: {
     //WEB3 Stuff

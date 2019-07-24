@@ -119,6 +119,15 @@
         </md-dialog>
         <md-button type="submit" class="md-raised md-accent" :disabled="sending" @click="CHANGE">CHANGE STATUS</md-button>
       </div>
+
+      <div class="md-layout-item md-size-20">
+        <md-card v-if="publicationInformation.pdfFile!=null" style="width:auto">
+          <pdf :src="publicationInformation.pdfFile" :page="1" :resize="true">
+            <template slot="loading">loading content here...</template>
+          </pdf>
+        </md-card>
+      </div>
+      
     </div>
 
   </md-card>
@@ -127,10 +136,12 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+import pdf from "pdfvuer";
 
 
 export default {
   name: "managePublicationRowItem",
+  components: { pdf },
   data: () => ({ offer: 0 }),
   props: {
     publicationInformation: {

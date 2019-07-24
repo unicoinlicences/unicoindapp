@@ -210,7 +210,6 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-
 import pdf from "pdfvuer";
 
 export default {
