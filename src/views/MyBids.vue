@@ -5,9 +5,9 @@
         <div class="md-layout-item">
           <md-content style="padding: 20px;">
             <md-card-header>
-              <div class="md-title">Manage your bids as a company</div>
+              <div class="md-title">View all pending, cancelled, or accepted bids and purchases here</div>
             </md-card-header>
-            <p>your bids here boi</p>
+            <p>your bids here boi {{userBids}}</p>
           </md-content>
         </div>
       </div>
@@ -16,9 +16,12 @@
 </template>
 
 <script>
-// @ is an alias to /src
+import { mapActions, mapState } from "vuex";
 
 export default {
-  name: "manage"
+  name: "view bids",
+  computed: {
+    ...mapState(["userBids"])
+  }
 };
 </script>
