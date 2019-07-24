@@ -25,7 +25,6 @@
 import { mapActions, mapState } from "vuex";
 
 import mylicencesRowItem from "@/components/mylicencesRowItem.vue";
-import browsePublicationRowItem from "@/components/browsePublicationRowItem.vue";
 
 export default {
   name: "manage",

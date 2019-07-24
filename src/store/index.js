@@ -294,6 +294,7 @@ export default new Vuex.Store({
         userBids.push(bidInformation)
         
       }
+
       commit(mutations.SET_USER_BIDS, userBids)
     },
     [actions.GET_USER_LICENCES]: async function ({
@@ -301,21 +302,47 @@ export default new Vuex.Store({
       dispatch,
       state
     }) {
-      let allLicences = await state.registry.licences
-      let userLicences = []
-      for (let j = 0; j < allLicences.length; j++) {
-        let licence = allLicences[j]
+      let userLicences = await state.registry.getLicence(state.account, {
+        from: state.account
+      })
+      console.log("fetching licences")
+      console.log(userLicences)
+      //let userLicences = []
+
+      console.log(userLicences.length)
+      for (let j = 0; j < userLicences.length; j++) {
+        let licenceId = userLicences[j]
+        let licenceArray = await state.registry.licence(licenceId)
 
         let licenceInformation = {}
         licenceInformation['buyer_Id'] = licence.buyer_Id
         licenceInformation['Publication_Id'] = licence.Publication_Id
         licenceInformation['bid_Id'] = licence.bid_Id
-
+        console.log("FETCHING Licences")
+        console.log(bidInformation)
         userLicences.push(licenceInformation)
       }
-
-      commit(mutations.SET_USER_LICENCES, userLicences)
+      commit(mutations.SET_USER_BIDS, userBids)
     },
+    // [actions.GET_USER_LICENCES]: async function ({
+    //   commit,
+    //   dispatch,
+    //   state
+    // }) {
+    //   let allLicences = await state.registry.licences
+    //   let userLicences = []
+    //   for (let j = 0; j < allLicences.length; j++) {
+    //     let licence = allLicences[j]
+
+    //     let licenceInformation = {}
+    //     licenceInformation['buyer_Id'] = licence.buyer_Id
+    //     licenceInformation['Publication_Id'] = licence.Publication_Id
+    //     licenceInformation['bid_Id'] = licence.bid_Id
+
+    //     userLicences.push(licenceInformation)
+    //   }
+    //   commit(mutations.SET_USER_LICENCES, userLicences)
+    // },
     [actions.MAKE_BID]: async function ({
       commit,
       dispatch,
