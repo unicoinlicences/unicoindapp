@@ -42,6 +42,10 @@ export default new Vuex.Store({
     userProfile: {},
     userBids: [],
     userLicences: [],
+    miningTransactionObject: {
+      status: 'mining',
+      txHash: '0x9410654a5a07c07e13fa7c6ff8f96be0b1e37f91d9e858a2ac396f4b96a849d4'
+    }
 
   },
   mutations: {
@@ -83,6 +87,10 @@ export default new Vuex.Store({
     [mutations.SET_ALL_LISTED_PUBLICATIONS](state, listedPublications) {
       state.listedPublications = listedPublications;
     },
+    [mutations.SET_MINING_TRANSACTION_OBJECT](state, miningTransactionObject) {
+      state.miningTransactionObject = miningTransactionObject;
+    },
+
   },
   actions: {
     [actions.GET_CURRENT_NETWORK]: function ({
@@ -131,7 +139,7 @@ export default new Vuex.Store({
         if (userNumber != 0) {
           dispatch(actions.GET_USER_PROFILE)
           dispatch(actions.GET_USER_BIDS)
-          dispatch(actions.GET_USER_LICENCES) 
+          dispatch(actions.GET_USER_LICENCES)
         }
       }
 
@@ -288,11 +296,11 @@ export default new Vuex.Store({
         bidInformation['bidStatus'] = bidArray.status
         bidInformation['publication_Id'] = bidArray.publication_Id
         bidInformation['publicationTitle'] = ipfsFile.title
-        bidInformation['pdfFile'] = ipfsFile.pdfFile        
+        bidInformation['pdfFile'] = ipfsFile.pdfFile
         console.log("FETCHING BIDS")
         console.log(bidInformation)
         userBids.push(bidInformation)
-        
+
       }
 
       commit(mutations.SET_USER_BIDS, userBids)
@@ -385,6 +393,16 @@ export default new Vuex.Store({
       console.log(param.bidId)
       await state.registry.cancelBid(param.bidId, {
         from: state.account
+      })
+    },
+    [actions.CLOSE_MINING_DIALOG]: async function ({
+      commit,
+      dispatch,
+      state
+    }) {
+      commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+        status: null,
+        txHash: ""
       })
     },
   }

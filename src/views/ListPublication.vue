@@ -329,6 +329,7 @@
         >Back</md-button>
       </md-step>
     </md-steppers>
+    <mining-transaction />
   </div>
 </template>
 
@@ -336,6 +337,8 @@
 import { mapActions, mapState } from "vuex";
 
 import ClickableAddress from "@/components/widgets/ClickableAddress";
+import MiningTransaction from "@/components/widgets/MiningTransaction";
+
 import VuePlotly from "@statnett/vue-plotly";
 import { constants } from "fs";
 
@@ -343,7 +346,7 @@ import pdf from "pdfvuer";
 
 export default {
   name: "manage",
-  components: { ClickableAddress, VuePlotly, pdf },
+  components: { ClickableAddress, MiningTransaction, VuePlotly, pdf },
   data: () => ({
     active: "first",
     first: false,
