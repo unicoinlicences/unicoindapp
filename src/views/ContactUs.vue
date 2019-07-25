@@ -1,36 +1,44 @@
 <template>
   <div style="padding:50px;">
-    <md-content style="padding:20px">
-      <h2>We'd love to hear from you. Please reach out with any comments, complaints, compliments, or queries.</h2>
-      <md-field>
-        <label>Full Name</label>
-        <md-input v-model="form.FullName"></md-input>
-        <span class="md-helper-text"></span>
-      </md-field>
+    <div class="md-layout md-gutter">
+      <div class="md-layout-item">
+        <md-content style="padding:20px">
+          <h2>We'd love to hear from you. Please reach out with any comments, complaints, compliments, or queries.</h2>
+          <md-field>
+            <label>Full Name</label>
+            <md-input v-model="form.FullName"></md-input>
+            <span class="md-helper-text"></span>
+          </md-field>
 
-      <md-field>
-        <label>Name of Institution</label>
-        <md-input v-model="form.Institution"></md-input>
-        <span class="md-helper-text"></span>
-      </md-field>
+          <md-field>
+            <label>Name of Institution</label>
+            <md-input v-model="form.Institution"></md-input>
+            <span class="md-helper-text"></span>
+          </md-field>
 
-      <md-field>
-        <label>Chat to Us</label>
-        <md-textarea v-model="form.textarea"></md-textarea>
-      </md-field>
+          <md-field>
+            <label>Chat to Us</label>
+            <md-textarea v-model="form.textarea"></md-textarea>
+          </md-field>
 
-      <md-card-actions>
-        <md-button type="submit" class="md-raised md-accent" :disabled="sending">SUBMIT</md-button>
-      </md-card-actions>
-      <md-card-actions></md-card-actions>
-    </md-content>
-
-    <img
-      class="text-center"
-      alt="step logo"
-      style="height:350px; padding-top:30px"
-      src="../assets/pooUnicorn.gif"
-    />
+          <md-card-actions>
+            <md-button type="submit" class="md-raised md-accent" :disabled="sending">SUBMIT</md-button>
+          </md-card-actions>
+          <md-card-actions></md-card-actions>
+        </md-content>
+      </div>
+      <div class="md-layout-item md-size-30">
+        <br />
+        <br />
+        <br />
+        <img
+          class="text-center"
+          alt="step logo"
+          style="height:350px"
+          src="../assets/pooUnicorn.gif"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
