@@ -184,7 +184,7 @@
 
           <md-dialog-actions>
             <md-button class="md-primary" @click="showDialog4 = false">Close</md-button>
-            <md-button class="md-primary md-raised">Donate</md-button>
+            <md-button class="md-primary md-raised" @click="donate">Donate</md-button>
           </md-dialog-actions>
         </md-dialog>
 
@@ -236,13 +236,20 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["MAKE_BID"]),
+    ...mapActions(["MAKE_BID", "MAKE_DONATION"]),
     makeBid() {
       console.log("Making bid boiiii");
       this.MAKE_BID({
         publicationId: this.publicationInformation.publicationId,
         offer: this.offer
       });
+    },
+    donate() {
+      console.log("making donation");
+      this.MAKE_DONATION({
+        publicationId: this.publicationInformation.publicationId,
+        value: this.offer
+      })
     }
   }
 };

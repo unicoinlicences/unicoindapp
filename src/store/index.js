@@ -223,13 +223,22 @@ export default new Vuex.Store({
         for (let j = 0; j < publicationObjectProcessed[2].length; j++) {
           let bidId = publicationObjectProcessed[2][j]
           let bidInformation = await state.registry.bids(bidId)
+          let bidderBlob = await state.registry.users(bidInformation.owner_Id)
+          let bidderProfile = await viewFile(bidderBlob.profile_uri)
+          console.log("FETCHING BIDDER PROFILE")
+          console.log(bidderProfile)
+
           let ownerAddress = (await state.registry.users(bidInformation.owner_Id)).owned_address
           publicationBidsInformation.push({
             bidId: bidId,
             offer: bidInformation.offer,
             status: bidInformation.status,
             ownerId: bidInformation.owner_Id,
-            ownerAddress: ownerAddress
+            ownerAddress: ownerAddress,
+            bidderFirstName: bidderProfile.firstName,
+            bidderLastName: bidderProfile.lastName,
+            bidderAccountType: bidderProfile.accountType,
+            bidderCompanyName: bidderProfile.name
           })
         }
 
@@ -310,27 +319,29 @@ export default new Vuex.Store({
       dispatch,
       state
     }) {
-      let userLicences = await state.registry.getLicence(state.account, {
+      let usersLicences = await state.registry.getLicence(state.account, {
         from: state.account
       })
       console.log("fetching licences")
-      console.log(userLicences)
-      //let userLicences = []
+      // console.log(userLicences)
+      let userLicences = []
 
       console.log(userLicences.length)
-      for (let j = 0; j < userLicences.length; j++) {
-        let licenceId = userLicences[j]
-        let licenceArray = await state.registry.licence(licenceId)
+      for (let j = 0; j < usersLicences.length; j++) {
+        let licenceId = usersLicences[j]
+        let licenceArray = await state.registry.licences(licenceId)
 
         let licenceInformation = {}
-        licenceInformation['buyer_Id'] = licence.buyer_Id
-        licenceInformation['Publication_Id'] = licence.Publication_Id
-        licenceInformation['bid_Id'] = licence.bid_Id
+        licenceInformation['buyer_Id'] = licenceArray.buyer_Id
+        licenceInformation['Publication_Id'] = licenceArray.Publication_Id
+        licenceInformation['bid_Id'] = licenceArray.bid_Id
+        licenceInformation['publicationTitle'] = ipfsFile.title
+        licenceInformation['pdfFile'] = ipfsFile.pdfFile  
         console.log("FETCHING Licences")
-        console.log(bidInformation)
+        // console.log(bidInformation)
         userLicences.push(licenceInformation)
       }
-      commit(mutations.SET_USER_BIDS, userBids)
+      commit(mutations.SET_USER_LICENCES, userLicences)
     },
     // [actions.GET_USER_LICENCES]: async function ({
     //   commit,
@@ -359,6 +370,17 @@ export default new Vuex.Store({
       console.log("IN MAKE BID CALL")
       console.log(params)
       await state.registry.makeBid(params.offer, params.publicationId, {
+        from: state.account
+      })
+    },
+    [actions.MAKE_DONATION]: async function ({
+      commit,
+      dispact,
+      state
+    }, params) {
+      console.log("IN MAKE DONATION CALL")
+      console.log(params)
+      await state.registry.donate(params.publicationId, params.value, {
         from: state.account
       })
     },
