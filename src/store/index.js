@@ -361,17 +361,21 @@ export default new Vuex.Store({
       state
     }) {
       console.log("starting to fetch licences")
-      let usersLicences = await state.registry.getLicence(state.account, {
+      let usersLicences = await state.registry.getLicenceForAddress(state.account, {
         from: state.account
       })
       console.log("fetching licences")
-      console.log(userLicences)
-      let userLicences = []
+      console.log(usersLicences)
+      let userLicencesProcessed = []
 
-      console.log(userLicences.length)
+      console.log(usersLicences.length)
       for (let k = 0; k < usersLicences.length; k++) {
-        let licenceId = usersLicences[k]
-        let licenceArray = await state.registry.licences(licenceId)
+        let licenceId = usersLicences[k].toNumber()
+        console.log("ID")
+        console.log(licenceId)
+        let licenceArray = await state.registry.getLicence(licenceId)
+        console.log("AERRAY")
+        console.log(licenceArray)
 
         let licenceInformation = {}
         licenceInformation['buyer_Id'] = licenceArray.buyer_Id
@@ -381,9 +385,9 @@ export default new Vuex.Store({
         licenceInformation['pdfFile'] = ipfsFile.pdfFile
         console.log("FETCHING Licences")
         // console.log(bidInformation)
-        userLicences.push(licenceInformation)
+        userLicencesProcessed.push(licenceInformation)
       }
-      commit(mutations.SET_USER_LICENCES, userLicences)
+      commit(mutations.SET_USER_LICENCES, userLicencesProcessed)
     },
     // [actions.GET_USER_LICENCES]: async function ({
     //   commit,
