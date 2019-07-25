@@ -177,7 +177,7 @@ export default {
           );
           window.web3 = new Web3(
             new Web3.providers.HttpProvider(
-              "https://ropsten.infura.io/v3/fb32a606c5c646c7932e43cfaf6c39df"
+              "https://kovan.infura.io/v3/fb32a606c5c646c7932e43cfaf6c39df"
             )
           );
           this.INIT_APP(window.web3);
@@ -189,7 +189,7 @@ export default {
     } else {
       window.web3 = new Web3(
         new Web3.providers.HttpProvider(
-          "https://ropsten.infura.io/v3/fb32a606c5c646c7932e43cfaf6c39df"
+          "https://kovan.infura.io/v3/fb32a606c5c646c7932e43cfaf6c39df"
         )
       );
       console.log(
