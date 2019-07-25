@@ -205,6 +205,8 @@ contract UnicoinRegistry is ERC721Metadata {
             uint256 _id = bids.push(Bid(_offer, bidStatus.Pending, _publication_Id, userAddresses[msg.sender]));
             publications[_publication_Id].publication_bids.push(_id - 1);
             bidOwners[userAddresses[msg.sender]].push(_id - 1);
+
+            emit NewBid(msg.sender, _publication_Id, _offer);
         }
         if(!publications[_publication_Id].isAuction) {
             require(_offer == publications[_publication_Id].sell_price, "Incorrect funds sent.");
