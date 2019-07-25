@@ -24,6 +24,14 @@ module.exports = {
       gas: 7000000, // default = 4712388
       gasPrice: 6000000000 // default = 100 gwei = 100000000000
     },
+    kovan: {
+      provider: function () {
+        return new HDWalletProvider(mnemonic, `https://kovan.infura.io/v3/${infuraApikey}`);
+      },
+      network_id: 42,
+      gas: 7000000, // default = 4712388
+      gasPrice: 6000000000 // default = 100 gwei = 100000000000
+    },
   },
   mocha: {},
   // Configure your compilers

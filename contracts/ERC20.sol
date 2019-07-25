@@ -130,7 +130,7 @@ contract ERC20 is IERC20 {
 
         _balances[from] = _balances[from].sub(value);
         _balances[to] = _balances[to].add(value);
-        emit Transfer(from, to, value);
+        // emit Transfer(from, to, value);
     }
 
     function mint(address _to, uint256 _amount)
@@ -180,7 +180,7 @@ contract ERC20 is IERC20 {
         require(owner != address(0));
 
         _allowed[owner][spender] = value;
-        emit Approval(owner, spender, value);
+        // emit Approval(owner, spender, value);
     }
 
     /**

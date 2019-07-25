@@ -58,13 +58,13 @@ contract("Unicoin Registry", (accounts) => {
         });
 
         // Mints tokens in a modified ERC20 for the fund
-        await daiContract.mint(buyer, 100, {
+        await daiContract.mint(buyer, 10000, {
             from: tokenOwner
         });
 
         let balance = await daiContract.balanceOf(buyer);
         // Checks that the balance of the fund is correct
-        assert.equal(balance.toNumber(), 100, "Balance not set");
+        assert.equal(balance.toNumber(), 10000, "Balance not set");
         registry = await UnicoinRegistry.new(daiContract.address, {
             from: registryOwner
         });
@@ -205,25 +205,29 @@ contract("Unicoin Registry", (accounts) => {
             let nftTokenBalance = await registry.balanceOf(buyer)
 
             // Increasing allowance
-            // await daiContract.approve(registry.contract._address, 1000000, {
-            //     from: buyer
-            // })
+            await daiContract.approve(registry.address, 1000000, {
+                from: buyer
+            })
 
-            // // breaks on line below
-            // await registry.makeBid(100, 2, {
-            //     from: buyer
-            // })
-            // noBids += 1;
-            // let bid = await registry.bids(noBids - 1)
-            // console.log(bid)
+            let balanceBefore = await daiContract.balanceOf(buyer);
+            // breaks on line below
+            await registry.makeBid(100, 2, {
+                from: buyer
+            })
 
-            // // should now assert that status is sale
-            // assert(bid.offer.toNumber(), 100, "Bid price incorrect")
-            // assert(bid.status, "Sale", "Bid status incorrect")
-            // assert(bid.publication_Id, noPublications - 1, "Publication ID incorrect")
-            // assert(bid.owner_Id, 1, "Buyer ID incorrect")
-            // let nftTokenBalance2 = await registry.balanceOf(buyer)
-            // assert(nftTokenBalance2, nftTokenBalance + 1, "NFT balance not correct")
+            let balanceAfter = await daiContract.balanceOf(buyer);
+            assert(balanceAfter,balanceBefore-100,"ERC20 token balance not changed correctly")
+
+            noBids += 1;
+            let bid = await registry.bids(noBids - 1)
+
+            // should now assert that status is sale
+            assert(bid.offer.toNumber(), 100, "Bid price incorrect")
+            assert(bid.status, "Sale", "Bid status incorrect")
+            assert(bid.publication_Id, noPublications - 1, "Publication ID incorrect")
+            assert(bid.owner_Id, 1, "Buyer ID incorrect")
+            let nftTokenBalance2 = await registry.balanceOf(buyer)
+            assert(nftTokenBalance2, nftTokenBalance + 1, "NFT balance not correct")
         })
 
         it("Reverts if bad user input", async () => {
@@ -238,7 +242,7 @@ contract("Unicoin Registry", (accounts) => {
                 })
             noPublications += 1;
             let publication = await registry.publications(noPublications - 1)
-            
+
             await assertRevert(registry.makeBid(100, noPublications - 1, {
                 from: buyer
             }), EVMRevert)
