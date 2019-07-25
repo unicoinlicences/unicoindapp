@@ -42,23 +42,19 @@
 
         <p v-if="publicationInformation.isAuction">
           <b>Commercial licencing details:</b> You have elected to sell commercial licences to your work through an auction. Please accept or reject bid below.
+
+        <md-button type="submit" class="md-raised md-accent" :disabled="sending" @click="CHANGE">CHANGE TO SALE</md-button>
+        
         </p>
         <p v-else>
           <b>Commercial licencing details:</b> You have elected to sell commercial licences at a flat rate.
           <br />
           <b>Flat rate:</b>
           {{publicationInformation.sellPrice}} USD
+        <md-button type="submit" class="md-raised md-accent" :disabled="sending" @click="CHANGE">CHANGE TO AUCTION</md-button>
+          
         </p>
-        <md-field v-if="!publicationInformation.isAuction" >
-          <label>Licencing fee (USD)</label>
-          <md-input v-model="offer" type="number"></md-input>
-        </md-field>
-
-        <p>
-          <b>Bid Offer:</b>
-          {{publicationInformation.offer}}
-        </p>
-
+        <p><b>Bid offer:</b> {{publicationInformation.offer}} USD </p>
         <md-dialog :md-active.sync="showDialog1">
           <md-tabs md-dynamic-height>
             <md-tab md-label="Confirmation">
@@ -85,39 +81,10 @@
           </md-dialog-actions>
         </md-dialog>
 
-        <md-dialog :md-active.sync="showDialog3">
-          <md-tabs md-dynamic-height>
-            <md-tab md-label="Confirmation">
-              <p>Are you sure you want to sell this licence?</p>
-            </md-tab>
-          </md-tabs>
-
-          <md-dialog-actions>
-            <md-button class="md-primary" @click="showDialog3 = false">Close</md-button>
-            <md-button class="md-primary md-raised" @click="acceptBid(bid.bidId)">Yes</md-button>
-          </md-dialog-actions>
-        </md-dialog>
-
 
         <md-button @click="showDialog1 = true">Accept</md-button>
         <md-button v-if="publicationInformation.isAuction" @click="showDialog2 = true">Reject</md-button>
-        <md-button v-if="!publicationInformation.isAuction" @click="showDialog3 = true">Sell</md-button>
 
-        <md-dialog :md-active.sync="showDialog4">
-          <md-tabs md-dynamic-height>
-            <md-tab md-label="Confirmation">
-              <p>Change your key settings to:</p>
-            </md-tab>
-          </md-tabs>
-
-          <md-dialog-actions>
-            <md-button class="md-primary" @click="showDialog4 = false">Auction</md-button>
-            <md-button class="md-primary" @click="showDialog4 = false">Sale</md-button>
-            <md-button class="md-primary" @click="showDialog4 = false">Not Running</md-button>
-            <md-button class="md-primary" @click="showDialog4 = false">Running</md-button>
-          </md-dialog-actions>
-        </md-dialog>
-        <md-button type="submit" class="md-raised md-accent" :disabled="sending" @click="CHANGE">CHANGE STATUS</md-button>
       </div>
 
       <div class="md-layout-item md-size-20">
