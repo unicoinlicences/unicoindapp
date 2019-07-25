@@ -356,6 +356,17 @@ export default new Vuex.Store({
         from: state.account
       })
     },
+    [actions.MAKE_DONATION]: async function ({
+      commit,
+      dispact,
+      state
+    }, params) {
+      console.log("IN MAKE DONATION CALL")
+      console.log(params)
+      await state.registry.donate(params.publicationId, params.value, {
+        from: state.account
+      })
+    },
     [actions.ACCEPT_BID]: async function ({
       commit,
       dispatch,

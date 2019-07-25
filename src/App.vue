@@ -97,7 +97,7 @@
           <md-icon>chat</md-icon>
           <span class="md-list-item-text">
             <a
-              href="https://github.com/unicoinlicences/unicoindapp/tree/master/Documentation"
+              href="https://github.com/unicoinlicences/unicoindapp/tree/master/Documentation/TechnicalArchitecture.md"
               target="__blank"
             >Documentation</a>
           </span>

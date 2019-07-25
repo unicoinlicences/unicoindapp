@@ -11,3 +11,4 @@ export const GET_USER_PROFILE = "GET_USER_PROFILE";
 export const GET_USER_BIDS = "GET_USER_BIDS";
 export const GET_USER_LICENCES = "GET_USER_LICENCES"
 export const CANCEL_BID = "CANCEL_BID";
+export const MAKE_DONATION= "MAKE_DONATION";
