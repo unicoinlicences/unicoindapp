@@ -166,9 +166,7 @@ export default new Vuex.Store({
         txHash: ""
       })
 
-      console.log("IPFS")
       let ipfsHash = await uploadFile(params)
-
 
       if (ipfsHash) {
         console.log("VALUE FOUND")
@@ -184,8 +182,10 @@ export default new Vuex.Store({
       })
 
       if (txHash) {
-        console.log(txHash)
-        console.log("TX FOUND")
+        commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+          status: 'done',
+          txHash: txHash.tx
+        })
       }
     },
     [actions.LIST_PUBLICATION]: async function ({
@@ -414,10 +414,21 @@ export default new Vuex.Store({
       state
     }, params) {
       console.log("IN MAKE BID CALL")
+
+      commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+        status: 'pending',
+        txHash: ""
+      })
       console.log(params)
-      await state.registry.makeBid(params.offer, params.publicationId, {
+      let txHash = await state.registry.makeBid(params.offer, params.publicationId, {
         from: state.account
       })
+      if (txHash) {
+        commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+          status: 'done',
+          txHash: txHash.tx
+        })
+      }
     },
     [actions.MAKE_DONATION]: async function ({
       commit,
@@ -426,9 +437,22 @@ export default new Vuex.Store({
     }, params) {
       console.log("IN MAKE DONATION CALL")
       console.log(params)
-      await state.registry.donate(params.publicationId, params.value, {
+
+      commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+        status: 'pending',
+        txHash: ""
+      })
+
+      let txHash = await state.registry.donate(params.publicationId, params.value, {
         from: state.account
       })
+
+      if (txHash) {
+        commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+          status: 'done',
+          txHash: txHash.tx
+        })
+      }
     },
     [actions.ACCEPT_BID]: async function ({
       commit,
@@ -437,9 +461,22 @@ export default new Vuex.Store({
     }, params) {
       console.log("IN ACCEPT BID CALL")
       console.log(params)
-      await state.registry.acceptBid(params.bidId, {
+
+      commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+        status: 'pending',
+        txHash: ""
+      })
+
+      let txHash = await state.registry.acceptBid(params.bidId, {
         from: state.account
       })
+
+      if (txHash) {
+        commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+          status: 'done',
+          txHash: txHash.tx
+        })
+      }
     },
     [actions.REJECT_BID]: async function ({
       commit,
@@ -448,9 +485,22 @@ export default new Vuex.Store({
     }, params) {
       console.log("IN REJECT BID CALL")
       console.log(params)
-      await state.registry.rejectBid(params.bidId, {
+
+      commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+        status: 'pending',
+        txHash: ""
+      })
+
+      let txHash = await state.registry.rejectBid(params.bidId, {
         from: state.account
       })
+
+      if (txHash) {
+        commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+          status: 'done',
+          txHash: txHash.tx
+        })
+      }
     },
     [actions.CANCEL_BID]: async function ({
       commit,
@@ -459,9 +509,114 @@ export default new Vuex.Store({
     }, param) {
       console.log("IN CANCEL BID CALL")
       console.log(param.bidId)
-      await state.registry.cancelBid(param.bidId, {
+
+      commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+        status: 'pending',
+        txHash: ""
+      })
+
+      let txHash = await state.registry.cancelBid(param.bidId, {
         from: state.account
       })
+
+      if (txHash) {
+        commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+          status: 'done',
+          txHash: txHash.tx
+        })
+      }
+    },
+    [actions.CHANGE_TO_SALE]: async function ({
+      commit,
+      dispatch,
+      state
+    }, param) {
+      console.log("IN CHANGING TO SALE CALL")
+
+      commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+        status: 'pending',
+        txHash: ""
+      })
+
+      let txHash = await state.registry.changeToSale(param.publicationId, param.sellPrice, {
+        from: state.account
+      })
+
+      if (txHash) {
+        commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+          status: 'done',
+          txHash: txHash.tx
+        })
+      }
+    },
+    [actions.CHANGE_TO_AUCTION]: async function ({
+      commit,
+      dispact,
+      state
+    }, param) {
+      console.log("IN CHANGING TO AUCTION CALL")
+
+      commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+        status: 'pending',
+        txHash: ""
+      })
+
+      let txHash = await state.registry.changeToAuction(param.publicationId, {
+        from: state.account
+      })
+
+      if (txHash) {
+        commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+          status: 'done',
+          txHash: txHash.tx
+        })
+      }
+    },
+    [actions.CHANGE_RUNNING_STATUS]: async function ({
+      commit,
+      dispatch,
+      state
+    }, param) {
+      console.log("IN CHANGING RUNNING STATUS CALL")
+
+      commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+        status: 'pending',
+        txHash: ""
+      })
+
+      let txHash = await state.registry.changeRunningStatus(param.publicationId, {
+        from: state.account
+      })
+
+      if (txHash) {
+        commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+          status: 'done',
+          txHash: txHash.tx
+        })
+      }
+    },
+    [actions.CHANGE_SELL_PRICE]: async function ({
+      commit,
+      dispatch,
+      state
+    }, param) {
+      console.log("IN CHANGING SELL PRICE CALL")
+
+      commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+        status: 'pending',
+        txHash: ""
+      })
+
+      let txHash = await state.registry.changeSellPrice(param.publicationId, param.sellPrice, {
+        from: state.account
+      })
+
+      if (txHash) {
+        commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+          status: 'done',
+          txHash: txHash.tx
+        })
+      }
     },
     [actions.CLOSE_MINING_DIALOG]: async function ({
       commit,
@@ -473,46 +628,6 @@ export default new Vuex.Store({
         txHash: ""
       })
     },
-    [actions.CHANGE_TO_SALE]: async function ({
-      commit,
-      dispatch,
-      state
-    }, param) {
-      console.log("IN CHANGING TO SALE CALL")
-      await state.registry.changeToSale(param.publicationId, param.sellPrice, {
-        from: state.account
-      })
-    },
-    [actions.CHANGE_TO_AUCTION]: async function ({
-      commit,
-      dispact,
-      state
-    }, param) {
-      console.log("IN CHANGING TO AUCTION CALL")
-      await state.registry.changeToAuction(param.publicationId, {
-        from: state.account
-      })
-    },
-    [actions.CHANGE_RUNNING_STATUS]: async function ({
-      commit,
-      dispatch,
-      state
-    }, param) {
-      console.log("IN CHANGING RUNNING STATUS CALL")
-      await state.registry.changeRunningStatus(param.publicationId, {
-        from: state.account
-      })
-    },
-    [actions.CHANGE_SELL_PRICE]: async function ({
-      commit,
-      dispatch,
-      state
-    }, param) {
-      console.log("IN CHANGING SELL PRICE CALL")
-      await state.registry.changeSellPrice(param.publicationId, param.sellPrice, {
-        from: state.account
-      })
-    }
   }
 })
 
