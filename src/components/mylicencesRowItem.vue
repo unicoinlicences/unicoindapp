@@ -1,48 +1,45 @@
 <template>
-
-
   <md-content>
     {{licenceInformation}}
-    <br />
-    <hr />
+        <p>
+          <b>Bid Offer:</b>
+          {{licenceInformation}}
+        </p>
+
+
+  <md-card style="padding:30px">
+        <h2>{{licenceInformation.publicationTitle}}</h2>
+        <p> hi world </p>
+
+  </md-card>
   </md-content>
 
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
+import pdf from "pdfvuer";
+
 
 
 export default {
-  name: "mylicencesRowItem",
-  data: () => ({ }),
+  name: "licences",
+  components: { pdf },
+  data: () => ({ offer: 0 }),
   props: {
     licenceInformation: {
       type: Object,
       required: true
-    }
+    },
   },
-
-//   methods: {
-//     ...mapActions(["ACCEPT_BID", "REJECT_BID","CHANGE"]),
-//     acceptBid(_bidId) {
-//       console.log(_bidId);
-//       this.ACCEPT_BID(_bidId);
-//     },
-//     rejectBid(_bidId) {
-//       this.REJECT_BID(_bidId);
-//     },
-//     CHANGE() {
-//     }
-    // makeBid() {
-    //   console.log("Making bid boiiii");
-    //   this.MAKE_BID({
-    //     publicationId: this.publicationInformation.publicationId,
-    //     offer: this.offer
-    //   });
-    // }
-//  }
-
+  // methods: {
+  //   ...mapActions(["CANCEL_BID"]),
+  //   cancelBid() {
+  //     this.CANCEL_BID({
+  //       licenceId: this.licenceInformation.id
+  //     });
+  //   }
+  // }
 };
 </script>
 
