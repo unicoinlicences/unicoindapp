@@ -327,9 +327,7 @@ export default new Vuex.Store({
       dispatch,
       state
     }) {
-      let userProfile = await state.registry.users(state.userNumber, {
-        from: state.account
-      })
+      let userProfile = await state.registry.users(state.userNumber)
       let ipfsBlob = await viewFile(userProfile.profile_uri)
       commit(mutations.SET_USER_PROFILE, ipfsBlob)
     },

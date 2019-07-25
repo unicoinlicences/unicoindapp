@@ -45,7 +45,7 @@
 import { mapActions, mapState } from "vuex";
 
 export default {
-  name: "manage profile",
+  name: "manageProfile",
   computed: {
     ...mapState(["userProfile"])
   }
