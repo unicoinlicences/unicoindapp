@@ -31,8 +31,7 @@
         <hr />
         <h3 v-if="publicationInformation.isAuction">Any pending bids will appear here. </h3>
         <div v-for="bid in publicationInformation.bids" :key="bid">
-          <div v-if="bid.status=0">
-            {{bid}}
+          <div v-if="bid.status==0">
             <p v-if="publicationInformation.isAuction" ><b>Bid offer:</b> {{bid.offer}} USD </p>
             <p v-if="publicationInformation.isAuction" ><b>Offered by:</b> {{bid.bidderFirstName}} {{bid.bidderLastName}}{{bid.bidderCompanyName}}</p>
             <!-- <p v-if="bid.bidderAccountType='company'"><b>Offered by:</b> {{bid.bidderCompanyName}}</p> -->

@@ -294,9 +294,63 @@
         </div>
       </md-content>
     </div>
-      <div style="padding:50px;padding-bottom:60px">
+      <div style="padding:50px">
         <h1>The <span>people</span> behind UniCoin</h1>
       </div>
+    <div class="md-layout md-gutter">
+      <div class="md-layout-item"></div>
+      <div class="md-layout-item" style="padding:40px">
+        <md-card>
+          <md-card-media>
+            <img 
+              src="../assets/chris.jpg"
+              alt="profile of Chris"
+            >
+          </md-card-media>
+
+          <md-card-header class="text-center">
+            <div class="md-title">Chris</div>
+            <p>Head of Marketing</p>
+          </md-card-header>
+
+        </md-card>
+      </div>
+
+      <div class="md-layout-item" style="padding:40px">
+        <md-card>
+          <md-card-media>
+            <img 
+              src="../assets/helda.jpg"
+              alt="profile of Helda"
+            
+            >
+          </md-card-media>
+
+          <md-card-header class="text-center">
+            <div class="md-title">Helda</div>
+            <p>Blockchain Developer</p>
+          </md-card-header>
+        </md-card>
+      </div>
+
+      <div class="md-layout-item" style="padding:40px">
+        <md-card>
+          <md-card-media>
+            <img 
+              src="../assets/luke.jpeg"
+              alt="profile of Luke"
+            
+            >
+          </md-card-media>
+
+          <md-card-header class="text-center">
+            <div class="md-title">Luke</div>
+            <p>WebDev Lead</p>
+          </md-card-header>
+        </md-card>
+      </div>
+      <div class="md-layout-item"></div>
+    </div>
   </div>
 </template>
 <style lang="scss" scoped>
