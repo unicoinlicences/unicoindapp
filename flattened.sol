@@ -1165,7 +1165,7 @@ contract UnicoinRegistry is ERC721Metadata {
     /// @param bid_Id The bid's Id for the publication    
     struct LicenceDesign {
         uint256 buyer_Id;
-        uint256 Publication_Id;
+        uint256 publication_Id;
         uint256 bid_Id;
     }
     /// @notice Creates an array of purchased licences
@@ -1223,7 +1223,7 @@ contract UnicoinRegistry is ERC721Metadata {
     event ChangeRunningStatus(
         address indexed _from,
         uint256 indexed _publication_Id,
-        bool _isRunning 
+        bool _isRunning
     );
 
     /// @dev ERC20 is now daiContract
@@ -1470,9 +1470,17 @@ contract UnicoinRegistry is ERC721Metadata {
 
     /// @return get the licences per owner
     /// @param _address of the account holder
-    function getLicence(address _address) public view returns(uint256[] memory) {
+    function getLicenceForAddress(address _address) public view returns(uint256[] memory) {
         uint256 _userNumber = userAddresses[_address];
         return licenceOwners[_userNumber];
+    }
+    
+    function getLicence(uint256 _licenceId) public view returns(uint256, uint256, uint256){
+        LicenceDesign memory _licence = licences[_licenceId];
+        return (
+        _licence.buyer_Id,
+        _licence.publication_Id,
+        _licence.bid_Id);
     }
 
     /// @notice Donates funds to a research

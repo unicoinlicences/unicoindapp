@@ -139,7 +139,6 @@ export default new Vuex.Store({
         if (userNumber != 0) {
           dispatch(actions.GET_USER_PROFILE)
           dispatch(actions.GET_USER_BIDS)
-          dispatch(actions.GET_USER_LICENCES)
         }
       }
 
@@ -309,6 +308,7 @@ export default new Vuex.Store({
       }
       console.log(publicationsReturned)
       commit(mutations.SET_ALL_LISTED_PUBLICATIONS, publicationsReturned);
+      dispatch(actions.GET_USER_LICENCES)
     },
     [actions.GET_USER_PROFILE]: async function ({
       commit,
@@ -360,31 +360,23 @@ export default new Vuex.Store({
       dispatch,
       state
     }) {
-      console.log("starting to fetch licences")
       let usersLicences = await state.registry.getLicenceForAddress(state.account, {
         from: state.account
       })
-      console.log("fetching licences")
-      console.log(usersLicences)
       let userLicencesProcessed = []
-
-      console.log(usersLicences.length)
       for (let k = 0; k < usersLicences.length; k++) {
         let licenceId = usersLicences[k].toNumber()
-        console.log("ID")
-        console.log(licenceId)
-        let licenceArray = await state.registry.getLicence(licenceId)
-        console.log("AERRAY")
-        console.log(licenceArray)
-
+        let licenceArray = await state.registry.getLicence(licenceId - 1, {
+          from: state.account
+        })
         let licenceInformation = {}
-        licenceInformation['buyer_Id'] = licenceArray.buyer_Id
-        licenceInformation['Publication_Id'] = licenceArray.Publication_Id
-        licenceInformation['bid_Id'] = licenceArray.bid_Id
-        licenceInformation['publicationTitle'] = ipfsFile.title
-        licenceInformation['pdfFile'] = ipfsFile.pdfFile
-        console.log("FETCHING Licences")
-        // console.log(bidInformation)
+        licenceInformation['buyer_Id'] = licenceArray[0].toNumber()
+        licenceInformation['Publication_Id'] = licenceArray[1].toNumber()
+        licenceInformation['bid_Id'] = licenceArray[2].toNumber()
+        let loadedPublication = state.listedPublications.filter(publication => {
+          return publication.publicationId == licenceInformation['Publication_Id']
+        })
+        licenceInformation['publicationInformation'] = loadedPublication
         userLicencesProcessed.push(licenceInformation)
       }
       commit(mutations.SET_USER_LICENCES, userLicencesProcessed)
