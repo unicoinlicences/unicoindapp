@@ -7,7 +7,7 @@
             <md-card-header>
               <div class="md-title">View all owned licences here</div>
             </md-card-header>
-
+            {{userLicences}}
             <br-licences-row-item
             v-for="licence in userLicences"
             :licenceInformation="licence"
@@ -35,10 +35,10 @@ export default {
   methods: {
     ...mapActions(["GET_USER_LICENCES"])
   },
-  mounted() {
-    this.GET_USER_LICENCES();
+  // mounted() {
+  //   this.GET_USER_LICENCES();
 
-  },
+  // },
   computed: {
     ...mapState(["userLicences"])
    // ...mapState(["numberOfPublications", "listedPublications"])

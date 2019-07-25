@@ -4,7 +4,6 @@
     <div class="md-layout">
       <div class="md-layout-item">
         <h2>{{publicationInformation.title}}</h2>
-        <p>{{publicationInformation.bids}}</p>
         <p> 
           <b>Published by: </b>
           <b>
@@ -17,11 +16,7 @@
             https://orcid.org/{{publicationInformation.authorOrcid}}
           </a>
         </p>
-
-        <p>
-          <b>Contributors:</b>
-          {{publicationInformation.contributors.toString()}}
-        </p>        
+       
 
         <p>
           <b>Abstract:</b>
@@ -31,49 +26,45 @@
           <b>Keywords:</b>
           {{publicationInformation.keyword.toString()}}
         </p>
-        <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">
-          <img
-            alt="Creative Commons License"
-            style="border-width:0"
-            src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png"
-          />
-        </a>
+        
         <br />
 
-          
+        <h3 v-if="publicationInformation.isAuction">Your pending bids are below: </h3>
         <div v-for="bid in publicationInformation.bids" :key="bid">
-          <p><b>Bid offer:</b> {{bid.offer}} USD </p>
-          <p><b>Offered by:</b> {{bid.bidderFirstName}} {{bid.bidderLastName}}{{bid.bidderCompanyName}}</p>
+          <p v-if="publicationInformation.isAuction" ><b>Bid offer:</b> {{bid.offer}} USD </p>
+          <p v-if="publicationInformation.isAuction" ><b>Offered by:</b> {{bid.bidderFirstName}} {{bid.bidderLastName}}{{bid.bidderCompanyName}}</p>
           <!-- <p v-if="bid.bidderAccountType='company'"><b>Offered by:</b> {{bid.bidderCompanyName}}</p> -->
           <md-dialog :md-active.sync="showDialog1">
             <md-tabs md-dynamic-height>
               <md-tab md-label="Confirmation">
-                <p>Are you sure you want to accept this bid?</p>
+                <p>Are you sure you would like to accept this bid?</p>
               </md-tab>
             </md-tabs>
 
             <md-dialog-actions>
               <md-button class="md-primary" @click="showDialog1 = false">Close</md-button>
-              <md-button class="md-primary md-raised" @click="acceptBid">Yes</md-button>
+              <md-button class="md-primary md-raised" @click="acceptBid(bid.bidId)">ACCEPT BID</md-button>
             </md-dialog-actions>
           </md-dialog>
 
           <md-dialog :md-active.sync="showDialog2">
             <md-tabs md-dynamic-height>
               <md-tab md-label="Confirmation">
-                <p>Are you sure you want to reject this bid?</p>
+                <p>Are you sure you would like to reject this bid?</p>
               </md-tab>
             </md-tabs>
             <md-dialog-actions>
               <md-button class="md-primary" @click="showDialog2 = false">Close</md-button>
-              <md-button class="md-primary md-raised">Yes</md-button>
+              <md-button class="md-primary md-raised" @click="rejectBid(bid.bidId)">Reject bid</md-button>
             </md-dialog-actions>
           </md-dialog>
 
 
-          <md-button @click="showDialog1 = true">Accept</md-button>
-          <md-button v-if="publicationInformation.isAuction" @click="showDialog2 = true">Reject</md-button>
+          <md-button v-if="publicationInformation.isAuction" @click="showDialog1 = true" class="md-primary md-raised">Accept</md-button>
+          <md-button v-if="publicationInformation.isAuction" @click="showDialog2 = true" class="md-raised md-accent">Reject</md-button>
         </div>
+        <br v-if="publicationInformation.isAuction" />
+        <h3>You can review and change your publication's details below.</h3>
         <p v-if="publicationInformation.isAuction">
           <b>Commercial licencing details:</b> You have elected to sell commercial licences to your work through an auction.        
         </p>
@@ -82,8 +73,10 @@
           <br />
           <b>Flat rate:</b>
           {{publicationInformation.sellPrice}} USD</p>
-        <md-button v-if="!publicationInformation.isAuction">CHANGE TO AUCTION</md-button>
-        <md-button v-if="publicationInformation.isAuction" @click="showDialog3=true">CHANGE TO SALE</md-button>
+        
+        <md-button v-if="!publicationInformation.isAuction" @click="showDialog5=true" class="md-primary md-raised">CHANGE LICENCE PRICE</md-button>
+        <md-button v-if="!publicationInformation.isAuction" @click="showDialog4=true" class="md-primary md-raised">CHANGE TO AUCTION</md-button>
+        <md-button v-if="publicationInformation.isAuction" @click="showDialog3=true" class="md-primary md-raised">CHANGE TO SALE</md-button>
 
         <md-dialog :md-active.sync="showDialog3">
           <md-tabs md-dynamic-height>
@@ -97,9 +90,44 @@
           </md-field>
           <md-dialog-actions>
             <md-button class="md-primary" @click="showDialog3 = false">Close</md-button>
-            <md-button class="md-primary md-raised">Submit price</md-button>
+            <md-button class="md-primary md-raised" @click="changeToSale">Submit price</md-button>
           </md-dialog-actions>
         </md-dialog>
+
+        <md-dialog :md-active.sync="showDialog4">
+          <md-tabs md-dynamic-height>
+            <md-tab md-label="Change to auction">
+              <p>Your publication will now be for sale through an auction. Bidders will submit prices to you, which you will need to review and accept or reject.</p>
+            </md-tab>
+          </md-tabs>
+  
+          <md-dialog-actions>
+            <md-button class="md-primary" @click="showDialog4 = false">Close</md-button>
+            <md-button class="md-primary md-raised" @click="changeToAuction">Change to auction</md-button>
+          </md-dialog-actions>
+        </md-dialog>
+
+        <md-dialog :md-active.sync="showDialog5">
+          <md-tabs md-dynamic-height>
+            <md-tab md-label="Change licence price">
+              <p>Please enter the new price at which you would like to licence your work.</p>
+            </md-tab>
+          </md-tabs>
+
+          <md-field style="padding-left:20px">
+            <label style="padding-left:20px">New flat rate (USD)</label>
+            <md-input style="padding:20px" v-model="price" type="number"></md-input>
+          </md-field>
+
+          <md-dialog-actions>
+            <md-button class="md-primary" @click="showDialog5 = false">Close</md-button>
+            <md-button class="md-primary md-raised" @click="changeSellPrice">Change licence price</md-button>
+          </md-dialog-actions>
+        </md-dialog>
+
+        <p><b>Running status: </b> <md-chip v-if="publicationInformation.isRunning" class="md-primary">Running</md-chip><md-chip v-if="publicationInformation.isRunning" md-clickable @click="changeRunningStatus">Stop running</md-chip>
+        <md-chip v-if="!publicationInformation.isRunning" class="md-accent">Not running</md-chip><md-chip v-if="!publicationInformation.isRunning" md-clickable @click="changeRunningStatus">Start running</md-chip>
+        </p>
 
 
       </div>
@@ -126,7 +154,7 @@ import pdf from "pdfvuer";
 export default {
   name: "managePublicationRowItem",
   components: { pdf },
-  data: () => ({ offer: 0 }),
+  data: () => ({ offer: 0 , price: 0 }),
   props: {
     publicationInformation: {
       type: Object,
@@ -137,7 +165,9 @@ export default {
   data: () => ({
     showDialog1: false,
     showDialog2: false,
-    showDialog3: false
+    showDialog3: false,
+    showDialog4: false,
+    showDialog5: false
   }),
   name: "ButtonVsLink",
   computed: {
@@ -147,15 +177,45 @@ export default {
   },
 
   methods: {
-    ...mapActions(["ACCEPT_BID", "REJECT_BID","GET_USER_PROFILE"]),
-    acceptBid() {
+    ...mapActions(["ACCEPT_BID", "REJECT_BID","GET_USER_PROFILE", "CHANGE_TO_SALE", "CHANGE_TO_AUCTION", "CHANGE_RUNNING_STATUS", "CHANGE_SELL_PRICE"]),
+    acceptBid(bidId) {
+      console.log("Accepting bid...")
       this.ACCEPT_BID({
-        bidId: this.publicationInformation.bids.bidId,
+        bidId: bidId
+       });
+    },
+    rejectBid(bidId) {
+      console.log("Rejecting bid...")
+      this.REJECT_BID({
+        bidId: bidId
       });
     },
-    // rejectBid() {
-    //   this.REJECT_BID();
-    // }
+    changeToSale() {
+      console.log("Changing to sale...")
+      this.CHANGE_TO_SALE({
+        publicationId: this.publicationInformation.publicationId,
+        sellPrice: this.price
+      })
+    },
+    changeToAuction () {
+      console.log("Changing to auction...")
+      this.CHANGE_TO_AUCTION({
+        publicationId: this.publicationInformation.publicationId
+      })
+    },
+    changeRunningStatus () {
+      console.log("Changing running status...")
+      this.CHANGE_RUNNING_STATUS({
+        publicationId: this.publicationInformation.publicationId
+      })
+    },
+    changeSellPrice () {
+      console.log("Changing sell price...")
+      this.CHANGE_SELL_PRICE({
+        publicationId: this.publicationInformation.publicationId,
+        sellPrice: this.price
+      })
+    }
   }
 };
 </script>

@@ -360,16 +360,17 @@ export default new Vuex.Store({
       dispatch,
       state
     }) {
+      console.log("starting to fetch licences")
       let usersLicences = await state.registry.getLicence(state.account, {
         from: state.account
       })
       console.log("fetching licences")
-      // console.log(userLicences)
+      console.log(userLicences)
       let userLicences = []
 
       console.log(userLicences.length)
-      for (let j = 0; j < usersLicences.length; j++) {
-        let licenceId = usersLicences[j]
+      for (let k = 0; k < usersLicences.length; k++) {
+        let licenceId = usersLicences[k]
         let licenceArray = await state.registry.licences(licenceId)
 
         let licenceInformation = {}
@@ -429,10 +430,10 @@ export default new Vuex.Store({
       commit,
       dispatch,
       state
-    }, bidId) {
+    }, params) {
       console.log("IN ACCEPT BID CALL")
-      console.log(bidId)
-      await state.registry.acceptBid(bidId, {
+      console.log(params)
+      await state.registry.acceptBid(params.bidId, {
         from: state.account
       })
     },
@@ -440,10 +441,10 @@ export default new Vuex.Store({
       commit,
       dispatch,
       state
-    }, bidId) {
+    }, params) {
       console.log("IN REJECT BID CALL")
-      console.log(bidId)
-      await state.registry.rejectBid(bidId, {
+      console.log(params)
+      await state.registry.rejectBid(params.bidId, {
         from: state.account
       })
     },
@@ -468,6 +469,46 @@ export default new Vuex.Store({
         txHash: ""
       })
     },
+    [actions.CHANGE_TO_SALE]: async function ({
+      commit,
+      dispatch,
+      state
+    }, param) {
+      console.log("IN CHANGING TO SALE CALL")
+      await state.registry.changeToSale(param.publicationId, param.sellPrice, {
+        from: state.account
+      })
+    },
+    [actions.CHANGE_TO_AUCTION]: async function ({
+      commit,
+      dispact,
+      state
+    }, param) {
+      console.log("IN CHANGING TO AUCTION CALL")
+      await state.registry.changeToAuction(param.publicationId, {
+        from: state.account
+      })
+    },
+    [actions.CHANGE_RUNNING_STATUS]: async function ({
+      commit,
+      dispatch,
+      state
+    }, param) {
+      console.log("IN CHANGING RUNNING STATUS CALL")
+      await state.registry.changeRunningStatus(param.publicationId, {
+        from: state.account
+      })
+    },
+    [actions.CHANGE_SELL_PRICE]: async function ({
+      commit,
+      dispatch,
+      state
+    }, param) {
+      console.log("IN CHANGING SELL PRICE CALL")
+      await state.registry.changeSellPrice(param.publicationId, param.sellPrice, {
+        from: state.account
+      })
+    }
   }
 })
 

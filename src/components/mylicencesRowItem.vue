@@ -1,19 +1,11 @@
 <template>
-  <md-content>
-    {{licenceInformation}}
-        <p>
-          <b>Bid Offer:</b>
-          {{licenceInformation}}
-        </p>
-
-
-  <md-card style="padding:30px">
-        <h2>{{licenceInformation.publicationTitle}}</h2>
-        <p> hi world </p>
-
+  <md-card>
+    <div class="md-layout">
+      <p>
+        Licence info here: {{licenceInformation}}
+      </p>
+    </div>
   </md-card>
-  </md-content>
-
 </template>
 
 <script>
@@ -23,23 +15,15 @@ import pdf from "pdfvuer";
 
 
 export default {
-  name: "licences",
+  name: "mylicencesRowItem",
   components: { pdf },
-  data: () => ({ offer: 0 }),
+  data: () => ({ }),
   props: {
     licenceInformation: {
       type: Object,
       required: true
     },
   },
-  // methods: {
-  //   ...mapActions(["CANCEL_BID"]),
-  //   cancelBid() {
-  //     this.CANCEL_BID({
-  //       licenceId: this.licenceInformation.id
-  //     });
-  //   }
-  // }
 };
 </script>
 
