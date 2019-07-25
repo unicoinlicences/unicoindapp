@@ -7,15 +7,15 @@
             <md-card-header>
               <div class="md-title">View all owned licences here</div>
             </md-card-header>
-            {{userLicences}}
-            <br-licences-row-item
+          </md-content>
+
+            <br/>
+          <my-licences-row-item
             v-for="licence in userLicences"
             :licenceInformation="licence"
             style="margin:20px"
-            :key="licence"
           />
 
-          </md-content>
         </div>
       </div>
     </div>
@@ -24,21 +24,20 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import mylicencesRowItem from "@/components/mylicencesRowItem.vue";
+import myLicencesRowItem from "@/components/myLicencesRowItem.vue";
 
 export default {
   name: "licences",
   data: () => ({ }),
   components: { 
-    mylicencesRowItem
+    myLicencesRowItem
   },
   methods: {
     ...mapActions(["GET_USER_LICENCES"])
   },
-  // mounted() {
-  //   this.GET_USER_LICENCES();
-
-  // },
+  mounted() {
+    this.GET_USER_LICENCES();
+  },
   computed: {
     ...mapState(["userLicences"])
    // ...mapState(["numberOfPublications", "listedPublications"])
