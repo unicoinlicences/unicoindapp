@@ -14,7 +14,7 @@
           style="text-align:right; width:500px"
         >
           <div class="md-layout-item">
-            <div class="md-subheading">Dr Frankenstein</div>
+            <div class="md-subheading">{{userProfile.firstName}} {{userProfile.lastName}}</div>
           </div>
           <div class="md-layout-item">
             <div class="md-subheading">
@@ -199,7 +199,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["currentNetwork", "account", "contractAddress"])
+    ...mapState(["currentNetwork", "account", "contractAddress", "userProfile"])
   }
 };
 </script>
