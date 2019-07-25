@@ -215,13 +215,10 @@ export default new Vuex.Store({
         })
       }
 
-
       let txHash = await state.registry.createPublication.sendTransaction(ipfsHash.toString(), params.isAuction, true, params.sellPrice, params.contributors, params.contributorsWeightings, {
         from: state.account
       })
       if (txHash) {
-        console.log("FOUND HASH")
-        console.log(txHash)
         commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
           status: 'done',
           txHash: txHash.tx
