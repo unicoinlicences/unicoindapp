@@ -199,10 +199,13 @@
         <p>To use the Unicorn platform you first need to create an account. This will add your information to the blockchain and be used to verify your identity when you add new publications or place bids on research. As an academic you will require an OrcidID to make your account. A company needs a name an an email address.</p>
       </md-content>
     </md-dialog>
+    <!-- <mining-transaction /> -->
   </div>
 </template>
 
 <script>
+import MiningTransaction from "@/components/widgets/MiningTransaction";
+
 import { mapActions, mapState } from "vuex";
 import { validationMixin } from "vuelidate";
 import {
@@ -216,6 +219,7 @@ import { min } from "bn.js";
 var jwt = require("jsonwebtoken");
 export default {
   name: "FormValidation",
+  components: { MiningTransaction },
   mixins: [validationMixin],
   data: () => ({
     newUser: false,

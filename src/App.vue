@@ -116,6 +116,7 @@
     </md-app-drawer>
 
     <md-app-content style="background-color: #F5F9F9; padding-left:0px; padding-right:0px">
+      <mining-transaction />
       <router-view />
       <div style="padding-top:20px;padding-left:20px; padding-right:20px">
         <span class="md-subheading">
@@ -137,12 +138,13 @@ import Web3 from "web3";
 import * as actions from "@/store/actions";
 import * as mutations from "@/store/mutation-types";
 import ClickableAddress from "@/components/widgets/ClickableAddress";
+import MiningTransaction from "@/components/widgets/MiningTransaction";
 import { mapActions, mapState } from "vuex";
 import router from "@/router";
 
 export default {
   name: "app",
-  components: { ClickableAddress },
+  components: { ClickableAddress, MiningTransaction },
   data() {
     return {
       web3Detected: true,

@@ -43,8 +43,8 @@ export default new Vuex.Store({
     userBids: [],
     userLicences: [],
     miningTransactionObject: {
-      status: 'mining',
-      txHash: '0x9410654a5a07c07e13fa7c6ff8f96be0b1e37f91d9e858a2ac396f4b96a849d4'
+      status: null,
+      txHash: ''
     }
 
   },
@@ -160,12 +160,33 @@ export default new Vuex.Store({
       console.log("IN create user CALL")
       console.log(params)
 
+
+      commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+        status: 'uploading',
+        txHash: ""
+      })
+
       console.log("IPFS")
       let ipfsHash = await uploadFile(params)
+
+
+      if (ipfsHash) {
+        console.log("VALUE FOUND")
+        commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+          status: 'pending',
+          txHash: ""
+        })
+      }
+
       console.log(ipfsHash.toString())
-      await state.registry.registerUser(ipfsHash.toString(), {
+      let txHash = await state.registry.registerUser(ipfsHash.toString(), {
         from: state.account
       })
+
+      if (txHash) {
+        console.log(txHash)
+        console.log("TX FOUND")
+      }
     },
     [actions.LIST_PUBLICATION]: async function ({
       commit,
@@ -178,11 +199,34 @@ export default new Vuex.Store({
       let ipfsBlob = params
       ipfsBlob['userNumber'] = state.userNumber
       console.log(ipfsBlob)
+
+      commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+        status: 'uploading',
+        txHash: ""
+      })
+
       let ipfsHash = await uploadFile(ipfsBlob)
       console.log(ipfsHash.toString())
-      await state.registry.createPublication(ipfsHash.toString(), params.isAuction, true, params.sellPrice, params.contributors, params.contributorsWeightings, {
+
+      if (ipfsHash) {
+        commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+          status: 'pending',
+          txHash: ""
+        })
+      }
+
+
+      let txHash = await state.registry.createPublication.sendTransaction(ipfsHash.toString(), params.isAuction, true, params.sellPrice, params.contributors, params.contributorsWeightings, {
         from: state.account
       })
+      if (txHash) {
+        console.log("FOUND HASH")
+        console.log(txHash)
+        commit(mutations.SET_MINING_TRANSACTION_OBJECT, {
+          status: 'done',
+          txHash: txHash.tx
+        })
+      }
     },
     [actions.GET_ALL_PUBLICATIONS]: async function ({
       commit,
@@ -336,7 +380,7 @@ export default new Vuex.Store({
         licenceInformation['Publication_Id'] = licenceArray.Publication_Id
         licenceInformation['bid_Id'] = licenceArray.bid_Id
         licenceInformation['publicationTitle'] = ipfsFile.title
-        licenceInformation['pdfFile'] = ipfsFile.pdfFile  
+        licenceInformation['pdfFile'] = ipfsFile.pdfFile
         console.log("FETCHING Licences")
         // console.log(bidInformation)
         userLicences.push(licenceInformation)
