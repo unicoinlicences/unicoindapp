@@ -1,5 +1,6 @@
 <template>
   <div style="padding:50px;">
+    <h2>We'd love to hear from you. Please reach out with any comments, complaints, compliments, or queries.</h2>
     <md-field>
       <label>Full Name</label>
       <md-input v-model="FullName"></md-input>
@@ -17,13 +18,12 @@
       <md-textarea v-model="textarea"></md-textarea>
     </md-field>
 
-        </md-card-content>
-
-        <md-card-actions>
-          <md-button type="submit" class="md-raised md-accent" :disabled="sending" @click="SUBMIT">SUBMIT</md-button>
-        </md-card-actions>
-        <!-- {{form.orcid}} -->
-      </md-content>
+    <md-content>
+      <md-card-actions>
+        <md-button type="submit" class="md-raised md-accent" :disabled="sending">SUBMIT</md-button>
+      </md-card-actions>
+      <!-- {{form.orcid}} -->
+    </md-content>
 
   </div>
 </template>
@@ -68,14 +68,6 @@ export default {
     }
   },
 
-  methods: {
-    ...mapActions(["SUBMIT"]),
-    SUBMIT() {
-      console.log("it works!");
-      console.log(this.form.FullName);
-      this.SUBMIT(this.form);
-    }
-  }
 };
 
 </script>
