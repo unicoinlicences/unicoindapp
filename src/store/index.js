@@ -380,10 +380,10 @@ export default new Vuex.Store({
       commit,
       dispatch,
       state
-    }, bidId) {
+    }, params) {
       console.log("IN ACCEPT BID CALL")
-      console.log(bidId)
-      await state.registry.acceptBid(bidId, {
+      console.log(params)
+      await state.registry.acceptBid(params.bidId, {
         from: state.account
       })
     },
@@ -391,10 +391,10 @@ export default new Vuex.Store({
       commit,
       dispatch,
       state
-    }, bidId) {
+    }, params) {
       console.log("IN REJECT BID CALL")
-      console.log(bidId)
-      await state.registry.rejectBid(bidId, {
+      console.log(params)
+      await state.registry.rejectBid(params.bidId, {
         from: state.account
       })
     },
@@ -409,6 +409,46 @@ export default new Vuex.Store({
         from: state.account
       })
     },
+    [actions.CHANGE_TO_SALE]: async function ({
+      commit,
+      dispatch,
+      state
+    }, param) {
+      console.log("IN CHANGING TO SALE CALL")
+      await state.registry.changeToSale(param.publicationId, param.sellPrice, {
+        from: state.account
+      })
+    },
+    [actions.CHANGE_TO_AUCTION]: async function ({
+      commit,
+      dispact,
+      state
+    }, param) {
+      console.log("IN CHANGING TO AUCTION CALL")
+      await state.registry.changeToAuction(param.publicationId, {
+        from: state.account
+      })
+    },
+    [actions.CHANGE_RUNNING_STATUS]: async function ({
+      commit,
+      dispatch,
+      state
+    }, param) {
+      console.log("IN CHANGING RUNNING STATUS CALL")
+      await state.registry.changeRunningStatus(param.publicationId, {
+        from: state.account
+      })
+    },
+    [actions.CHANGE_SELL_PRICE]: async function ({
+      commit,
+      dispatch,
+      state
+    }, param) {
+      console.log("IN CHANGING SELL PRICE CALL")
+      await state.registry.changeSellPrice(param.publicationId, param.sellPrice, {
+        from: state.account
+      })
+    }
   }
 })
 

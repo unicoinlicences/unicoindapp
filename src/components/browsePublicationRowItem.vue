@@ -1,5 +1,5 @@
 <template>
-  <md-card style="padding:30px">
+  <md-card style="padding:30px" v-if="publicationInformation.isRunning">
     <div class="md-layout">
       <div class="md-layout-item">
         <h2>{{publicationInformation.title}}</h2>
