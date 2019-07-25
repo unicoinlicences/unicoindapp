@@ -26,15 +26,16 @@
           </a>
           <strong>Date Created:</strong>
           {{userProfile.timestamp}}
+          <img
+          class="text-center"
+          alt="step logo"
+          style="height:350px; padding-top:30px"
+          src="../assets/unicorn_dabbing.gif"
+        />
         </md-content>
       </div>
       <div class="md-layout-item md-size-20 md-small-size-100">
-        <img
-          class="text-center"
-          alt="step logo"
-          style="height:250px; padding-top:30px"
-          src="../assets/unicorn_dabbing.png"
-        />
+        
       </div>
     </div>
   </div>

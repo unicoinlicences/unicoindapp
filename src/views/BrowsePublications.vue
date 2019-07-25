@@ -6,7 +6,7 @@
           <md-content style="padding: 20px;">
             <md-card-header>
               <div class="md-title">
-                <h1>View all publications on the marketplace</h1>
+                <h1>View all publications on the marketplace🦄</h1>
               </div>
             </md-card-header>
             <md-content style="padding:40px" class="text-center">
