@@ -28,42 +28,47 @@
         </p>
         
         <br />
-
-        <h3 v-if="publicationInformation.isAuction">Your pending bids are below: </h3>
+        <hr />
+        <h3 v-if="publicationInformation.isAuction">Any pending bids will appear here. </h3>
         <div v-for="bid in publicationInformation.bids" :key="bid">
-          <p v-if="publicationInformation.isAuction" ><b>Bid offer:</b> {{bid.offer}} USD </p>
-          <p v-if="publicationInformation.isAuction" ><b>Offered by:</b> {{bid.bidderFirstName}} {{bid.bidderLastName}}{{bid.bidderCompanyName}}</p>
-          <!-- <p v-if="bid.bidderAccountType='company'"><b>Offered by:</b> {{bid.bidderCompanyName}}</p> -->
-          <md-dialog :md-active.sync="showDialog1">
-            <md-tabs md-dynamic-height>
-              <md-tab md-label="Confirmation">
-                <p>Are you sure you would like to accept this bid?</p>
-              </md-tab>
-            </md-tabs>
+          <div v-if="bid.status=0">
+            {{bid}}
+            <p v-if="publicationInformation.isAuction" ><b>Bid offer:</b> {{bid.offer}} USD </p>
+            <p v-if="publicationInformation.isAuction" ><b>Offered by:</b> {{bid.bidderFirstName}} {{bid.bidderLastName}}{{bid.bidderCompanyName}}</p>
+            <!-- <p v-if="bid.bidderAccountType='company'"><b>Offered by:</b> {{bid.bidderCompanyName}}</p> -->
+            <md-dialog :md-active.sync="showDialog1">
+              <md-tabs md-dynamic-height>
+                <md-tab md-label="Confirmation">
+                  <p>Are you sure you would like to accept this bid?</p>
+                </md-tab>
+              </md-tabs>
 
-            <md-dialog-actions>
-              <md-button class="md-primary" @click="showDialog1 = false">Close</md-button>
-              <md-button class="md-primary md-raised" @click="acceptBid(bid.bidId)">ACCEPT BID</md-button>
-            </md-dialog-actions>
-          </md-dialog>
+              <md-dialog-actions>
+                <md-button class="md-primary" @click="showDialog1 = false">Close</md-button>
+                <md-button class="md-primary md-raised" @click="acceptBid(bid.bidId)">ACCEPT BID</md-button>
+              </md-dialog-actions>
+            </md-dialog>
 
-          <md-dialog :md-active.sync="showDialog2">
-            <md-tabs md-dynamic-height>
-              <md-tab md-label="Confirmation">
-                <p>Are you sure you would like to reject this bid?</p>
-              </md-tab>
-            </md-tabs>
-            <md-dialog-actions>
-              <md-button class="md-primary" @click="showDialog2 = false">Close</md-button>
-              <md-button class="md-primary md-raised" @click="rejectBid(bid.bidId)">Reject bid</md-button>
-            </md-dialog-actions>
-          </md-dialog>
+            <md-dialog :md-active.sync="showDialog2">
+              <md-tabs md-dynamic-height>
+                <md-tab md-label="Confirmation">
+                  <p>Are you sure you would like to reject this bid?</p>
+                </md-tab>
+              </md-tabs>
+              <md-dialog-actions>
+                <md-button class="md-primary" @click="showDialog2 = false">Close</md-button>
+                <md-button class="md-primary md-raised" @click="rejectBid(bid.bidId)">Reject bid</md-button>
+              </md-dialog-actions>
+            </md-dialog>
 
 
-          <md-button v-if="publicationInformation.isAuction" @click="showDialog1 = true" class="md-primary md-raised">Accept</md-button>
-          <md-button v-if="publicationInformation.isAuction" @click="showDialog2 = true" class="md-raised md-accent">Reject</md-button>
+            <md-button v-if="publicationInformation.isAuction" @click="showDialog1 = true" class="md-primary md-raised">Accept</md-button>
+            <md-button v-if="publicationInformation.isAuction" @click="showDialog2 = true" class="md-raised md-accent">Reject</md-button>
+
+          </div>
         </div>
         <br v-if="publicationInformation.isAuction" />
+
         <h3>You can review and change your publication's details below.</h3>
         <p v-if="publicationInformation.isAuction">
           <b>Commercial licencing details:</b> You have elected to sell commercial licences to your work through an auction.        
