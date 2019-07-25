@@ -363,16 +363,17 @@ export default new Vuex.Store({
       dispatch,
       state
     }) {
+      console.log("starting to fetch licences")
       let usersLicences = await state.registry.getLicence(state.account, {
         from: state.account
       })
       console.log("fetching licences")
-      // console.log(userLicences)
+      console.log(userLicences)
       let userLicences = []
 
       console.log(userLicences.length)
-      for (let j = 0; j < usersLicences.length; j++) {
-        let licenceId = usersLicences[j]
+      for (let k = 0; k < usersLicences.length; k++) {
+        let licenceId = usersLicences[k]
         let licenceArray = await state.registry.licences(licenceId)
 
         let licenceInformation = {}
