@@ -14,12 +14,14 @@
             </md-content>
           </md-content>
 
-          <browse-publication-row-item
-            v-for="publication in listedPublications"
-            :publicationInformation="publication"
-            style="margin:20px"
-            :key="publication"
-          />
+          <transition-group name="fadeUp" tag="ul">
+            <browse-publication-row-item
+              v-for="publication in listedPublications"
+              :publicationInformation="publication"
+              style="margin:20px"
+              :key="publication"
+            />
+          </transition-group>
         </div>
       </div>
     </div>

@@ -13,6 +13,8 @@ import 'vue-slider-component/theme/default.css'
 import 'vue-material/dist/vue-material.min.css'
 import "typeface-space-mono";
 
+require('vue2-animate/dist/vue2-animate.min.css')
+
 
 Vue.component('jazzicon', Jazzicon);
 Vue.component('VueSlider', VueSlider)

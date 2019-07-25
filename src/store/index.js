@@ -87,6 +87,11 @@ export default new Vuex.Store({
     [mutations.SET_ALL_LISTED_PUBLICATIONS](state, listedPublications) {
       state.listedPublications = listedPublications;
     },
+    [mutations.PUSH_PUBLICATION](state, publication) {
+      let tempState = state.listedPublications
+      tempState.push(publication)
+      state.listedPublications = tempState
+    },
     [mutations.SET_MINING_TRANSACTION_OBJECT](state, miningTransactionObject) {
       state.miningTransactionObject = miningTransactionObject;
     },
@@ -229,7 +234,7 @@ export default new Vuex.Store({
       dispatch,
       state
     }) {
-
+      commit(mutations.SET_ALL_LISTED_PUBLICATIONS, []);
       console.log("CALLING")
       let publicationsReturned = []
       for (let i = 0; i < state.numberOfPublications; i++) {
@@ -304,10 +309,14 @@ export default new Vuex.Store({
 
 
         publicationsReturned.push(finalPublicationObject)
+        console.log("Pushing")
+        console.log(finalPublicationObject)
+        commit(mutations.PUSH_PUBLICATION, finalPublicationObject);
 
       }
       console.log(publicationsReturned)
-      commit(mutations.SET_ALL_LISTED_PUBLICATIONS, publicationsReturned);
+      console.log("Done loading publications")
+      // commit(mutations.SET_ALL_LISTED_PUBLICATIONS, publicationsReturned);
       dispatch(actions.GET_USER_LICENCES)
     },
     [actions.GET_USER_PROFILE]: async function ({
