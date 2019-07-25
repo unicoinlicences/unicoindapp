@@ -87,6 +87,11 @@ export default new Vuex.Store({
     [mutations.SET_ALL_LISTED_PUBLICATIONS](state, listedPublications) {
       state.listedPublications = listedPublications;
     },
+    [mutations.PUSH_PUBLICATION](state, publication) {
+      let tempState = state.listedPublications
+      tempState.push(publication)
+      state.listedPublications = tempState
+    },
     [mutations.SET_MINING_TRANSACTION_OBJECT](state, miningTransactionObject) {
       state.miningTransactionObject = miningTransactionObject;
     },
@@ -222,6 +227,7 @@ export default new Vuex.Store({
           status: 'done',
           txHash: txHash.tx
         })
+        commit(mutations.SET_NUMBER_OF_PUBLICATIONS, state.numberOfPublications + 1)
       }
     },
     [actions.GET_ALL_PUBLICATIONS]: async function ({
@@ -229,86 +235,92 @@ export default new Vuex.Store({
       dispatch,
       state
     }) {
+      if (state.listedPublications.length != state.numberOfPublications) {
+        commit(mutations.SET_ALL_LISTED_PUBLICATIONS, []);
+        console.log("CALLING")
+        let publicationsReturned = []
+        for (let i = 0; i < state.numberOfPublications; i++) {
+          console.log("loading publication: ", i)
+          let publicationObject = await state.registry.getPublication(i)
+          console.log("OBJECT")
+          console.log(publicationObject)
+          let publicationObjectProcessed = []
+          publicationObjectProcessed[0] = publicationObject[0].toNumber()
+          publicationObjectProcessed[1] = publicationObject[1]
+          publicationObjectProcessed[2] = publicationObject[2].map(v => v.toNumber())
+          publicationObjectProcessed[3] = publicationObject[3]
+          publicationObjectProcessed[4] = publicationObject[4]
+          publicationObjectProcessed[5] = publicationObject[5].toNumber()
+          publicationObjectProcessed[6] = publicationObject[6].map(v => v.toNumber())
+          publicationObjectProcessed[7] = publicationObject[7].map(v => v.toNumber())
+          // console.log(publicationObject)
+          // console.log(publicationObjectProcessed)
 
-      console.log("CALLING")
-      let publicationsReturned = []
-      for (let i = 0; i < state.numberOfPublications; i++) {
-        console.log("loading publication: ", i)
-        let publicationObject = await state.registry.getPublication(i)
-        console.log("OBJECT")
-        console.log(publicationObject)
-        let publicationObjectProcessed = []
-        publicationObjectProcessed[0] = publicationObject[0].toNumber()
-        publicationObjectProcessed[1] = publicationObject[1]
-        publicationObjectProcessed[2] = publicationObject[2].map(v => v.toNumber())
-        publicationObjectProcessed[3] = publicationObject[3]
-        publicationObjectProcessed[4] = publicationObject[4]
-        publicationObjectProcessed[5] = publicationObject[5].toNumber()
-        publicationObjectProcessed[6] = publicationObject[6].map(v => v.toNumber())
-        publicationObjectProcessed[7] = publicationObject[7].map(v => v.toNumber())
-        // console.log(publicationObject)
-        // console.log(publicationObjectProcessed)
+
+          let ipfsFile = await viewFile(publicationObjectProcessed[1])
+          // console.log(ipfsFile)
+
+          let authorBlob = await state.registry.users(publicationObjectProcessed[0])
+          console.log(authorBlob)
+          let authorProfile = await viewFile(authorBlob.profile_uri)
+          console.log(authorProfile)
+
+          let publicationBidsInformation = []
+
+          for (let j = 0; j < publicationObjectProcessed[2].length; j++) {
+            let bidId = publicationObjectProcessed[2][j]
+            let bidInformation = await state.registry.bids(bidId)
+            let bidderBlob = await state.registry.users(bidInformation.owner_Id)
+            let bidderProfile = await viewFile(bidderBlob.profile_uri)
+            console.log("FETCHING BIDDER PROFILE")
+            console.log(bidderProfile)
+
+            let ownerAddress = (await state.registry.users(bidInformation.owner_Id)).owned_address
+            publicationBidsInformation.push({
+              bidId: bidId,
+              offer: bidInformation.offer,
+              status: bidInformation.status,
+              ownerId: bidInformation.owner_Id,
+              ownerAddress: ownerAddress,
+              bidderFirstName: bidderProfile.firstName,
+              bidderLastName: bidderProfile.lastName,
+              bidderAccountType: bidderProfile.accountType,
+              bidderCompanyName: bidderProfile.name
+            })
+          }
+
+          let finalPublicationObject = {}
+          finalPublicationObject['publicationId'] = i
+          finalPublicationObject['title'] = ipfsFile.title
+          finalPublicationObject['abstract'] = ipfsFile.abstract
+          finalPublicationObject['authorNumber'] = publicationObjectProcessed[0]
+          finalPublicationObject['authorAddress'] = authorBlob.owned_address
+          finalPublicationObject['authorFirstName'] = authorProfile.firstName
+          finalPublicationObject['authorLastName'] = authorProfile.lastName
+          finalPublicationObject['authorEmail'] = authorProfile.email
+          finalPublicationObject['authorOrcid'] = authorProfile.orcid
+          finalPublicationObject['authorUniversity'] = authorProfile.university
+          finalPublicationObject['pdfFile'] = ipfsFile.pdfFile
+          finalPublicationObject['keyword'] = ipfsFile.keyword
+          finalPublicationObject['isAuction'] = publicationObjectProcessed[3]
+          finalPublicationObject['isRunning'] = publicationObjectProcessed[4]
+          finalPublicationObject['sellPrice'] = publicationObjectProcessed[5]
+          finalPublicationObject['contributors'] = publicationObjectProcessed[6]
+          finalPublicationObject['contributorsWeightings'] = publicationObjectProcessed[7]
+          finalPublicationObject['bids'] = publicationBidsInformation
 
 
-        let ipfsFile = await viewFile(publicationObjectProcessed[1])
-        // console.log(ipfsFile)
+          publicationsReturned.push(finalPublicationObject)
+          console.log("Pushing")
+          console.log(finalPublicationObject)
+          commit(mutations.PUSH_PUBLICATION, finalPublicationObject);
 
-        let authorBlob = await state.registry.users(publicationObjectProcessed[0])
-        console.log(authorBlob)
-        let authorProfile = await viewFile(authorBlob.profile_uri)
-        console.log(authorProfile)
-
-        let publicationBidsInformation = []
-
-        for (let j = 0; j < publicationObjectProcessed[2].length; j++) {
-          let bidId = publicationObjectProcessed[2][j]
-          let bidInformation = await state.registry.bids(bidId)
-          let bidderBlob = await state.registry.users(bidInformation.owner_Id)
-          let bidderProfile = await viewFile(bidderBlob.profile_uri)
-          console.log("FETCHING BIDDER PROFILE")
-          console.log(bidderProfile)
-
-          let ownerAddress = (await state.registry.users(bidInformation.owner_Id)).owned_address
-          publicationBidsInformation.push({
-            bidId: bidId,
-            offer: bidInformation.offer,
-            status: bidInformation.status,
-            ownerId: bidInformation.owner_Id,
-            ownerAddress: ownerAddress,
-            bidderFirstName: bidderProfile.firstName,
-            bidderLastName: bidderProfile.lastName,
-            bidderAccountType: bidderProfile.accountType,
-            bidderCompanyName: bidderProfile.name
-          })
         }
-
-        let finalPublicationObject = {}
-        finalPublicationObject['publicationId'] = i
-        finalPublicationObject['title'] = ipfsFile.title
-        finalPublicationObject['abstract'] = ipfsFile.abstract
-        finalPublicationObject['authorNumber'] = publicationObjectProcessed[0]
-        finalPublicationObject['authorAddress'] = authorBlob.owned_address
-        finalPublicationObject['authorFirstName'] = authorProfile.firstName
-        finalPublicationObject['authorLastName'] = authorProfile.lastName
-        finalPublicationObject['authorEmail'] = authorProfile.email
-        finalPublicationObject['authorOrcid'] = authorProfile.orcid
-        finalPublicationObject['authorUniversity'] = authorProfile.university
-        finalPublicationObject['pdfFile'] = ipfsFile.pdfFile
-        finalPublicationObject['keyword'] = ipfsFile.keyword
-        finalPublicationObject['isAuction'] = publicationObjectProcessed[3]
-        finalPublicationObject['isRunning'] = publicationObjectProcessed[4]
-        finalPublicationObject['sellPrice'] = publicationObjectProcessed[5]
-        finalPublicationObject['contributors'] = publicationObjectProcessed[6]
-        finalPublicationObject['contributorsWeightings'] = publicationObjectProcessed[7]
-        finalPublicationObject['bids'] = publicationBidsInformation
-
-
-        publicationsReturned.push(finalPublicationObject)
-
+        console.log(publicationsReturned)
+        console.log("Done loading publications")
+        // commit(mutations.SET_ALL_LISTED_PUBLICATIONS, publicationsReturned);
+        dispatch(actions.GET_USER_LICENCES)
       }
-      console.log(publicationsReturned)
-      commit(mutations.SET_ALL_LISTED_PUBLICATIONS, publicationsReturned);
-      dispatch(actions.GET_USER_LICENCES)
     },
     [actions.GET_USER_PROFILE]: async function ({
       commit,

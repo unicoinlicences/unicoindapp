@@ -38,6 +38,7 @@
     "vue-pdf": "^4.0.7",
     "vue-router": "^3.0.3",
     "vue-slider-component": "^3.0.32",
+    "vue2-animate": "^2.1.0",
     "vuelidate": "^0.7.4",
     "vuex": "^3.0.1",
     "vuex-persistedstate": "^2.5.4",
