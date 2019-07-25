@@ -215,13 +215,22 @@ export default new Vuex.Store({
         for (let j = 0; j < publicationObjectProcessed[2].length; j++) {
           let bidId = publicationObjectProcessed[2][j]
           let bidInformation = await state.registry.bids(bidId)
+          let bidderBlob = await state.registry.users(bidInformation.owner_Id)
+          let bidderProfile = await viewFile(bidderBlob.profile_uri)
+          console.log("FETCHING BIDDER PROFILE")
+          console.log(bidderProfile)
+
           let ownerAddress = (await state.registry.users(bidInformation.owner_Id)).owned_address
           publicationBidsInformation.push({
             bidId: bidId,
             offer: bidInformation.offer,
             status: bidInformation.status,
             ownerId: bidInformation.owner_Id,
-            ownerAddress: ownerAddress
+            ownerAddress: ownerAddress,
+            bidderFirstName: bidderProfile.firstName,
+            bidderLastName: bidderProfile.lastName,
+            bidderAccountType: bidderProfile.accountType,
+            bidderCompanyName: bidderProfile.name
           })
         }
 
