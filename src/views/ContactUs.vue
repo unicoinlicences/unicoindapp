@@ -1,30 +1,33 @@
 <template>
   <div style="padding:50px;">
-    <md-field>
-      <label>Full Name</label>
-      <md-input v-model="FullName"></md-input>
-      <span class="md-helper-text"></span>
-    </md-field>
+    <md-content>
+      <md-field>
+        <label>Full Name</label>
+        <md-input v-model="FullName"></md-input>
+        <span class="md-helper-text"></span>
+      </md-field>
 
-    <md-field>
-      <label>Name of Institution</label>
-      <md-input v-model="Institution"></md-input>
-      <span class="md-helper-text"></span>
-    </md-field>
+      <md-field>
+        <label>Name of Institution</label>
+        <md-input v-model="Institution"></md-input>
+        <span class="md-helper-text"></span>
+      </md-field>
 
-    <md-field>
-      <label>Chat to Us</label>
-      <md-textarea v-model="textarea"></md-textarea>
-    </md-field>
+      <md-field>
+        <label>Chat to Us</label>
+        <md-textarea v-model="textarea"></md-textarea>
+      </md-field>
 
-        </md-card-content>
-
-        <md-card-actions>
-          <md-button type="submit" class="md-raised md-accent" :disabled="sending" @click="SUBMIT">SUBMIT</md-button>
-        </md-card-actions>
-        <!-- {{form.orcid}} -->
-      </md-content>
-
+      <md-card-actions>
+        <md-button
+          type="submit"
+          class="md-raised md-accent"
+          :disabled="sending"
+          @click="SUBMIT"
+        >SUBMIT</md-button>
+      </md-card-actions>
+      <!-- {{form.orcid}} -->
+    </md-content>
   </div>
 </template>
 
@@ -38,18 +41,18 @@ import {
   maxLength
 } from "vuelidate/lib/validators";
 import router from "@/router";
-import { min } from 'bn.js';
+import { min } from "bn.js";
 
 export default {
   name: "TextFields",
   mixins: [validationMixin],
   data: () => ({
-   // accountType: "academic",
+    // accountType: "academic",
     form: {
       FullName: null,
       Institution: null,
       Email: null,
-      textarea: null,
+      textarea: null
     },
     userSaved: false,
     sending: false,
@@ -73,11 +76,9 @@ export default {
     SUBMIT() {
       console.log("it works!");
       console.log(this.form.FullName);
-      this.SUBMIT(this.form);
     }
   }
 };
-
 </script>
 
 

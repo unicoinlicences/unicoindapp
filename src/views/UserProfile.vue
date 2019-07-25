@@ -25,17 +25,17 @@
             <br />
           </a>
           <strong>Date Created:</strong>
+
           {{userProfile.timestamp}}
-          <img
+        </md-content>
+      </div>
+      <div class="md-layout-item md-size-20 md-small-size-100">
+        <img
           class="text-center"
           alt="step logo"
           style="height:350px; padding-top:30px"
           src="../assets/unicorn_dabbing.gif"
         />
-        </md-content>
-      </div>
-      <div class="md-layout-item md-size-20 md-small-size-100">
-        
       </div>
     </div>
   </div>

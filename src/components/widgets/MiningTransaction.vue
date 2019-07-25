@@ -32,7 +32,7 @@
         class="text-center"
         alt="step logo"
         style="height:200px;"
-        src="../../assets/unicorn_dabbing.png"
+        src="../../assets/unicorn_dabbing.gif"
       />
       <p
         style="padding:30px"
