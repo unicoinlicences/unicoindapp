@@ -19,7 +19,7 @@
     "ipfs": "^0.36.4",
     "ipfs-api": "^26.1.2",
     "jazzicon": "^1.5.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "moment": "^2.24.0",
     "openzeppelin-solidity": "^2.3.0",
     "openzeppelin-test-helpers": "^0.4.0",
